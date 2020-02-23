@@ -1,3 +1,3 @@
-cz/cuni/mff/ms/kyjovsky/App.class
-cz/cuni/mff/ms/kyjovsky/CoverPage.class
-cz/cuni/mff/ms/kyjovsky/ExcelBuilder.class
+cz\cuni\mff\ms\kyjovsm\workbook\workbookBuilder.class
+cz\cuni\mff\ms\kyjovsm\ui\landingPageController.class
+cz\cuni\mff\ms\kyjovsm\ui\App.class

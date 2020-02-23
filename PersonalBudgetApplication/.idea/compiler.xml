@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="PersonalBudgetApplication" />
-        <module name="PersonalBudgetApplication2" />
       </profile>
     </annotationProcessing>
   </component>
