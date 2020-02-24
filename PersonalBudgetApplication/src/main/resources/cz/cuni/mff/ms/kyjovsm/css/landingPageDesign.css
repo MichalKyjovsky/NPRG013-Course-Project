@@ -14,6 +14,22 @@
     -fx-background-radius :  45 0 0 45;
 }
 
+.button5
+{
+    -fx-background-color :  #204060;
+    -fx-background-radius :  45 45 45 45;
+}
+.button5:hover
+{
+    -fx-background-color :  #00ffcc;
+    -fx-background-radius :  45 45 45 45;
+}
+.button5:pressed
+{
+    -fx-background-color : #00cca3;
+    -fx-background-radius :  45 45 45 45;
+}
+
 .button2
 {
     -fx-background-color : #393351;
