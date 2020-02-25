@@ -1,5 +1,6 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
+import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import java.io.IOException;
 
@@ -16,9 +17,9 @@ public class LandingPageController {
      * new workbook in xlsx format
      */
     public void createNewWorkbook(){
-        WorkbookBuilder wb = new WorkbookBuilder();
+        WorkbookController wc = new WorkbookController();
         try {
-            wb.createWorkbook();
+            wc.createWorkbook();
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -1,6 +1,5 @@
-package cz.cuni.mff.ms.kyjovsm.ui;
+package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AlertBox {
-    private Stage alertBox;
     private Scene alertBoxScene;
 
     @FXML
@@ -22,7 +20,7 @@ public class AlertBox {
     Button closeButton;
 
     public  void displayAlertBox(String errorStatus){
-        alertBox = new Stage();
+        Stage alertBoxStage = new Stage();
         try {
             if (errorStatus.equals("AlertBoxEmptyInput")) {
                 alertBoxScene = new Scene(loadFXML("AlertBoxEmptyInput"));
@@ -30,8 +28,8 @@ public class AlertBox {
         }catch (IOException e){
             e.printStackTrace();
         }
-        alertBox.setScene(alertBoxScene);
-        alertBox.show();
+        alertBoxStage.setScene(alertBoxScene);
+        alertBoxStage.show();
     }
 
     public void closeAlertBox(){
