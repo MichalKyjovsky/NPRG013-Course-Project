@@ -11,16 +11,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
+import org.apache.poi.ss.usermodel.Workbook;
 
 public class WorkbookController {
 
     @FXML
-    Button submitButton;
+    private Button submitButton;
     @FXML
-    TextField inputField;
+    private TextField inputField;
 
+    private String XLSX_SUFFIX = ".xlsx";
     private WorkbookBuilder workbookBuilder;
-    private String nameOfDoc;
+    private Workbook workbook;
+    public static String nameOfDoc;
+
 
     public void createWorkbook() throws IOException{
         Stage window = new Stage();
@@ -38,6 +42,7 @@ public class WorkbookController {
                 inputField.setText("");
             }
             else {
+                nameOfDoc += XLSX_SUFFIX;
                 System.out.println(nameOfDoc);
                 Stage stage = (Stage) submitButton.getScene().getWindow();
                 stage.close();
@@ -60,9 +65,12 @@ public class WorkbookController {
         return fxmlLoader.load();
     }
 
-    public String getNameOfDoc() {
-        return nameOfDoc;
+    public Workbook getWorkbook() {
+        return workbook;
     }
 
+    String getNameOfDoc() {
+        return nameOfDoc;
+    }
 }
 
