@@ -10,18 +10,30 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import org.apache.poi.ss.usermodel.Workbook;
+
 
 public class WorkbookController {
 
     @FXML
     private Button submitButton;
     @FXML
+<<<<<<< HEAD
+    TextField inputField;
+    private Stage window;
+=======
     private TextField inputField;
     private Stage window;
     private static final String XLSX_SUFFIX = ".xlsx";
+>>>>>>> master
     private String nameOfDoc;
+    private static final String XLSX_SUFFIX = ".xslx";
+
+    public Stage getElement(){
+        return this.window;
+    }
 
     public Stage getElement(){
         return this.window;
@@ -29,7 +41,7 @@ public class WorkbookController {
 
 
     public void createWorkbook() throws IOException{
-        Stage window = new Stage();
+        window = new Stage();
         Scene scene = new Scene(loadFXMLforWorkbook("Workbook"));
         window.setScene(scene);
         window.show();
@@ -39,14 +51,21 @@ public class WorkbookController {
         nameOfDoc = inputField.getText();
         AlertBox alertBox = new AlertBox();
         try {
-            if(!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
+
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+
+            if (!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
                 alertBox.displayAlertBox("AlertBoxEmptyInput");
                 inputField.setText("");
+<<<<<<< HEAD
+            } else {
+=======
             }
             else {
                 nameOfDoc += XLSX_SUFFIX;
+>>>>>>> master
                 System.out.println(nameOfDoc);
-                Stage stage = (Stage) submitButton.getScene().getWindow();
+                stage = (Stage) submitButton.getScene().getWindow();
                 stage.close();
                 App.changeScene(new Scene(loadFXMLforSheet("Sheet")));
             }

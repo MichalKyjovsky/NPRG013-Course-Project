@@ -51,7 +51,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button graphicTextGap="20.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/landingPageDesign.css" text="Open from OneDrive" textFill="WHITE">
+                  <Button fx:id="openFromCloudButton" onAction="#openFromCloud" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/landingPageDesign.css" text="Open from OneDrive" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
