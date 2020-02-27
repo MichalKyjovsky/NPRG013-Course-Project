@@ -19,11 +19,13 @@ public class WorkbookController {
     private Button submitButton;
     @FXML
     private TextField inputField;
+    private Stage window;
+    private static final String XLSX_SUFFIX = ".xlsx";
+    private String nameOfDoc;
 
-    private String XLSX_SUFFIX = ".xlsx";
-    private WorkbookBuilder workbookBuilder;
-    private Workbook workbook;
-    public static String nameOfDoc;
+    public Stage getElement(){
+        return this.window;
+    }
 
 
     public void createWorkbook() throws IOException{
@@ -65,9 +67,6 @@ public class WorkbookController {
         return fxmlLoader.load();
     }
 
-    public Workbook getWorkbook() {
-        return workbook;
-    }
 
     String getNameOfDoc() {
         return nameOfDoc;
