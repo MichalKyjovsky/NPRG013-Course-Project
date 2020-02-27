@@ -15,7 +15,7 @@
          <children>
             <HBox alignment="CENTER" layoutX="69.0" layoutY="115.0" prefHeight="175.0" prefWidth="769.0" spacing="50.0" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="115.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css">
+                  <Button fx:id="addSheetButton" mnemonicParsing="false" onAction="#createNewSheet" prefHeight="125.0" prefWidth="125.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css">
                      <graphic>
                         <ImageView fitHeight="115.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -36,16 +36,19 @@
                         <ImageView fitHeight="115.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css">
+                  <Button fx:id="saveWorkbookButton" onAction="#saveWorkbook" mnemonicParsing="false" prefHeight="125.0" prefWidth="125.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css">
                      <graphic>
-                        <ImageView fitHeight="115.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="115.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../pics_source/save.png" />
+                           </image></ImageView>
                      </graphic>
                   </Button>
                </children>
             </HBox>
             <Label layoutX="123.0" layoutY="249.0" text="ADD NEW SHEET" />
-            <Label layoutX="671.0" layoutY="249.0" text="ADD NEW SHEET" />
-            <Label layoutX="489.0" layoutY="249.0" text="ADD NEW SHEET" />
+            <Label layoutX="676.0" layoutY="249.0" text="SAVE DOCUMENT" />
+            <Label layoutX="497.0" layoutY="249.0" text="ADD NEW SHEET" />
             <Label layoutX="301.0" layoutY="249.0" text="ADD NEW COLUMN" />
             <Button layoutX="637.0" layoutY="342.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="174.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="SUBMIT" textFill="WHITE">
                <font>

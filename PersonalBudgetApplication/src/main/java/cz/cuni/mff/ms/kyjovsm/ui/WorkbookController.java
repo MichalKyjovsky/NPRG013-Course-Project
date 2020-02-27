@@ -12,21 +12,33 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
+import org.apache.poi.ss.usermodel.Workbook;
 
 
 public class WorkbookController {
 
     @FXML
-    Button submitButton;
+    private Button submitButton;
     @FXML
+<<<<<<< HEAD
     TextField inputField;
     private Stage window;
+=======
+    private TextField inputField;
+    private Stage window;
+    private static final String XLSX_SUFFIX = ".xlsx";
+>>>>>>> master
     private String nameOfDoc;
     private static final String XLSX_SUFFIX = ".xslx";
 
     public Stage getElement(){
         return this.window;
     }
+
+    public Stage getElement(){
+        return this.window;
+    }
+
 
     public void createWorkbook() throws IOException{
         window = new Stage();
@@ -45,7 +57,13 @@ public class WorkbookController {
             if (!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
                 alertBox.displayAlertBox("AlertBoxEmptyInput");
                 inputField.setText("");
+<<<<<<< HEAD
             } else {
+=======
+            }
+            else {
+                nameOfDoc += XLSX_SUFFIX;
+>>>>>>> master
                 System.out.println(nameOfDoc);
                 stage = (Stage) submitButton.getScene().getWindow();
                 stage.close();
@@ -68,9 +86,9 @@ public class WorkbookController {
         return fxmlLoader.load();
     }
 
-    public String getNameOfDoc() {
+
+    String getNameOfDoc() {
         return nameOfDoc;
     }
-
 }
 

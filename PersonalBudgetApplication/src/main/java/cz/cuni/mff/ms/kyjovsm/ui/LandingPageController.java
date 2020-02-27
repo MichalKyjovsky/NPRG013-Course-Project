@@ -7,15 +7,19 @@ import java.io.File;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
+<<<<<<< HEAD
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+=======
+>>>>>>> master
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class LandingPageController {
 
+<<<<<<< HEAD
     public Button getCreateNewWorkbookButton() {
         return createNewWorkbookButton;
     }
@@ -73,6 +77,9 @@ public class LandingPageController {
         }
 
     }
+=======
+
+>>>>>>> master
 
     private Parent loadFXMLforSheet(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SheetBuilderController.class.getResource(fxml + ".fxml"));
