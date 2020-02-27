@@ -92,5 +92,16 @@ public class LandingPageController {
 
     public void openFromCloud(){
         //TODO:Implement in feature releases, not in actual scope.
+        AlertBox alertBox = new AlertBox();
+        alertBox.displayAlertBox(AlertBox.ALERT_BOX_NOT_IMPLEMENTED_FEATURE);
+        Stage frontPage = (Stage) alertBox.getAlertBoxStage().getScene().getWindow();
+        if (frontPage.isShowing()){
+            disableButtonsOnClick(true);
+        }
+        frontPage.setOnCloseRequest(e -> {
+            disableButtonsOnClick(false);
+            //TODO: finisch OK clossing button
+        });
+
     }
 }

@@ -11,19 +11,30 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AlertBox {
-    private Scene alertBoxScene;
 
+    public static final String ALERT_BOX_EMPTY_INPUT = "AlertBoxEmptyInput";
+    public static final String ALERT_BOX_NOT_IMPLEMENTED_FEATURE = "AlertBoxNotImplementedFeature";
+    private Scene alertBoxScene;
+    private Stage alertBoxStage;
     @FXML
     Label errorMessage;
-
     @FXML
     Button closeButton;
 
+
+    public Stage getAlertBoxStage() {
+        return alertBoxStage;
+    }
+
+
     public  void displayAlertBox(String errorStatus){
-        Stage alertBoxStage = new Stage();
+        alertBoxStage = new Stage();
         try {
-            if (errorStatus.equals("AlertBoxEmptyInput")) {
-                alertBoxScene = new Scene(loadFXML("AlertBoxEmptyInput"));
+            if (errorStatus.equals(ALERT_BOX_EMPTY_INPUT)) {
+                alertBoxScene = new Scene(loadFXML(ALERT_BOX_EMPTY_INPUT));
+            }
+            else if (errorStatus.equals(ALERT_BOX_NOT_IMPLEMENTED_FEATURE)){
+                alertBoxScene = new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
             }
         }catch (IOException e){
             e.printStackTrace();
