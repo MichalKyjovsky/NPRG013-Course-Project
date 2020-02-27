@@ -22,6 +22,7 @@ public class WorkbookController {
     TextField inputField;
     private Stage window;
     private String nameOfDoc;
+    private static final String XLSX_SUFFIX = ".xslx";
 
     public Stage getElement(){
         return this.window;
