@@ -10,7 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
+
 
 public class WorkbookController {
 
@@ -18,12 +20,15 @@ public class WorkbookController {
     Button submitButton;
     @FXML
     TextField inputField;
-
-    private WorkbookBuilder workbookBuilder;
+    private Stage window;
     private String nameOfDoc;
 
+    public Stage getElement(){
+        return this.window;
+    }
+
     public void createWorkbook() throws IOException{
-        Stage window = new Stage();
+        window = new Stage();
         Scene scene = new Scene(loadFXMLforWorkbook("Workbook"));
         window.setScene(scene);
         window.show();
@@ -33,13 +38,15 @@ public class WorkbookController {
         nameOfDoc = inputField.getText();
         AlertBox alertBox = new AlertBox();
         try {
-            if(!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
+
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+
+            if (!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
                 alertBox.displayAlertBox("AlertBoxEmptyInput");
                 inputField.setText("");
-            }
-            else {
+            } else {
                 System.out.println(nameOfDoc);
-                Stage stage = (Stage) submitButton.getScene().getWindow();
+                stage = (Stage) submitButton.getScene().getWindow();
                 stage.close();
                 App.changeScene(new Scene(loadFXMLforSheet("Sheet")));
             }

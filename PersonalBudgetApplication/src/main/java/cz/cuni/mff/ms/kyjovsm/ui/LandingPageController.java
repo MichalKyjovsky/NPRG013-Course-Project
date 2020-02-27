@@ -16,6 +16,18 @@ import javafx.stage.Stage;
 
 public class LandingPageController {
 
+    public Button getCreateNewWorkbookButton() {
+        return createNewWorkbookButton;
+    }
+
+    public Button getOpenFromLocalButton() {
+        return openFromLocalButton;
+    }
+
+    public Button getOpenFromCloudButton() {
+        return openFromCloudButton;
+    }
+
     @FXML
     private Button createNewWorkbookButton;
     @FXML
@@ -32,8 +44,12 @@ public class LandingPageController {
     public void createNewWorkbook(){
         WorkbookController wc = new WorkbookController();
         try {
-            disableButtonsOnClick(true);
             wc.createWorkbook();
+            disableButtonsOnClick(true);
+            Stage front = wc.getElement();
+            front.setOnCloseRequest(e -> {
+                disableButtonsOnClick(false);
+            });
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -67,7 +83,7 @@ public class LandingPageController {
         return chosenFile;
     }
 
-    private void disableButtonsOnClick(boolean status){
+    public void disableButtonsOnClick(boolean status){
         createNewWorkbookButton.setDisable(status);
         openFromLocalButton.setDisable(status);
         openFromCloudButton.setDisable(status);
