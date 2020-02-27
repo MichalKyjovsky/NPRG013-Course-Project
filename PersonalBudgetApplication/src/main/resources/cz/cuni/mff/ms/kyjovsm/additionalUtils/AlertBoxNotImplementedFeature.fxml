@@ -14,7 +14,7 @@
             <Image url="@../pics_source/warning.png" />
          </image>
       </ImageView>
-      <Label fx:id="errorMessage" alignment="CENTER" layoutX="93.0" layoutY="42.0" prefHeight="63.0" prefWidth="243.0" text="Input cannot be blank!" textAlignment="CENTER" AnchorPane.bottomAnchor="134.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="92.0" AnchorPane.topAnchor="42.0">
+      <Label fx:id="errorMessage" alignment="CENTER" layoutX="93.0" layoutY="42.0" prefHeight="63.0" prefWidth="243.0" text="Feature has not been implemented yet!" textAlignment="CENTER" AnchorPane.bottomAnchor="134.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="92.0" AnchorPane.topAnchor="42.0">
          <font>
             <Font name="Serif Bold" size="17.0" />
          </font>

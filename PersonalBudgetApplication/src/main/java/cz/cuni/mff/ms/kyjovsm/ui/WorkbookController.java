@@ -39,15 +39,12 @@ public class WorkbookController {
         nameOfDoc = inputField.getText();
         AlertBox alertBox = new AlertBox();
         try {
-
-            Stage stage = (Stage) submitButton.getScene().getWindow();
-
+            Stage stage = (Stage) submitButton.getScene().getWindow();;
             if (!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
                 alertBox.displayAlertBox("AlertBoxEmptyInput");
                 inputField.setText("");
             } else {
                 System.out.println(nameOfDoc);
-                stage = (Stage) submitButton.getScene().getWindow();
                 stage.close();
                 App.changeScene(new Scene(loadFXMLforSheet("Sheet")));
             }

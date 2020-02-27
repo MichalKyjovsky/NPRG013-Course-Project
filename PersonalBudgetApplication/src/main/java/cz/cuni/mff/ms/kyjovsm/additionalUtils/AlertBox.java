@@ -1,5 +1,7 @@
 package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
+import cz.cuni.mff.ms.kyjovsm.ui.App;
+import cz.cuni.mff.ms.kyjovsm.ui.LandingPageController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,18 +22,23 @@ public class AlertBox {
     Label errorMessage;
     @FXML
     Button closeButton;
+    private static boolean status = false;
 
+
+    public Button getCloseButton(){
+        return closeButton;
+    }
 
     public Stage getAlertBoxStage() {
         return alertBoxStage;
     }
-
 
     public  void displayAlertBox(String errorStatus){
         alertBoxStage = new Stage();
         try {
             if (errorStatus.equals(ALERT_BOX_EMPTY_INPUT)) {
                 alertBoxScene = new Scene(loadFXML(ALERT_BOX_EMPTY_INPUT));
+                status = true;
             }
             else if (errorStatus.equals(ALERT_BOX_NOT_IMPLEMENTED_FEATURE)){
                 alertBoxScene = new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
@@ -45,7 +52,21 @@ public class AlertBox {
 
     public void closeAlertBox(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
+        Scene reload = null;
+        try {
+            reload = new Scene(reloadFXMLLanding("LandingPage"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         stage.close();
+        if(!status) {
+            App.changeScene(reload);
+        }
+    }
+
+    private Parent reloadFXMLLanding(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(LandingPageController.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 
     private Parent loadFXML(String fxml) throws IOException {
