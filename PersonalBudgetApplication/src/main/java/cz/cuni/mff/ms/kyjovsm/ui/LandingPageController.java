@@ -1,11 +1,12 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
-import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 
 import java.io.File;
 import java.io.IOException;
 
+import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,25 +17,12 @@ import javafx.stage.Stage;
 
 public class LandingPageController {
 
-    public Button getCreateNewWorkbookButton() {
-        return createNewWorkbookButton;
-    }
-
-    public Button getOpenFromLocalButton() {
-        return openFromLocalButton;
-    }
-
-    public Button getOpenFromCloudButton() {
-        return openFromCloudButton;
-    }
-
     @FXML
     private Button createNewWorkbookButton;
     @FXML
     private Button openFromLocalButton;
     @FXML
     private Button openFromCloudButton;
-    private static File chosenFile;
 
     /**
      * Method called when "Create New Workbook" button is pressed.
@@ -55,35 +43,30 @@ public class LandingPageController {
         }
     }
 
-    public void displayFileExplorer(){
+    public void displayFileExplorer() throws FXMLLoaderException{
         Stage fileDialog = new Stage();
         FileChooser fileChooser = new FileChooser();
 
         try {
             disableButtonsOnClick(true);
-            chosenFile = fileChooser.showOpenDialog(fileDialog);
+            File chosenFile = fileChooser.showOpenDialog(fileDialog);
             if (chosenFile != null) {
-                App.changeScene(new Scene(loadFXMLforSheet("Sheet")));
-                System.out.println(chosenFile);
+                App.changeScene(new Scene(loadSheetXML()));
+                SheetBuilder.setNameOfTheDocument(chosenFile.toString());
             }else {
                 disableButtonsOnClick(false);
             }
         }catch (Exception e){
-            System.err.println("FXML load for opening from local has failed. Check it out!");
+            throw new FXMLLoaderException();
         }
-
     }
 
-    private Parent loadFXMLforSheet(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SheetBuilderController.class.getResource(fxml + ".fxml"));
+    private Parent loadSheetXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(SheetBuilderController.class.getResource("Sheet.fxml"));
         return fxmlLoader.load();
     }
 
-    public static File getChosenFile() {
-        return chosenFile;
-    }
-
-    public void disableButtonsOnClick(boolean status){
+    private void disableButtonsOnClick(boolean status){
         createNewWorkbookButton.setDisable(status);
         openFromLocalButton.setDisable(status);
         openFromCloudButton.setDisable(status);

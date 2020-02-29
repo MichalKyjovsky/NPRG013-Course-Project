@@ -16,7 +16,7 @@
          <children>
             <VBox layoutY="228.0" prefHeight="250.0" prefWidth="356.0" AnchorPane.bottomAnchor="181.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="228.0">
                <children>
-                  <Button fx:id="createNewWorkbookButton" graphicTextGap="20.0" mnemonicParsing="false" onAction="#createNewWorkbook" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/landingPageDesign.css" text="Create new workbook" textFill="WHITE">
+                  <Button fx:id="createNewWorkbookButton" graphicTextGap="20.0" mnemonicParsing="false" onAction="#createNewWorkbook" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/LandingPageDesign.css" text="Create new workbook" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -34,7 +34,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="openFromLocalButton" onAction="#displayFileExplorer" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/landingPageDesign.css" text="Open from local device" textFill="WHITE">
+                  <Button fx:id="openFromLocalButton" onAction="#displayFileExplorer" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/LandingPageDesign.css" text="Open from local device" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -51,7 +51,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="openFromCloudButton" onAction="#openFromCloud" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/landingPageDesign.css" text="Open from OneDrive" textFill="WHITE">
+                  <Button fx:id="openFromCloudButton" onAction="#openFromCloud" graphicTextGap="20.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="356.0" styleClass="button1" stylesheets="@../css/LandingPageDesign.css" text="Open from OneDrive" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -70,7 +70,7 @@
                   </Button>
                </children>
             </VBox>
-            <Pane layoutY="103.0" prefHeight="94.0" prefWidth="358.0" styleClass="app-heading" stylesheets="@../css/landingPageDesign.css">
+            <Pane layoutY="103.0" prefHeight="94.0" prefWidth="358.0" styleClass="app-heading" stylesheets="@../css/LandingPageDesign.css">
                <children>
                   <Label layoutX="19.0" layoutY="23.0" prefHeight="49.0" prefWidth="283.0" text="Personal Budget Tracker" textFill="WHITE">
                      <font>
@@ -81,9 +81,9 @@
             </Pane>
          </children>
       </AnchorPane>
-      <Pane layoutX="14.0" layoutY="-1.0" prefHeight="667.0" prefWidth="594.0" styleClass="background" stylesheets="@../css/landingPageDesign.css" AnchorPane.bottomAnchor="-7.0" AnchorPane.rightAnchor="358.0" AnchorPane.topAnchor="-1.0">
+      <Pane layoutX="14.0" layoutY="-1.0" prefHeight="667.0" prefWidth="594.0" styleClass="background" stylesheets="@../css/LandingPageDesign.css" AnchorPane.bottomAnchor="-7.0" AnchorPane.rightAnchor="358.0" AnchorPane.topAnchor="-1.0">
          <children>
-            <Pane layoutX="-125.0" layoutY="-2.0" prefHeight="229.0" prefWidth="515.0" rotate="42.3" style="-fx-background-color: #00ffcc; -fx-background-radius: 0 65 65 0;" stylesheets="@../css/landingPageDesign.css" />
+            <Pane layoutX="-125.0" layoutY="-2.0" prefHeight="229.0" prefWidth="515.0" rotate="42.3" style="-fx-background-color: #00ffcc; -fx-background-radius: 0 65 65 0;" stylesheets="@../css/LandingPageDesign.css" />
             <Label layoutX="37.0" layoutY="401.0" prefHeight="119.0" prefWidth="486.0" text="BUDGET TRACKING...">
                <font>
                   <Font name="Dubai Bold" size="35.0" />

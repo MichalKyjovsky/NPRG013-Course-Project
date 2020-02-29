@@ -16,6 +16,7 @@ public class AlertBox {
 
     public static final String ALERT_BOX_EMPTY_INPUT = "AlertBoxEmptyInput";
     public static final String ALERT_BOX_NOT_IMPLEMENTED_FEATURE = "AlertBoxNotImplementedFeature";
+    public static final String ALERT_BOX_INVALID_INPUT = "AlertBoxInvalidInput";
     private Scene alertBoxScene;
     private Stage alertBoxStage;
     @FXML
@@ -43,6 +44,10 @@ public class AlertBox {
             else if (errorStatus.equals(ALERT_BOX_NOT_IMPLEMENTED_FEATURE)){
                 alertBoxScene = new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
             }
+            else if (errorStatus.equals(ALERT_BOX_INVALID_INPUT)){
+                alertBoxScene = new Scene(loadFXML(ALERT_BOX_INVALID_INPUT));
+                status = true;
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -54,7 +59,7 @@ public class AlertBox {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Scene reload = null;
         try {
-            reload = new Scene(reloadFXMLLanding("LandingPage"));
+            reload = new Scene(loadLandingFXML());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -64,8 +69,8 @@ public class AlertBox {
         }
     }
 
-    private Parent reloadFXMLLanding(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(LandingPageController.class.getResource(fxml + ".fxml"));
+    private Parent loadLandingFXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(LandingPageController.class.getResource("LandingPage.fxml"));
         return fxmlLoader.load();
     }
 

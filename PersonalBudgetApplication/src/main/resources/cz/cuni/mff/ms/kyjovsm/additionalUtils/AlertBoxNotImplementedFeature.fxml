@@ -19,6 +19,6 @@
             <Font name="Serif Bold" size="17.0" />
          </font>
       </Label>
-      <Button fx:id="closeButton" onAction="#closeAlertBox" layoutX="152.0" layoutY="157.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="125.0" styleClass="button5" stylesheets="@../css/landingPageDesign.css" text="OK" textFill="WHITE" />
+      <Button fx:id="closeButton" onAction="#closeAlertBox" layoutX="152.0" layoutY="157.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="125.0" styleClass="button5" stylesheets="@../css/LandingPageDesign.css" text="OK" textFill="WHITE" />
    </children>
 </AnchorPane>

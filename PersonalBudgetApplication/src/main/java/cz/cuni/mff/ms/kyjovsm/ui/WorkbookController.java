@@ -1,6 +1,9 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
+import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
+import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,62 +14,99 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
-
-
 public class WorkbookController {
 
+    @FXML
+    Button submitMonthButton;
     @FXML
     Button submitButton;
     @FXML
     TextField inputField;
     private Stage window;
-    private String nameOfDoc;
-    private static final String XLSX_SUFFIX = ".xslx";
+    private AlertBox alertBox;
+    private Scene workBookInitializer;
 
     public Stage getElement(){
         return this.window;
     }
 
-    public void createWorkbook() throws IOException{
+    void createWorkbook() throws IOException{
         window = new Stage();
-        Scene scene = new Scene(loadFXMLforWorkbook("Workbook"));
-        window.setScene(scene);
+        workBookInitializer = new Scene(loadWorkbookFXML());
+        window.setScene(workBookInitializer);
         window.show();
     }
 
-    public void setUpNameOfDocument(){
-        nameOfDoc = inputField.getText();
-        AlertBox alertBox = new AlertBox();
+    public void setUpNameOfDocument() throws FXMLLoaderException{
+        String nameOfDoc = inputField.getText();
+        alertBox = new AlertBox();
         try {
-            Stage stage = (Stage) submitButton.getScene().getWindow();;
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+
             if (!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
-                alertBox.displayAlertBox("AlertBoxEmptyInput");
+                alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
                 inputField.setText("");
             } else {
-                System.out.println(nameOfDoc);
-                stage.close();
-                App.changeScene(new Scene(loadFXMLforSheet("Sheet")));
+                SheetBuilder.setNameOfTheDocument(nameOfDoc);
+                workBookInitializer = new Scene(loadInitialMonthDialogFXML());
+                stage.setScene(workBookInitializer);
+                stage.show();
             }
         }
         catch (Exception e){
-            e.printStackTrace();
-            alertBox.displayAlertBox("AlertBoxEmptyInput");
+            throw new FXMLLoaderException();
         }
     }
 
-    private Parent loadFXMLforWorkbook(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(WorkbookController.class.getResource(fxml + ".fxml"));
+    @FXML
+    private void setupInitialMonth() throws FXMLLoaderException{
+        Stage stage = null;
+        alertBox = new AlertBox();
+        try {
+            stage = (Stage) submitMonthButton.getScene().getWindow();
+        }catch (Exception e){
+            throw new FXMLLoaderException();
+        }
+
+        String monthInput = inputField.getCharacters().toString();
+        try {
+            if (monthInput.matches("[1-9]*")) {
+                int month = Integer.parseInt(monthInput);
+
+                if(month >= 1 && month <=12) {
+                    WorkbookBuilder workbookBuilder = new WorkbookBuilder();
+                    WorkbookBuilder.setInitialMonth(month);
+                    App.changeScene(new Scene(loadSheetFXML()));
+                    //SheetBuilderController.setBudget_tracker(workbookBuilder.createInitialWorkbook());
+                    stage.close();
+                }
+                else{
+                    alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
+                    inputField.setText("");
+                }
+            }
+            else{
+                alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
+                inputField.setText("");
+            }
+        }catch (Exception e){
+            throw new FXMLLoaderException();
+        }
+    }
+
+    private Parent loadWorkbookFXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(WorkbookController.class.getResource( "Workbook.fxml"));
         return fxmlLoader.load();
     }
 
-    private Parent loadFXMLforSheet(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SheetBuilderController.class.getResource(fxml + ".fxml"));
+    private Parent loadSheetFXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(SheetBuilderController.class.getResource("Sheet.fxml"));
         return fxmlLoader.load();
     }
 
-    public String getNameOfDoc() {
-        return nameOfDoc;
+    private Parent loadInitialMonthDialogFXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(WorkbookController.class.getResource( "InitialMonthDialog.fxml"));
+        return fxmlLoader.load();
     }
 
 }
