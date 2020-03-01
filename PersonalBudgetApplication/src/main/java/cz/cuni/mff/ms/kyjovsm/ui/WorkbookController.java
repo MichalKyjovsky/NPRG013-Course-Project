@@ -70,7 +70,8 @@ public class WorkbookController {
 
         String monthInput = inputField.getCharacters().toString();
         try {
-            if (monthInput.matches("[1-9]*")) {
+            if (!monthInput.isEmpty() && monthInput.matches("[1-9]*")) {
+
                 int month = Integer.parseInt(monthInput);
 
                 if(month >= 1 && month <=12) {

@@ -19,6 +19,7 @@ public class App extends Application {
         window.setOnCloseRequest(e -> System.exit(0));
         window.getIcons().add(new Image("cz/cuni/mff/ms/kyjovsm/pics_source/vault.png"));
         Scene scene = new Scene(loadLandingPageFXML());
+        setWindowSize(660,950);
         window.setScene(scene);
         window.show();
     }
@@ -31,6 +32,11 @@ public class App extends Application {
     public static void changeScene(Scene scene){
         window.setScene(scene);
         window.show();
+    }
+
+    private void setWindowSize(double height, double width){
+        window.setMinHeight(height);
+        window.setMinWidth(width);
     }
 
     public static void main(String[] args) {

@@ -51,6 +51,7 @@ public class AlertBox {
         }catch (IOException e){
             e.printStackTrace();
         }
+        alertBoxStage.setResizable(false);
         alertBoxStage.setScene(alertBoxScene);
         alertBoxStage.show();
     }

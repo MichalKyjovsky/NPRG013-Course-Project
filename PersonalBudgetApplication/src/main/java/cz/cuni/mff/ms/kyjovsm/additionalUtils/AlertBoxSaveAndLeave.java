@@ -42,6 +42,7 @@ public class AlertBoxSaveAndLeave {
             e.printStackTrace();
         }
 
+        alertBox.setResizable(false);
         alertBox.setScene(alertScene);
         alertBox.show();
     }
