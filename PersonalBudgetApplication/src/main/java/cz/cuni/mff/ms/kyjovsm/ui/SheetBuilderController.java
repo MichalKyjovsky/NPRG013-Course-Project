@@ -6,28 +6,24 @@ import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class SheetBuilderController {
     @FXML
-    SplitMenuButton rowSelectButton;
+    Label selectedSheetLabel;
     @FXML
-    SplitMenuButton columnSelectButton;
+    MenuButton rowSelectButton;
     @FXML
-    SplitMenuButton sheetSelectButton;
+    MenuButton columnSelectButton;
+    @FXML
+    MenuButton sheetSelectButton;
     @FXML
     Button submitValueButton;
     @FXML
@@ -44,10 +40,18 @@ public class SheetBuilderController {
     TextField valueInputField;
     private SheetBuilder sheetBuilder = new SheetBuilder();
     private static Workbook budget_tracker;
+    private static final String USER_HOME_DIR = "user.home";
+
+    private Sheet actualSheet ;
 
     static void setBudget_tracker(Workbook budget_tracker) {
         SheetBuilderController.budget_tracker = budget_tracker;
     }
+
+    public static Workbook getBudget_tracker() {
+        return budget_tracker;
+    }
+
 
     public void goToHomePage() {
         AlertBoxSaveAndLeave alertBoxSaveAndLeave = new AlertBoxSaveAndLeave();
@@ -77,7 +81,7 @@ public class SheetBuilderController {
 
         if (!SheetBuilder.getNameOfTheDocument().strip().isEmpty()) {
             fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
-            fileChooser.setInitialDirectory(Path.of(System.getProperty("user.home")).toFile());
+            fileChooser.setInitialDirectory(Path.of(System.getProperty(USER_HOME_DIR)).toFile());
             fileChooser.showSaveDialog(new Stage());
         }
         else {
@@ -89,8 +93,59 @@ public class SheetBuilderController {
         sheetBuilder.setCellValue(valueInputField.getCharacters().toString());
     }
 
-    public void deleteColumn(ActionEvent actionEvent) {
+    public void deleteColumn() {
         System.out.println(SheetBuilder.getNameOfTheDocument());
         System.out.println(WorkbookBuilder.getInitialMonth());
+    }
+
+    public void addNewSheet(){
+        SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
+        try {
+            sheetNameInitializer.setNewTruckingMonth();
+            disableAllElements(true);
+            sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
+            sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    ArrayList<MenuItem> currentSheets = new ArrayList<>();
+    private void actualizationSheetSelection() {
+        if (budget_tracker.getNumberOfSheets() > sheetSelectButton.getItems().size()) {
+            int numOfSheets = budget_tracker.getNumberOfSheets();
+            currentSheets.clear();
+            for (int i = 0; i < numOfSheets; i++) {
+                if (!currentSheets.contains(budget_tracker.getSheetName(i))) {
+                    currentSheets.add(new MenuItem(budget_tracker.getSheetName(i)));
+                }
+            }
+        }
+        sheetSelectButton.getItems().clear();
+        sheetSelectButton.getItems().addAll(currentSheets);
+    }
+
+    public void updateOptions() {
+        actualizationSheetSelection();
+    }
+
+    public void updateSheetLabel() {
+        for(MenuItem mi : currentSheets){
+            mi.setOnAction(e -> {
+                selectedSheetLabel.setText(mi.getText());
+                actualSheet = budget_tracker.getSheet(mi.getText());
+                System.out.println(budget_tracker.getSheet(mi.getText()));
+            });
+        }
+    }
+
+    public void addNewColumn() {
+        if (actualSheet != null) {
+            sheetBuilder.addColumn(actualSheet);
+        }
+        else {
+            actualSheet = budget_tracker.getSheetAt(0);
+            sheetBuilder.addColumn(actualSheet);
+        }
     }
 }

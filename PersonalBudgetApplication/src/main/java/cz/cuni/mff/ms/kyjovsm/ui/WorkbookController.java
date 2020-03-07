@@ -70,7 +70,7 @@ public class WorkbookController {
 
         String monthInput = inputField.getCharacters().toString();
         try {
-            if (!monthInput.isEmpty() && monthInput.matches("[1-9]*")) {
+            if (!monthInput.isEmpty() && monthInput.matches("[0-9]*")) {
 
                 int month = Integer.parseInt(monthInput);
 
@@ -78,7 +78,7 @@ public class WorkbookController {
                     WorkbookBuilder workbookBuilder = new WorkbookBuilder();
                     WorkbookBuilder.setInitialMonth(month);
                     App.changeScene(new Scene(loadSheetFXML()));
-                    //SheetBuilderController.setBudget_tracker(workbookBuilder.createInitialWorkbook());
+                    SheetBuilderController.setBudget_tracker(workbookBuilder.createInitialWorkbook());
                     stage.close();
                 }
                 else{
@@ -91,7 +91,7 @@ public class WorkbookController {
                 inputField.setText("");
             }
         }catch (Exception e){
-            throw new FXMLLoaderException();
+            e.printStackTrace();
         }
     }
 

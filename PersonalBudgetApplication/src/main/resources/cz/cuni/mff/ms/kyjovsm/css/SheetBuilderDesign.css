@@ -51,7 +51,7 @@
     -fx-border-color:  #00cca3;
 }
 
-.split-menu-button .menu-item{
+.button_pattern .menu-item{
     -fx-background-color: #00cca3;
     -fx-border-color:  #00cca3;
 }
