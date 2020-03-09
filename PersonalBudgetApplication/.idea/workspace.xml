@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e55bce3-bb7f-4ba2-94de-a4f5625a3e58" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="0e55bce3-bb7f-4ba2-94de-a4f5625a3e58" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/PersonalBudgetApplication.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/cz/cuni/mff/ms/kyjovsm/additionalUtils/ColumnNameInitializer.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/ui/SheetBuilderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/ui/SheetBuilderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/ui/SheetNameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/additionalUtils/SheetNameInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cz/cuni/mff/ms/kyjovsm/ui/SheetNameInitializer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/cz/cuni/mff/ms/kyjovsm/additionalUtils/SheetNameInitializer.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/ui/SheetBuilderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/ui/SheetBuilderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,33 +32,39 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1YAYVItJrtwqk8ersfrPHwzXk3n" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/cz/cuni/mff/ms/kyjovsm/additionalUtils" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="cz.cuni.mff.ms.kyjovsm.additionalUtils" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/cz/cuni/mff/ms/kyjovsm/additionalUtils" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/cz/cuni/mff/ms/kyjovsm/additionalUtils" />
       <recent name="D:\micha\Java_Projects\PersonalBudgetApplication\src\main\resources\cz\cuni\mff\ms\kyjovsm\ui" />
       <recent name="D:\micha\Java_Projects\PersonalBudgetApplication\src\main\resources\cz\cuni\mff\ms\kyjovsm" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -51,7 +72,7 @@
       <module name="PersonalBudgetApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cz.cuni.mff.ms.kyjovsm.ui.*" />
+          <option name="PATTERN" value="cz.cuni.mff.ms.kyjovsm.additionalUtils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -77,10 +98,25 @@
       <updated>1582386887963</updated>
       <workItem from="1582386914452" duration="2168000" />
       <workItem from="1582391129958" duration="19278000" />
+      <workItem from="1583764717385" duration="2781000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="690" y="444" width="539" height="235" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1583765761881">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="690" y="444" width="539" height="235" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.34.1920.1046@0.34.1920.1046" timestamp="1583765761881" />
+    <state x="743" y="300" width="424" height="511" key="FileChooserDialogImpl" timestamp="1583766946741">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="743" y="300" width="424" height="511" key="FileChooserDialogImpl/0.34.1920.1046@0.34.1920.1046" timestamp="1583766946741" />
+    <state x="616" y="384" key="com.intellij.ide.util.TipDialog" timestamp="1583764775042">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="616" y="384" key="com.intellij.ide.util.TipDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1583764775042" />
   </component>
 </project>

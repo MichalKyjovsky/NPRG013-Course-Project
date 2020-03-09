@@ -52,13 +52,6 @@ public class SheetBuilder{
             ioe.printStackTrace();
         }
 }
-
-    public void addColumn(Sheet actualSheet) {
-        int sheetWidth = actualSheet.getRow(0).getLastCellNum();
-        remapTotalColumn(actualSheet,sheetWidth);
-
-    }
-
     private void remapTotalColumn(Sheet sheet, int position){
         int sheetHeight = 0;
         try {
@@ -94,5 +87,12 @@ public class SheetBuilder{
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
 
+    }
+
+    public void createNewColumn(String columnName){
+        System.out.println(columnName);
+//        Sheet actualSheet = SheetBuilderController.getActualSheet();
+//        int sheetWidth = actualSheet.getRow(0).getLastCellNum();
+//        remapTotalColumn(actualSheet,sheetWidth);
     }
 }

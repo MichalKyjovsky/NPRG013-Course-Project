@@ -1,13 +1,12 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave;
+import cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer;
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -42,7 +41,11 @@ public class SheetBuilderController {
     private static Workbook budget_tracker;
     private static final String USER_HOME_DIR = "user.home";
 
-    private Sheet actualSheet ;
+    private static Sheet actualSheet;
+
+    public static Sheet getActualSheet(){
+        return SheetBuilderController.actualSheet;
+    }
 
     static void setBudget_tracker(Workbook budget_tracker) {
         SheetBuilderController.budget_tracker = budget_tracker;
@@ -140,12 +143,19 @@ public class SheetBuilderController {
     }
 
     public void addNewColumn() {
+        SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
         if (actualSheet != null) {
-            sheetBuilder.addColumn(actualSheet);
+            sheetNameInitializer.addNewColumn();
+            disableAllElements(true);
+            sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
+            sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
         }
         else {
             actualSheet = budget_tracker.getSheetAt(0);
-            sheetBuilder.addColumn(actualSheet);
+            sheetNameInitializer.addNewColumn();
+            disableAllElements(true);
+            sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
+            sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
         }
     }
 }
