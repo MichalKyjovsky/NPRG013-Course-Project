@@ -3,6 +3,9 @@ package cz.cuni.mff.ms.kyjovsm.workbook;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import org.apache.poi.ss.formula.functions.Index;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
@@ -60,15 +63,21 @@ public class SheetBuilder{
                     sheetHeight++;
                 }
             }
-        }catch (Exception e){};
+        }catch (Exception e){
+        };
 
         workbook = SheetBuilderController.getBudget_tracker();
         CellStyle cellStyle = workbook.createCellStyle();
-
+        setTotalHeader(cellStyle);
         for (int i = 0; i < sheetHeight; i++){
             Cell oldCell = sheet.getRow(i).getCell(position - 1);
+
             Cell newCell = sheet.getRow(i).createCell(position);
             newCell.setCellValue(oldCell.getStringCellValue());
+
+            if(i == 0) {
+                newCell.setCellStyle(cellStyle);
+            }
         }
         saveProgress();
     }
@@ -86,13 +95,19 @@ public class SheetBuilder{
         cellStyle.setFillForegroundColor(IndexedColors.DARK_RED.index);
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+        font.setBold(true);
+        font.setFontName("Calibri");
+        font.setColor(IndexedColors.WHITE.index);
+        font.setFontHeight(11);
+        cellStyle.setFont(font);
 
     }
 
     public void createNewColumn(String columnName){
         System.out.println(columnName);
-//        Sheet actualSheet = SheetBuilderController.getActualSheet();
-//        int sheetWidth = actualSheet.getRow(0).getLastCellNum();
-//        remapTotalColumn(actualSheet,sheetWidth);
+        Sheet actualSheet = SheetBuilderController.getActualSheet();
+        int sheetWidth = actualSheet.getRow(0).getLastCellNum();
+        remapTotalColumn(actualSheet,sheetWidth);
     }
 }

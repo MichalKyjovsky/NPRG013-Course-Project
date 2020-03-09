@@ -78,8 +78,7 @@ public class WorkbookBuilder {
     void createInitialSheet(Sheet newSheet, int initialMonth,Workbook workbook){
         ldt = LocalDateTime.now();
         YearMonth yearMonth = YearMonth.of(ldt.getYear(),initialMonth);
-        newSheet.setColumnWidth(0, COLUMNS_WIDTH);
-        newSheet.setColumnWidth(1, COLUMNS_WIDTH);
+        newSheet.setDefaultColumnWidth(COLUMNS_WIDTH);
         Row header = newSheet.createRow(0);
         header.setHeightInPoints(HEADER_HEIGHT);
         CellStyle headerStyleBlack = workbook.createCellStyle();
