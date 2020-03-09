@@ -4,9 +4,6 @@
     <list default="true" id="0e55bce3-bb7f-4ba2-94de-a4f5625a3e58" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/workbook/WorkbookBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cuni/mff/ms/kyjovsm/workbook/WorkbookBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/workbook/SheetBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/workbook/WorkbookBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cz/cuni/mff/ms/kyjovsm/workbook/WorkbookBuilder.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +85,7 @@
       <updated>1582386887963</updated>
       <workItem from="1582386914452" duration="2168000" />
       <workItem from="1582391129958" duration="19278000" />
-      <workItem from="1583764717385" duration="4475000" />
+      <workItem from="1583764717385" duration="5238000" />
     </task>
     <servers />
   </component>

@@ -67,8 +67,12 @@ public class SheetBuilder{
         };
 
         workbook = SheetBuilderController.getBudget_tracker();
-        CellStyle cellStyle = workbook.createCellStyle();
-        setTotalHeader(cellStyle);
+        CellStyle totalHeaderStyle = workbook.createCellStyle();
+        CellStyle defaultHeaderStyle = workbook.createCellStyle();
+        CellStyle defaultStyle = workbook.createCellStyle();
+        setTotalHeader(totalHeaderStyle);
+        setDefaultDesign(defaultStyle);
+
         for (int i = 0; i < sheetHeight; i++){
             Cell oldCell = sheet.getRow(i).getCell(position - 1);
 
@@ -76,7 +80,11 @@ public class SheetBuilder{
             newCell.setCellValue(oldCell.getStringCellValue());
 
             if(i == 0) {
-                newCell.setCellStyle(cellStyle);
+                newCell.setCellStyle(totalHeaderStyle);
+                oldCell.setCellStyle(defaultHeaderStyle);
+            }
+            else{
+                newCell.setCellStyle(defaultStyle);
             }
         }
         saveProgress();
@@ -91,8 +99,20 @@ public class SheetBuilder{
         }
     }
 
-    private void setTotalHeader(CellStyle cellStyle){
-        cellStyle.setFillForegroundColor(IndexedColors.DARK_RED.index);
+
+    private void setDefaultDesign(CellStyle cellStyle){
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setBorderBottom(BorderStyle.MEDIUM);
+        cellStyle.setBorderLeft(BorderStyle.MEDIUM);
+        cellStyle.setBorderRight(BorderStyle.MEDIUM);
+        cellStyle.setBorderTop(BorderStyle.MEDIUM);
+        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+        font.setFontName("Calibri");
+        font.setFontHeight(11);
+        cellStyle.setFont(font);
+    }
+
+    private void setCommonDesign(CellStyle cellStyle){
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
@@ -101,7 +121,16 @@ public class SheetBuilder{
         font.setColor(IndexedColors.WHITE.index);
         font.setFontHeight(11);
         cellStyle.setFont(font);
+    }
 
+    private void setDefaultHeader(CellStyle cellStyle){
+        cellStyle.setFillForegroundColor(IndexedColors.BLACK.index);
+        setCommonDesign(cellStyle);
+    }
+
+    private void setTotalHeader(CellStyle cellStyle){
+        cellStyle.setFillForegroundColor(IndexedColors.DARK_RED.index);
+        setCommonDesign(cellStyle);
     }
 
     public void createNewColumn(String columnName){
