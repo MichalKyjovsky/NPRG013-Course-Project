@@ -67,7 +67,7 @@ public class SheetNameInitializer {
         } else if (!newInitialMonth.matches("[0-9]*")){
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
         }else {
-            sheetBuilder.createNewSheet(newInitialMonth);;
+            sheetBuilder.createNewSheet(newInitialMonth);
             stage.close();
         }
     }

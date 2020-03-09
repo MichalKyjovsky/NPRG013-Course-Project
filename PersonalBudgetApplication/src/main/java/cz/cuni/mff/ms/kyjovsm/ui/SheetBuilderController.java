@@ -7,6 +7,7 @@ import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -15,6 +16,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class SheetBuilderController {
+    @FXML
+    Label selectedColumnLabel;
     @FXML
     Label selectedSheetLabel;
     @FXML
@@ -42,6 +45,8 @@ public class SheetBuilderController {
     private static final String USER_HOME_DIR = "user.home";
 
     private static Sheet actualSheet;
+    private static String actualColumn;
+    private static int actualColumnIndex;
 
     public static Sheet getActualSheet(){
         return SheetBuilderController.actualSheet;
@@ -128,9 +133,31 @@ public class SheetBuilderController {
         sheetSelectButton.getItems().addAll(currentSheets);
     }
 
+    ArrayList<MenuItem> currentColumns = new ArrayList<>();
+    private void actualizationColumnsSelection(){
+        if(actualSheet == null){
+            actualSheet = budget_tracker.getSheetAt(0);
+        }
+        int numOfColumns = actualSheet.getRow(0).getLastCellNum();
+
+        if(actualSheet.getRow(0).getLastCellNum() > columnSelectButton.getItems().size()){
+            currentColumns.clear();
+            //We do not want to include columns with total amount and Date, those should be immutable
+            for(int i = 0; i < numOfColumns; i++){
+                if(!currentColumns.contains(actualSheet.getRow(0).getCell(i).getStringCellValue())){
+                    currentColumns.add(new MenuItem(actualSheet.getRow(0).getCell(i).getStringCellValue()));
+                }
+            }
+        }
+        columnSelectButton.getItems().clear();
+        columnSelectButton.getItems().addAll(currentColumns);
+    }
+
     public void updateOptions() {
         actualizationSheetSelection();
+        actualizationColumnsSelection();
     }
+
 
     public void updateSheetLabel() {
         for(MenuItem mi : currentSheets){
@@ -138,6 +165,22 @@ public class SheetBuilderController {
                 selectedSheetLabel.setText(mi.getText());
                 actualSheet = budget_tracker.getSheet(mi.getText());
                 System.out.println(budget_tracker.getSheet(mi.getText()));
+            });
+        }
+    }
+
+    @FXML
+    private void updateColumnsLabel() {
+        for (MenuItem mi : currentColumns){
+            mi.setOnAction(e ->{
+                System.out.println(mi.getText());
+                selectedColumnLabel.setText(mi.getText());
+                actualColumn = mi.getText();
+                for(int i = 0; i < actualSheet.getRow(0).getLastCellNum(); i++) {
+                    if (actualColumn.equals(actualSheet.getRow(0).getCell(i).getStringCellValue())){
+                        actualColumnIndex = actualSheet.getRow(0).getCell(i).getColumnIndex();
+                    }
+                }
             });
         }
     }

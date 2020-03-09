@@ -24,7 +24,7 @@ public class WorkbookBuilder {
     private static final String SEPARATOR = "_";
     private static final String USER_HOME_DIR = "user.home";
     private static final int COLUMNS_WIDTH = 4000;
-    private static final int HEADER_HEIGHT = 45 ;
+    private static final int HEADER_HEIGHT = 60 ;
     private static final String TOTAL_HEADING = "TOTAL";
     private static final String DATE_HEADING = "DATE";
     private static final String DATE_FORMAT = "dd-MM-yyyy";

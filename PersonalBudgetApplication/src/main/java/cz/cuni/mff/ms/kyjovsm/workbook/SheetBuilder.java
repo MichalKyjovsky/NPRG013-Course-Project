@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class SheetBuilder{
     private Workbook workbook;
     private static final int COLUMNS_WIDTH = 4000;
-    private static final int HEADER_HEIGHT = 45 ;
+    private static final int HEADER_HEIGHT = 60 ;
     private static final String SHEET_PREFIX = "Budget_";
     private static final String SEPARATOR = "_";
     private static String nameOfTheDocument;
@@ -55,7 +55,7 @@ public class SheetBuilder{
             ioe.printStackTrace();
         }
 }
-    private void remapTotalColumn(Sheet sheet, int position){
+    private void remapTotalColumn(Sheet sheet, int position, String columnName){
         int sheetHeight = 0;
         try {
             for (int i = 0; i < 35; i++) {
@@ -71,6 +71,7 @@ public class SheetBuilder{
         CellStyle defaultHeaderStyle = workbook.createCellStyle();
         CellStyle defaultStyle = workbook.createCellStyle();
         setTotalHeader(totalHeaderStyle);
+        setDefaultHeader(defaultHeaderStyle);
         setDefaultDesign(defaultStyle);
 
         for (int i = 0; i < sheetHeight; i++){
@@ -82,9 +83,11 @@ public class SheetBuilder{
             if(i == 0) {
                 newCell.setCellStyle(totalHeaderStyle);
                 oldCell.setCellStyle(defaultHeaderStyle);
+                oldCell.setCellValue(columnName);
             }
             else{
                 newCell.setCellStyle(defaultStyle);
+                oldCell.setCellValue(String.format("%.2f CZK", (double) 0));
             }
         }
         saveProgress();
@@ -134,9 +137,8 @@ public class SheetBuilder{
     }
 
     public void createNewColumn(String columnName){
-        System.out.println(columnName);
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         int sheetWidth = actualSheet.getRow(0).getLastCellNum();
-        remapTotalColumn(actualSheet,sheetWidth);
+        remapTotalColumn(actualSheet,sheetWidth,columnName);
     }
 }
