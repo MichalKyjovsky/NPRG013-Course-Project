@@ -73,7 +73,29 @@ be displayed in label horizontaly next to the *Select Sheet* drop-down menu, whe
 When you press *ADD NEW COLUMN* button, dialog window demanding column name will be invoked. Same naming conventions as for
 workbook name applies. Once you setup value new column will be added, column with **TOTAL** heading will be recalculated and moved
 to one position left. Again you can choose by selecting from *Select Column* drop-down menu particular column.
+
+*DELETE COLUMN* button will erase column ***which is set as Actual, thus the one which can bee seen in label horizontaly
+next to the *Select Column* drop-down menu.*** When column is deleted, recalculation of other columns is performed so integrity
+of document is secured. 
+
+*SAVE* button will invoke File Save dialog.
+
+*Select Row* drop-down menu will provide selection of date you want to track your finances. 
+
+On the bottom of the window can be seen Input field and *SUBMIT* button. These provide functionality of cell's vallue setup.
+(Only numbers as a values are allowed, thus integers and float)
+
+Very last is the button in upper right corner with hoome image, which will take you to the *Landing Page* and close current workbook.
+
 ![Core](./Documentation/Core.PNG)
+
+## Limitations and exclusions 
+As mentioned before the functionality of **OneDrive** is not included in current version.
+Current version does not cover following intended functionalities:
+  - Formulae as an input into cell
+  - Current cell value display
+  - Dynamic recalculating of Drop-Down menu (values are not recalculated dynamically if Sheet or Column is erased)
+  - Data transformations 
 
 
 
