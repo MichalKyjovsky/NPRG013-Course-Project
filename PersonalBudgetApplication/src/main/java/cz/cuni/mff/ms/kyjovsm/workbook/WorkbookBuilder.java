@@ -43,20 +43,27 @@ public class WorkbookBuilder {
         return initialMonth;
     }
 
+    /**
+     * Method will load particular xlsx sheet into the XSSDWorkbook instance
+     * @param pathToFile file location of xlsx sheet
+     */
     public void createFromExistingFile(String pathToFile){
         workbook = null;
         path = pathToFile;
         try(FileInputStream fis = new FileInputStream(new File(pathToFile))){
             SheetBuilderController.setBudget_tracker(new XSSFWorkbook(fis));
-            System.out.println("SUCCESS");
         }catch (IOException ioe){
             ioe.printStackTrace();
         }
     }
 
+    /**
+     * Method for creating initial unified Workbook
+     * @return Workbook instance prepared to work with in accordance to predefined pattern
+     * @throws FileFormatException
+     */
     public Workbook createInitialWorkbook() throws FileFormatException{
         workbook = null;
-
         File currDir = new File(System.getProperty(USER_HOME_DIR));
         path = currDir.getAbsolutePath() + File.separator + SheetBuilder.getNameOfTheDocument();
 
@@ -65,7 +72,6 @@ public class WorkbookBuilder {
 
             //Implementation of rows on request for initial month
             ldt = LocalDateTime.now();
-
             Sheet sheet_01 = workbook.createSheet(SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear());
             createInitialSheet(sheet_01,initialMonth, this.workbook);
             workbook.write(outputStream);
@@ -75,6 +81,12 @@ public class WorkbookBuilder {
          return workbook;
     }
 
+    /**
+     * Method for Initial Sheets creation in demanded form
+     * @param newSheet
+     * @param initialMonth
+     * @param workbook
+     */
     void createInitialSheet(Sheet newSheet, int initialMonth,Workbook workbook){
         ldt = LocalDateTime.now();
         YearMonth yearMonth = YearMonth.of(ldt.getYear(),initialMonth);

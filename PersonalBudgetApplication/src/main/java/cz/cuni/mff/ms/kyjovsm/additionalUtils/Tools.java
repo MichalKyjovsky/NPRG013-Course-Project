@@ -7,6 +7,14 @@ import java.io.IOException;
 
 public class Tools {
 
+
+    /**
+     * Universal method for FXML Scene instance loading.
+     * @param cls Class to which is particular fxml related
+     * @param fxml Fxml related to the given Class cls
+     * @return Parent node, which can be set as a Scene instance and displayed in Stage instance
+     * @throws IOException
+     */
     public Parent loadFXML(Class<?> cls, String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(cls.getResource(fxml));
         return fxmlLoader.load();

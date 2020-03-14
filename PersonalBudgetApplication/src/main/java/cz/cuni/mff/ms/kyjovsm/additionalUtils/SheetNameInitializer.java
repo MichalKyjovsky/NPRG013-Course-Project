@@ -42,6 +42,12 @@ public class SheetNameInitializer {
         return this.submitButton;
     }
 
+
+    /**
+     * Based on user input method will initiate new  tracking month for given input and
+     * new sheet based on the given information will be created.
+     * @throws FXMLLoaderException
+     */
     public void setNewTruckingMonth() throws FXMLLoaderException{
         Tools tool = new Tools();
         dialogWindow.setResizable(false);
@@ -53,6 +59,11 @@ public class SheetNameInitializer {
         dialogWindow.show();
     }
 
+
+    /**
+     * When user press "ADD NEW COLUMN" method starts initiation process.
+     * @throws FXMLLoaderException
+     */
     public void addNewColumn() throws FXMLLoaderException{
         dialogWindow.setResizable(false);
         Tools tool = new Tools();
@@ -64,13 +75,16 @@ public class SheetNameInitializer {
         dialogWindow.show();
     }
 
+    /**
+     * When a new tracking month is provided by user, method
+     * wul then secure new sheet initiation and creation.
+     */
     @FXML
     private void submitMonth(){
         Stage stage = (Stage) submitButton.getScene().getWindow();
         String newInitialMonth = inputLine.getCharacters().toString();
         AlertBox alertBox = new AlertBox();
         SheetBuilder sheetBuilder = new SheetBuilder();
-
 
         if (newInitialMonth.isEmpty() || newInitialMonth.isBlank()){
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
@@ -82,6 +96,10 @@ public class SheetNameInitializer {
         }
     }
 
+    /**
+     * When name of new column is provided by user, new column is then
+     * initiated and refactoring is performed.
+     */
     @FXML
     private void submitName() {
         stage = (Stage) submitButton.getScene().getWindow();

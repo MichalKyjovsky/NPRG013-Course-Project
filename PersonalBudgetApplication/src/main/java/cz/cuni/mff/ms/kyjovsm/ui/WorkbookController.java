@@ -51,6 +51,11 @@ public class WorkbookController {
         return this.window;
     }
 
+
+    /**
+     * Method enables user to invoke setup dialog of new Workbook
+     * @throws FXMLLoaderException
+     */
     void createWorkbook() throws FXMLLoaderException{
         try {
             window = new Stage();
@@ -62,6 +67,11 @@ public class WorkbookController {
         }
     }
 
+
+    /**
+     * Method enables user to setup new Workbook name
+     * @throws FXMLLoaderException
+     */
     public void setUpNameOfDocument() throws FXMLLoaderException{
         nameOfDoc = inputField.getText();
         alertBox = new AlertBox();
@@ -83,6 +93,10 @@ public class WorkbookController {
         }
     }
 
+
+    /**
+     * Method enables to user set up initial tracking month
+     */
     @FXML
     private void setupInitialMonth(){
         Stage stage = null;

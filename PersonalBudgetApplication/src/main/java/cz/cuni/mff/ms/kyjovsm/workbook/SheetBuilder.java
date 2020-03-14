@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;
 
-
 public class SheetBuilder{
     private Workbook workbook;
     private static final int COLUMNS_WIDTH = 4000;
@@ -32,6 +31,11 @@ public class SheetBuilder{
         workbook = SheetBuilderController.getBudget_tracker();
     }
 
+
+    /**
+     * Method will validate oath to the document
+     * @param name path to the document
+     */
     public static void setNameOfTheDocument(String name){
         if(!name.endsWith(FILE_SUFFIX)) {
             nameOfTheDocument = name + FILE_SUFFIX;
@@ -46,6 +50,14 @@ public class SheetBuilder{
         return nameOfTheDocument;
     }
 
+
+    /**
+     * Method updates values of cells depending on user input from GUI.
+     * @param value user's input
+     * @param actualSheet
+     * @param columnIndex
+     * @param rowIndex
+     */
     public void setCellValue(String value,Sheet actualSheet, int columnIndex, int rowIndex){
             Double var = Double.parseDouble(value);
             actualSheet.getRow(rowIndex).getCell(columnIndex).setCellValue(String.format("%.2f",var));
@@ -53,6 +65,12 @@ public class SheetBuilder{
             saveProgress();
     }
 
+
+    /**
+     * When user in GUI choose to add new sheet, method will initiate new sheet
+     * with predefined pattern and naming conventions
+     * @param initialMonth
+     */
     public void createNewSheet(String initialMonth) {
         LocalDateTime ldt = LocalDateTime.now();
         String sheetName = SHEET_PREFIX + new DateFormatSymbols().getMonths()[Integer.parseInt(initialMonth) - 1].toUpperCase() + SEPARATOR + ldt.getYear();
@@ -66,6 +84,13 @@ public class SheetBuilder{
             ioe.printStackTrace();
         }
     }
+
+
+    /**
+     * Method calculates number of records in particular sheet
+     * @param sheet actual sheet
+     * @return number of records in the sheet
+     */
     public int calcSheetHeight(Sheet sheet){
             sheetHeight = 0;
             try {
@@ -79,6 +104,14 @@ public class SheetBuilder{
         return sheetHeight;
         }
 
+
+    /**
+     * Method secures correct remapping of TOTAL column
+     * whenever new column is added.
+     * @param sheet actual sheet
+     * @param position position of new added column
+     * @param columnName name of the new added column
+     */
     private void remapTotalColumn(Sheet sheet, int position, String columnName){
         workbook = SheetBuilderController.getBudget_tracker();
         CellStyle totalHeaderStyle = workbook.createCellStyle();
@@ -107,6 +140,10 @@ public class SheetBuilder{
         }
     }
 
+
+    /**
+     * Method will save permanently all changes.
+     */
     private void saveProgress(){
         try(FileOutputStream fio = new FileOutputStream(WorkbookBuilder.getPath())){
             workbook = SheetBuilderController.getBudget_tracker();
@@ -117,6 +154,10 @@ public class SheetBuilder{
     }
 
 
+    /**
+     * Method sets predefined cell design for cells which will contain some value.
+     * @param cellStyle
+     */
     private void setDefaultDesign(CellStyle cellStyle){
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setBorderBottom(BorderStyle.MEDIUM);
@@ -129,6 +170,10 @@ public class SheetBuilder{
         cellStyle.setFont(font);
     }
 
+    /**
+    * Method sets predefined cell design header section.
+    * @param cellStyle
+    */
     private void setCommonHeaderDesign(CellStyle cellStyle){
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -140,16 +185,31 @@ public class SheetBuilder{
         cellStyle.setFont(font);
     }
 
+
+    /**
+     * Method sets design for all headers nor the TOTAL column.
+     * @param cellStyle
+     */
     private void setDefaultHeader(CellStyle cellStyle){
         cellStyle.setFillForegroundColor(IndexedColors.BLACK.index);
         setCommonHeaderDesign(cellStyle);
     }
 
+    /**
+     * Method sets design for TOTAL column header.
+     * @param cellStyle
+     */
     private void setTotalHeader(CellStyle cellStyle){
         cellStyle.setFillForegroundColor(IndexedColors.DARK_RED.index);
         setCommonHeaderDesign(cellStyle);
     }
 
+
+    /**
+     * Initiate method for creating new column on user requirement
+     * in accordance to predefined design pattern.
+     * @param columnName
+     */
     public void createNewColumn(String columnName){
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
@@ -160,6 +220,11 @@ public class SheetBuilder{
         saveProgress();
     }
 
+
+    /**
+     * Method secures proper deletion and remapping of given column.
+     * @param columnName
+     */
     public void deleteColumn(String columnName){
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
@@ -177,6 +242,11 @@ public class SheetBuilder{
         System.out.println(indexOfDeletedColumn);
     }
 
+
+    /**
+     * Method sets Blank Design, thus the initial one for requested cells.
+     * @param cellStyle
+     */
     private void setBlankDesign(CellStyle cellStyle){
         cellStyle.setFillForegroundColor(IndexedColors.WHITE.index);
         cellStyle.setBorderBottom(BorderStyle.NONE);
@@ -189,12 +259,24 @@ public class SheetBuilder{
         cellStyle.setFont(font);
     }
 
+
+    /**
+     * Method on given index erase given column data.
+     * @param columnIndex
+     * @param actualSheet
+     */
     private void eraseColumnByIndex(int columnIndex,Sheet actualSheet){
         for(int i = 0; i < sheetHeight; i++){
             actualSheet.getRow(i).removeCell(actualSheet.getRow(i).getCell(columnIndex));
         }
     }
 
+
+    /**
+     * Method secures proper remapping after column deletion.
+     * @param columnIndex
+     * @param actualSheet
+     */
     private void remapColumnAfterErasing(int columnIndex, Sheet actualSheet){
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
         workbook = SheetBuilderController.getBudget_tracker();
@@ -223,6 +305,12 @@ public class SheetBuilder{
 
     }
 
+
+    /**
+     * Method recalculates values int TOTAL column whenever
+     * action in sheet is performed.
+     * @param actualSheet
+     */
     private void recalculateTotal(Sheet actualSheet){
         double sum = 0;
 

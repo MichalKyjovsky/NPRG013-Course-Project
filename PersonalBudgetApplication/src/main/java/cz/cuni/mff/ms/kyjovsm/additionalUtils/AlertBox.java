@@ -38,6 +38,10 @@ public class AlertBox {
     }
 
 
+    /**
+     * Method will invoke alert box that user's input is incorrect in certain way
+     * @param errorStatus parameter which involve what message will be shown
+     */
     public  void displayAlertBox(String errorStatus){
         alertBoxStage = new Stage();
         try {
@@ -60,6 +64,10 @@ public class AlertBox {
         alertBoxStage.show();
     }
 
+
+    /**
+     * Method will secure proper close of Alert box
+     */
     public void closeAlertBox(){
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Scene reload = null;

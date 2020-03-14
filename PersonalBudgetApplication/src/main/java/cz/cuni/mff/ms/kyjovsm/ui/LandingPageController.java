@@ -49,6 +49,11 @@ public class LandingPageController {
         }
     }
 
+
+    /**
+     * Method enables to user chose Open file from local device option
+     * @throws FXMLLoaderException
+     */
     public void displayFileExplorer() throws FXMLLoaderException{
         Stage fileDialog = new Stage();
         FileChooser fileChooser = new FileChooser();
@@ -79,11 +84,18 @@ public class LandingPageController {
         }
     }
 
+
+    /**
+     * When AlertBoxes are invoked, all button on background are disabled
+     * when method is called with tru parameter
+     * @param status
+     */
     private void disableButtonsOnClick(boolean status){
         createNewWorkbookButton.setDisable(status);
         openFromLocalButton.setDisable(status);
         openFromCloudButton.setDisable(status);
     }
+
 
     public void openFromCloud(){
         //TODO:Implement in feature releases, not in actual scope.

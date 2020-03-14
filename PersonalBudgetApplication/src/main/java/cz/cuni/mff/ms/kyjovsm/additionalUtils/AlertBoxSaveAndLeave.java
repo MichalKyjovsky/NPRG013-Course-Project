@@ -38,11 +38,13 @@ public class AlertBoxSaveAndLeave {
         return alertBox;
     }
 
+    /**
+     * Method will display dialog before leaving to home page.
+     */
     public void invokeDialog(){
         alertBox = new Stage();
         tool = new Tools();
         Scene alertScene = null;
-
         try {
             alertScene = new Scene(tool.loadFXML(Class.forName(alertBoxSaveAndLeaveClassName),relatedFxmlAlertBoxSaveAndLeave));
         }catch (Exception e){
@@ -55,7 +57,10 @@ public class AlertBoxSaveAndLeave {
     }
 
 
-
+    /**
+     * Method will display to user landing page, once he
+     * decided his work is ended and saved.
+     */
     public void continueToHomePage() {
         tool = new Tools();
         Stage actual = (Stage) continueToHomePageButton.getScene().getWindow();
@@ -67,6 +72,10 @@ public class AlertBoxSaveAndLeave {
         }
     }
 
+
+    /**
+     * Method will close dialog and user remain in core
+     */
     public void stayAndSave() {
         Stage actual = (Stage) continueToHomePageButton.getScene().getWindow();
         try {

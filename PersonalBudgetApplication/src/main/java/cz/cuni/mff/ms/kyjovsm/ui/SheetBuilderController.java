@@ -68,6 +68,11 @@ public class SheetBuilderController {
     }
 
 
+    /**
+     * Method which is called when home button is pressed.
+     * It will invoke dialog if current work is saved
+     * and eventually move user to Landing Page.
+     */
     public void goToHomePage() {
         AlertBoxSaveAndLeave alertBoxSaveAndLeave = new AlertBoxSaveAndLeave();
         disableAllElements(true);
@@ -78,6 +83,12 @@ public class SheetBuilderController {
         frontStage.setOnHidden(e -> disableAllElements(false));
     }
 
+
+    /**
+     * Method is called whenever is Alert Box or Dialog box invoked
+     * and it is necessary to disable all other buttons.
+     * @param statement
+     */
     private void disableAllElements(boolean statement){
         homeButton.setDisable(statement);
         submitValueButton.setDisable(statement);
@@ -91,6 +102,13 @@ public class SheetBuilderController {
         valueInputField.setDisable(statement);
     }
 
+
+    /**
+     * When SAVE button is pressed, method will invoke
+     * FileChooser dialog instance and user is then able
+     * to save his work.
+     * @throws FileFormatException
+     */
     public void saveDocument() throws FileFormatException{
         FileChooser fileChooser = new FileChooser();
 
@@ -105,9 +123,13 @@ public class SheetBuilderController {
         }
     }
 
+
+    /**
+     * Method sends given input if correct to the particular cell
+     * whenever is SUBMIT button pressed.
+     */
     public void sendValueToCell() {
         if(valueInputField.getCharacters().toString().matches("[0-9]+")) {
-            System.out.println(valueInputField.getCharacters().toString());
             sheetBuilder.setCellValue(valueInputField.getCharacters().toString(),actualSheet,actualColumnIndex,actualRowIndex);
         }
         else{
@@ -122,12 +144,21 @@ public class SheetBuilderController {
         valueInputField.setText("");
     }
 
+
+    /**
+     * Method will erase given column and recalculate whole sheet.
+     */
     public void deleteColumn() {
-        System.out.println(actualColumn);
         sheetBuilder.deleteColumn(actualColumn);
         updateOptions();
     }
 
+
+    /**
+     * Method will on ADD NEW SHEET button create initial sheet
+     * with name concatenated on hardcoded pattern and new sheet
+     * will be designed in accordance the predefined design.
+     */
     public void addNewSheet(){
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
         try {
@@ -140,7 +171,13 @@ public class SheetBuilderController {
         }
     }
 
+
     ArrayList<MenuItem> currentSheets = new ArrayList<>();
+
+    /**
+     * Method will provide actualization of the option in drop-down menu
+     * for Sheet selection. Recalculation is performed on Mouse Action.
+     */
     private void actualizationSheetSelection() {
         if (budget_tracker.getNumberOfSheets() > sheetSelectButton.getItems().size()) {
             int numOfSheets = budget_tracker.getNumberOfSheets();
@@ -155,6 +192,11 @@ public class SheetBuilderController {
         sheetSelectButton.getItems().addAll(currentSheets);
     }
 
+
+    /**
+     * Method will provide actualization of the option in drop-down menu
+     * for Row selection. Recalculation is performed on Mouse Action.
+     */
     ArrayList<MenuItem> currentRow = new ArrayList<>();
     private void actualizationRowSelection(){
         if(actualSheet == null){
@@ -175,6 +217,10 @@ public class SheetBuilderController {
     }
 
 
+    /**
+     * Method will provide actualization of the option in drop-down menu
+     * for Column selection. Recalculation is performed on Mouse Action.
+     */
     ArrayList<MenuItem> currentColumns = new ArrayList<>();
     private void actualizationColumnsSelection(){
         if(actualSheet == null){
@@ -195,12 +241,20 @@ public class SheetBuilderController {
         columnSelectButton.getItems().addAll(currentColumns);
     }
 
-    public void updateOptions() {
+
+    /**
+     * Method will update Selections Drop-Downs when changes applies.
+     */
+    private void updateOptions() {
         actualizationSheetSelection();
         actualizationColumnsSelection();
         actualizationRowSelection();
     }
 
+
+    /**
+     * Method for actualization of event handlers for particular Menu Items
+     */
     @FXML
     private void updateSheetLabel() {
         for(MenuItem mi : currentSheets){
@@ -212,6 +266,9 @@ public class SheetBuilderController {
         }
     }
 
+    /**
+     * Method for actualization of event handlers for particular Menu Items
+     */
     @FXML
     private void updateColumnsLabel() {
         for (MenuItem mi : currentColumns){
@@ -228,6 +285,11 @@ public class SheetBuilderController {
         }
     }
 
+
+    /**
+     * Method for adding new column. Recalculation of sheet is performed and new column is inserted directly before
+     * TOTAL column.
+     */
     public void addNewColumn() {
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
         try {
@@ -249,6 +311,9 @@ public class SheetBuilderController {
         }
     }
 
+    /**
+     * Method for actualization of event handlers for particular Menu Items
+     */
     @FXML
     private void updateRowLabel() {
         for (MenuItem mi : currentRow){
