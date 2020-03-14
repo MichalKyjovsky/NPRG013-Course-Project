@@ -42,6 +42,11 @@ web-based version of the application.
 If you press *Create new workbook*, new **.xlsx** will be created. As shown on images below you need to set name of the document
 and initial tracking month. After this procedure patterned workbook will be created and scene view will change to the core layer 
 of the application. Plese see attachment bellow. 
-  
+ 
+Name of the document must starts with **character and than numbers, underscores and dashes** are allowed
+![NameSetup](./Documentation/NameSetup.PNG)
+
+Initial Tracking months are indexed with **integers 1-12*
+![MonthSetup](./Documentation/InitialMonth.PNG)
   
   
