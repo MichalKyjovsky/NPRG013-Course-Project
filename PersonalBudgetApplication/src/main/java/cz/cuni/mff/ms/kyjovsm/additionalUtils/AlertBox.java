@@ -24,6 +24,9 @@ public class AlertBox {
     @FXML
     Button closeButton;
     private static boolean status = false;
+    private Tools tool = new Tools();
+    private String relatedFxmlLandingPage = "LandingPage.fxml";
+    private String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
 
 
     public Button getCloseButton(){
@@ -33,6 +36,7 @@ public class AlertBox {
     public Stage getAlertBoxStage() {
         return alertBoxStage;
     }
+
 
     public  void displayAlertBox(String errorStatus){
         alertBoxStage = new Stage();
@@ -60,7 +64,7 @@ public class AlertBox {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Scene reload = null;
         try {
-            reload = new Scene(loadLandingFXML());
+            reload = new Scene(tool.loadFXML(Class.forName(landingPageControllerClassName),relatedFxmlLandingPage));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -70,10 +74,6 @@ public class AlertBox {
         }
     }
 
-    private Parent loadLandingFXML() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(LandingPageController.class.getResource("LandingPage.fxml"));
-        return fxmlLoader.load();
-    }
 
     private Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AlertBox.class.getResource(fxml + ".fxml"));

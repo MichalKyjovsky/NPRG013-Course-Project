@@ -75,8 +75,8 @@ public class SheetBuilder{
                     }
                 }
             }catch (Exception e){
-            };
-            return sheetHeight;
+            }
+        return sheetHeight;
         }
 
     private void remapTotalColumn(Sheet sheet, int position, String columnName){
