@@ -21,8 +21,16 @@ public class SheetNameInitializer {
     @FXML
     private TextField inputLine;
     private Stage dialogWindow;
+    private String sheetNameInitializerClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer";
+    private String relatedFxmlSheet = "SheetNameInitializer.fxml";
+    private String getRelatedFxmlColumn = "ColumnNameInitializer.fxml";
+    private AlertBox alertBox;
+    private SheetBuilder sheetBuilder;
+    private Stage stage;
 
     public SheetNameInitializer(){
+        sheetBuilder = new SheetBuilder();
+        alertBox = new AlertBox();
         dialogWindow = new Stage();
     }
 
@@ -35,21 +43,23 @@ public class SheetNameInitializer {
     }
 
     public void setNewTruckingMonth() throws FXMLLoaderException{
+        Tools tool = new Tools();
         dialogWindow.setResizable(false);
         try {
-             dialogWindow.setScene(new Scene(loadSheetNameInitializerFXML()));
-        }catch (IOException ioe){
-            throw new FXMLLoaderException();
+             dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), relatedFxmlSheet)));
+        }catch (Exception e){
+            throw new FXMLLoaderException(relatedFxmlSheet);
         }
         dialogWindow.show();
     }
 
-    public void addNewColumn(){
+    public void addNewColumn() throws FXMLLoaderException{
         dialogWindow.setResizable(false);
+        Tools tool = new Tools();
         try{
-            dialogWindow.setScene(new Scene(loadColumnNameInitializerFXML()));
-        }catch(IOException ioe){
-            ioe.printStackTrace();
+            dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), getRelatedFxmlColumn)));
+        }catch(Exception e){
+            throw new FXMLLoaderException(getRelatedFxmlColumn);
         }
         dialogWindow.show();
     }
@@ -74,10 +84,8 @@ public class SheetNameInitializer {
 
     @FXML
     private void submitName() {
-        Stage stage = (Stage) submitButton.getScene().getWindow();
+        stage = (Stage) submitButton.getScene().getWindow();
         String newColumnName = inputLine.getCharacters().toString();
-        AlertBox alertBox = new AlertBox();
-        SheetBuilder sheetBuilder = new SheetBuilder();
 
         if(newColumnName.isBlank() || newColumnName.isEmpty()){
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
@@ -89,16 +97,5 @@ public class SheetNameInitializer {
             sheetBuilder.createNewColumn(newColumnName);
             stage.close();
         }
-    }
-
-
-    private Parent loadSheetNameInitializerFXML() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SheetNameInitializer.class.getResource( "SheetNameInitializer.fxml"));
-        return fxmlLoader.load();
-    }
-
-    private Parent loadColumnNameInitializerFXML() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SheetNameInitializer.class.getResource( "ColumnNameInitializer.fxml"));
-        return fxmlLoader.load();
     }
 }

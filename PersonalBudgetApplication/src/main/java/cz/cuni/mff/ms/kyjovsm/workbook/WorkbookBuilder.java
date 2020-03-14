@@ -2,6 +2,7 @@ package cz.cuni.mff.ms.kyjovsm.workbook;
 
 
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
+import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -24,7 +25,7 @@ public class WorkbookBuilder {
     private static final String SEPARATOR = "_";
     private static final String USER_HOME_DIR = "user.home";
     private static final int COLUMNS_WIDTH = 4000;
-    private static final int HEADER_HEIGHT = 60 ;
+    private static final int HEADER_HEIGHT = 40 ;
     private static final String TOTAL_HEADING = "TOTAL";
     private static final String DATE_HEADING = "DATE";
     private static final String DATE_FORMAT = "dd-MM-yyyy";
@@ -42,16 +43,15 @@ public class WorkbookBuilder {
         return initialMonth;
     }
 
-    public Workbook createFromExistingFile() throws FileFormatException{
+    public void createFromExistingFile(String pathToFile){
         workbook = null;
-
-        if(!SheetBuilder.getNameOfTheDocument().strip().isEmpty())
-        try(FileInputStream fis = new FileInputStream(new File(SheetBuilder.getNameOfTheDocument()))){
-            workbook = new XSSFWorkbook(fis);
+        path = pathToFile;
+        try(FileInputStream fis = new FileInputStream(new File(pathToFile))){
+            SheetBuilderController.setBudget_tracker(new XSSFWorkbook(fis));
+            System.out.println("SUCCESS");
         }catch (IOException ioe){
-            throw new FileFormatException();
+            ioe.printStackTrace();
         }
-        return workbook;
     }
 
     public Workbook createInitialWorkbook() throws FileFormatException{
@@ -79,6 +79,8 @@ public class WorkbookBuilder {
         ldt = LocalDateTime.now();
         YearMonth yearMonth = YearMonth.of(ldt.getYear(),initialMonth);
         newSheet.setDefaultColumnWidth(COLUMNS_WIDTH);
+        newSheet.setColumnWidth(0,COLUMNS_WIDTH);
+        newSheet.setColumnWidth(1,COLUMNS_WIDTH);
         Row header = newSheet.createRow(0);
         header.setHeightInPoints(HEADER_HEIGHT);
         CellStyle headerStyleBlack = workbook.createCellStyle();

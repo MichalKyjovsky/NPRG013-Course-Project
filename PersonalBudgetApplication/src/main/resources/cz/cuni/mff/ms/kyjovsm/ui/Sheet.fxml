@@ -38,7 +38,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="deleteColumnButton" mnemonicParsing="false" onAction="#deleteColumn" prefHeight="125.0" prefWidth="125.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css">
+                  <Button fx:id="deleteColumnButton"  mnemonicParsing="false" onAction="#deleteColumn" prefHeight="125.0" prefWidth="125.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css">
                      <graphic>
                         <ImageView fitHeight="115.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -103,7 +103,7 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </MenuButton>
-                  <MenuButton fx:id="rowSelectButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Row" textFill="WHITE">
+                  <MenuButton fx:id="rowSelectButton" onMouseClicked="#updateRowLabel" onMouseMoved="#updateOptions" mnemonicParsing="false" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Row" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -125,7 +125,7 @@
                         <Insets bottom="16.0" left="32.0" right="32.0" top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="375.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="selectedRowLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="375.0" text="0" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="16.0" left="32.0" right="32.0" top="20.0" />
                      </VBox.margin>
