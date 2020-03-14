@@ -60,7 +60,7 @@ between Windows and UNIX-like system users are eliminated.
 
 As you can see on the picture, names of the sheets are concatenated by a pattern. Rows are calculated depending on your
 choice of tracking month. 
-[Excel](./Documentation/Excel.PNG)
+![Excel](./Documentation/Excel.PNG)
 
 
 Let's describe all those buttons. As you might observed they are all marked with description onf their functionality
