@@ -46,7 +46,38 @@ of the application. Plese see attachment bellow.
 Name of the document must starts with **character and than numbers, underscores and dashes** are allowed
 ![NameSetup](./Documentation/NameSetup.PNG)
 
-Initial Tracking months are indexed with **integers 1-12*
+Initial Tracking months are indexed with **Integers 1-12**
 ![MonthSetup](./Documentation/InitialMonth.PNG)
+
+Once you finish procedures above core view will display.
+![Core](./Documentation/Core.PNG)
+
+To core of the application you can get by *Open from local device* button on ***Landing Page***, but **be aware 
+that program is designed for unified formatting as shown on attachment bellow, thus another formats are not accepted!**
+
+When opening from local device, all *File Explorers* are implicitly set to your home directory so any dixcrepancy
+between Windows and UNIX-like system users are eliminated.
+
+As you can see on the picture, names of the sheets are concatenated by a pattern. Rows are calculated depending on your
+choice of tracking month. 
+[Excel](./Documentation/Excel.PNG)
+
+
+Let's describe all those buttons. As you might observed they are all marked with description onf their functionality
+so only bried overview will be provided. If you press on *ADD NEW SHEET* button, dialog demanding new tracking month will
+be invoked (***be aware that in .xlsx cannot exist two same named sheets, because names are generated automatically 
+depending on your input value, do not input same months again***). After that new sheet will be generated
+and by selecting *Select Sheet* drop-down menu you can list bewtween yours sheets, your current chosen sheet will
+be displayed in label horizontaly next to the *Select Sheet* drop-down menu, where initial *0* can be observed. 
+
+When you press *ADD NEW COLUMN* button, dialog window demanding column name will be invoked. Same naming conventions as for
+workbook name applies. Once you setup value new column will be added, column with **TOTAL** heading will be recalculated and moved
+to one position left. Again you can choose by selecting from *Select Column* drop-down menu particular column.
+![Core](./Documentation/Core.PNG)
+
+
+
+
+
   
   
