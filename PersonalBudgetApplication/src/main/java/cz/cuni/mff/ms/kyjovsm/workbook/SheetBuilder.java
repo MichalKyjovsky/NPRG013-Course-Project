@@ -49,6 +49,7 @@ public class SheetBuilder{
     public void setCellValue(String value,Sheet actualSheet, int columnIndex, int rowIndex){
             Double var = Double.parseDouble(value);
             actualSheet.getRow(rowIndex).getCell(columnIndex).setCellValue(String.format("%.2f",var));
+            recalculateTotal(actualSheet);
             saveProgress();
     }
 
@@ -104,7 +105,6 @@ public class SheetBuilder{
                 oldCell.setCellValue(String.format("%.2f", (double) 0));
             }
         }
-        saveProgress();
     }
 
     private void saveProgress(){
@@ -156,6 +156,8 @@ public class SheetBuilder{
         System.out.println(sheetWidth);
         calcSheetHeight(actualSheet);
         remapTotalColumn(actualSheet,sheetWidth,columnName);
+        recalculateTotal(actualSheet);
+        saveProgress();
     }
 
     public void deleteColumn(String columnName){
@@ -228,7 +230,7 @@ public class SheetBuilder{
             for (int j = 1; j < actualSheet.getRow(0).getLastCellNum() - 1; j++ ){
                 sum += Double.parseDouble(actualSheet.getRow(i).getCell(j).getStringCellValue());
             }
-            actualSheet.getRow(i).getCell(actualSheet.getRow(0).getFirstCellNum()).setCellValue(String.format("%.2f CZK",sum));
+            actualSheet.getRow(i).getCell(actualSheet.getRow(0).getLastCellNum() -1).setCellValue(String.format("%.2f CZK",sum));
             sum = 0;
         }
     }
