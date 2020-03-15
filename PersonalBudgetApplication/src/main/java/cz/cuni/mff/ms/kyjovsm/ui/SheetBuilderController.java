@@ -116,7 +116,6 @@ public class SheetBuilderController {
             fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
             fileChooser.setInitialDirectory(Path.of(SheetBuilder.getNameOfTheDocument()).getParent().toFile());
             File file = fileChooser.showSaveDialog(new Stage());
-            (file);
         }
         else {
             throw new FileFormatException();
@@ -200,7 +199,6 @@ public class SheetBuilderController {
     private void actualizationRowSelection(){
         if(actualSheet == null){
             actualSheet = budget_tracker.getSheetAt(0);
-            ("null");
         }
         int numberOfRows = sheetBuilder.calcSheetHeight(actualSheet);
 
@@ -224,7 +222,6 @@ public class SheetBuilderController {
     private static List<MenuItem> currentColumns = new ArrayList<>();
     private void actualizationColumnsSelection(){
         if(actualSheet == null){
-            ("null");
             actualSheet = budget_tracker.getSheetAt(0);
         }
         int numOfColumns = actualSheet.getRow(0).getLastCellNum();
@@ -275,7 +272,6 @@ public class SheetBuilderController {
     private void updateColumnsLabel() {
         for (MenuItem mi : currentColumns){
             mi.setOnAction(e ->{
-                (mi.getText());
                 selectedColumnLabel.setText(mi.getText());
                 actualColumn = mi.getText();
                 for(int i = 0; i < actualSheet.getRow(0).getLastCellNum(); i++) {

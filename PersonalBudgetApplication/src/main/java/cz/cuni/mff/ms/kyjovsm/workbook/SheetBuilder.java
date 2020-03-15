@@ -212,7 +212,6 @@ public class SheetBuilder{
     public void createNewColumn(String columnName){
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
-        (sheetWidth);
         calcSheetHeight(actualSheet);
         remapTotalColumn(actualSheet,sheetWidth,columnName);
         recalculateTotal(actualSheet);
@@ -238,7 +237,6 @@ public class SheetBuilder{
         eraseColumnByIndex(indexOfDeletedColumn,actualSheet);
         remapColumnAfterErasing(indexOfDeletedColumn,actualSheet);
         saveProgress();
-        (indexOfDeletedColumn);
     }
 
     /**
