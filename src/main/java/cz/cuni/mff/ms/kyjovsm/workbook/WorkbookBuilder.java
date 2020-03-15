@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.logging.Logger;
 
 public class WorkbookBuilder {
 
@@ -39,6 +40,7 @@ public class WorkbookBuilder {
     private static final String DATE_HEADING = "DATE";
     private static final String DATE_FORMAT = "dd-MM-yyyy";
     private static final String ACCOUNT_FORMAT = "#,##0.00";
+    private final Logger logger = Logger.getLogger("WorkbookBuilder");
 
     public static String getPath() {
         return path;
@@ -60,6 +62,7 @@ public class WorkbookBuilder {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        logger.fine("Workbook successfully opened");
     }
 
     /**
@@ -81,7 +84,8 @@ public class WorkbookBuilder {
         } catch (IOException ioe) {
             throw new FileFormatException();
         }
-         return workbook;
+        logger.fine("Workbook was successfully initiated and saved to user HOME directory.");
+        return workbook;
     }
 
     /**

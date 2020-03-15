@@ -14,6 +14,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.math3.analysis.function.Log;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -59,6 +60,7 @@ public class SheetBuilderController {
     private static int actualColumnIndex;
     private static int actualRowIndex;
     private final Tools tool = new Tools();
+    private final Logger logger = Logger.getLogger("SheetBuilderController");
 
     public static Sheet getActualSheet() {
         return SheetBuilderController.actualSheet;
@@ -124,6 +126,7 @@ public class SheetBuilderController {
         } else {
             throw new FileFormatException();
         }
+        logger.fine("Workbook was successfully saved.");
     }
 
 
@@ -134,6 +137,7 @@ public class SheetBuilderController {
     public void sendValueToCell() {
         if (valueInputField.getCharacters().toString().matches("[0-9]+")) {
             sheetBuilder.setCellValue(valueInputField.getCharacters().toString(), actualSheet, actualColumnIndex, actualRowIndex);
+            logger.fine(String.format("Value in column: %s for a day: %s was successfully updated.",actualColumn, actualRow));
         } else {
             AlertBox alertBox = new AlertBox();
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
@@ -172,6 +176,7 @@ public class SheetBuilderController {
         selectedColumnLabel.setText(actualColumn);
         columnSelectButton.getItems().remove(toDelete);
         actualizationColumnsSelection();
+        logger.fine("Column was successfully deleted.");
     }
 
 
@@ -187,6 +192,7 @@ public class SheetBuilderController {
             disableAllElements(true);
             sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
             sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
+            logger.fine("New sheet has been added.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -272,7 +278,6 @@ public class SheetBuilderController {
         actualizationRowSelection();
     }
 
-
     /**
      * Method for actualization of event handlers for particular Menu Items.
      */
@@ -331,6 +336,7 @@ public class SheetBuilderController {
                 sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
                 sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
             }
+            logger.fine("New column has been added.");
             updateOptions();
         } catch (Exception e) {
             e.printStackTrace();
