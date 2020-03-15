@@ -2,11 +2,7 @@ package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
 import cz.cuni.mff.ms.kyjovsm.ui.App;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
-import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -17,10 +13,6 @@ public class AlertBoxSaveAndLeave {
 
     private Tools tool;
     private Stage alertBox;
-    private String relatedFxmlAlertBoxSaveAndLeave = "additionalUtils/AlertBoxSaveAndLeave.fxml";
-    private String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
-    private String relatedFxmlLandingPage = "ui/LandingPage.fxml";
-    private String alertBoxSaveAndLeaveClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave";
     @FXML
     private Button continueToHomePageButton;
     @FXML
@@ -46,7 +38,9 @@ public class AlertBoxSaveAndLeave {
         tool = new Tools();
         Scene alertScene = null;
         try {
-            alertScene = new Scene(tool.loadFXML(Class.forName(alertBoxSaveAndLeaveClassName),relatedFxmlAlertBoxSaveAndLeave));
+            String relatedFxmlAlertBoxSaveAndLeave = "additionalUtils/AlertBoxSaveAndLeave.fxml";
+            String alertBoxSaveAndLeaveClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave";
+            alertScene = new Scene(tool.loadFXML(Class.forName(alertBoxSaveAndLeaveClassName), relatedFxmlAlertBoxSaveAndLeave));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -66,7 +60,9 @@ public class AlertBoxSaveAndLeave {
         Stage actual = (Stage) continueToHomePageButton.getScene().getWindow();
         actual.close();
         try {
-            App.changeScene(new Scene(tool.loadFXML(Class.forName(mainClassName),relatedFxmlLandingPage)));
+            String relatedFxmlLandingPage = "ui/LandingPage.fxml";
+            String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
+            App.changeScene(new Scene(tool.loadFXML(Class.forName(mainClassName), relatedFxmlLandingPage)));
         }catch (Exception e1){
             e1.printStackTrace();
         }

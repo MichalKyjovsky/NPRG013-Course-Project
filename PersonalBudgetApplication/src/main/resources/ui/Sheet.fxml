@@ -93,17 +93,17 @@
             <Pane layoutX="452.0" layoutY="-24.0" prefHeight="203.0" prefWidth="414.0" rotate="126.9" style="-fx-background-color: #00cca3; -fx-background-radius: 0 65 65 0;" stylesheets="@../css/LandingPageDesign.css" />
             <VBox alignment="TOP_CENTER" layoutX="83.0" layoutY="45.0" prefHeight="175.0" prefWidth="142.0" spacing="20.0">
                <children>
-                  <MenuButton fx:id="sheetSelectButton" mnemonicParsing="false" onMouseClicked="#updateSheetLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Sheet" textAlignment="CENTER" textFill="#fcfcfc">
+                  <MenuButton fx:id="sheetSelectButton" mnemonicParsing="true" onMouseClicked="#updateSheetLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Sheet" textAlignment="CENTER" textFill="#fcfcfc">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </MenuButton>
-                  <MenuButton fx:id="columnSelectButton" mnemonicParsing="false" onMouseClicked="#updateColumnsLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Column" textAlignment="CENTER" textFill="#f5f2f2">
+                  <MenuButton fx:id="columnSelectButton" mnemonicParsing="true" onMouseClicked="#updateColumnsLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Column" textAlignment="CENTER" textFill="#f5f2f2">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </MenuButton>
-                  <MenuButton fx:id="rowSelectButton" mnemonicParsing="false" onMouseClicked="#updateRowLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Row" textFill="WHITE">
+                  <MenuButton fx:id="rowSelectButton" mnemonicParsing="true" onMouseClicked="#updateRowLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Row" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>

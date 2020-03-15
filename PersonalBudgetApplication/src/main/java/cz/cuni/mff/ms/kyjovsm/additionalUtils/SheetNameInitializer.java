@@ -1,18 +1,12 @@
 package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
-
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SheetNameInitializer {
 
@@ -22,11 +16,8 @@ public class SheetNameInitializer {
     private TextField inputLine;
     private Stage dialogWindow;
     private String sheetNameInitializerClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer";
-    private String relatedFxmlSheet = "additionalUtils/SheetNameInitializer.fxml";
-    private String getRelatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
     private AlertBox alertBox;
     private SheetBuilder sheetBuilder;
-    private Stage stage;
 
     public SheetNameInitializer(){
         sheetBuilder = new SheetBuilder();
@@ -38,10 +29,6 @@ public class SheetNameInitializer {
         return dialogWindow;
     }
 
-    Button getSubmitButton(){
-        return this.submitButton;
-    }
-
 
     /**
      * Based on user input method will initiate new  tracking month for given input and
@@ -51,6 +38,7 @@ public class SheetNameInitializer {
     public void setNewTruckingMonth() throws FXMLLoaderException{
         Tools tool = new Tools();
         dialogWindow.setResizable(false);
+        String relatedFxmlSheet = "additionalUtils/SheetNameInitializer.fxml";
         try {
              dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), relatedFxmlSheet)));
         }catch (Exception e){
@@ -67,6 +55,7 @@ public class SheetNameInitializer {
     public void addNewColumn() throws FXMLLoaderException{
         dialogWindow.setResizable(false);
         Tools tool = new Tools();
+        String getRelatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
         try{
             dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), getRelatedFxmlColumn)));
         }catch(Exception e){
@@ -102,7 +91,7 @@ public class SheetNameInitializer {
      */
     @FXML
     private void submitName() {
-        stage = (Stage) submitButton.getScene().getWindow();
+        Stage stage = (Stage) submitButton.getScene().getWindow();
         String newColumnName = inputLine.getCharacters().toString();
 
         if(newColumnName.isBlank() || newColumnName.isEmpty()){

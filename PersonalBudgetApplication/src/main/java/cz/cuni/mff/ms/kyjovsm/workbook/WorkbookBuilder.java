@@ -39,10 +39,6 @@ public class WorkbookBuilder {
         WorkbookBuilder.initialMonth = initialMonth;
     }
 
-    public static int getInitialMonth() {
-        return initialMonth;
-    }
-
     /**
      * Method will load particular xlsx sheet into the XSSDWorkbook instance
      * @param pathToFile file location of xlsx sheet

@@ -1,7 +1,6 @@
 package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
 import cz.cuni.mff.ms.kyjovsm.ui.App;
-import cz.cuni.mff.ms.kyjovsm.ui.LandingPageController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,9 +23,7 @@ public class AlertBox {
     @FXML
     Button closeButton;
     private static boolean status = false;
-    private Tools tool = new Tools();
-    private String relatedFxmlLandingPage = "ui/LandingPage.fxml";
-    private String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
+    private final Tools tool = new Tools();
 
 
     public Button getCloseButton(){
@@ -72,7 +69,9 @@ public class AlertBox {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Scene reload = null;
         try {
-            reload = new Scene(tool.loadFXML(Class.forName(landingPageControllerClassName),relatedFxmlLandingPage));
+            String relatedFxmlLandingPage = "ui/LandingPage.fxml";
+            String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
+            reload = new Scene(tool.loadFXML(Class.forName(landingPageControllerClassName), relatedFxmlLandingPage));
         }catch (Exception e){
             e.printStackTrace();
         }

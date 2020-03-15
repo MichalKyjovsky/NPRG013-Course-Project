@@ -1,7 +1,6 @@
 package cz.cuni.mff.ms.kyjovsm.workbook;
 
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
-import org.apache.poi.ss.formula.functions.Index;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -213,7 +212,7 @@ public class SheetBuilder{
     public void createNewColumn(String columnName){
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
-        System.out.println(sheetWidth);
+        (sheetWidth);
         calcSheetHeight(actualSheet);
         remapTotalColumn(actualSheet,sheetWidth,columnName);
         recalculateTotal(actualSheet);
@@ -239,26 +238,8 @@ public class SheetBuilder{
         eraseColumnByIndex(indexOfDeletedColumn,actualSheet);
         remapColumnAfterErasing(indexOfDeletedColumn,actualSheet);
         saveProgress();
-        System.out.println(indexOfDeletedColumn);
+        (indexOfDeletedColumn);
     }
-
-
-    /**
-     * Method sets Blank Design, thus the initial one for requested cells.
-     * @param cellStyle
-     */
-    private void setBlankDesign(CellStyle cellStyle){
-        cellStyle.setFillForegroundColor(IndexedColors.WHITE.index);
-        cellStyle.setBorderBottom(BorderStyle.NONE);
-        cellStyle.setBorderLeft(BorderStyle.NONE);
-        cellStyle.setBorderRight(BorderStyle.NONE);
-        cellStyle.setBorderTop(BorderStyle.NONE);
-        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        font.setFontName("Calibri");
-        font.setFontHeight(11);
-        cellStyle.setFont(font);
-    }
-
 
     /**
      * Method on given index erase given column data.

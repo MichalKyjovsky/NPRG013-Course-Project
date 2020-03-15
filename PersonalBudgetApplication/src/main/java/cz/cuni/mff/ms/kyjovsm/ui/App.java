@@ -11,7 +11,6 @@ public class App extends Application {
 
     private static Stage window;
     private Scene  scene;
-    private String relatedFxmlLandingPage = "ui/LandingPage.fxml";
     private static final String LOGO = "pics_source/vault.png";
     private static final String APP_CLASS_NAME = "cz.cuni.mff.ms.kyjovsm.ui.App";
     private static final int WINDOW_HEIGHT = 660;
@@ -25,7 +24,8 @@ public class App extends Application {
         window.setOnCloseRequest(e -> System.exit(0));
         window.getIcons().add(new Image(LOGO));
         try {
-            scene = new Scene(tools.loadFXML(Class.forName(APP_CLASS_NAME),relatedFxmlLandingPage));
+            String relatedFxmlLandingPage = "ui/LandingPage.fxml";
+            scene = new Scene(tools.loadFXML(Class.forName(APP_CLASS_NAME), relatedFxmlLandingPage));
         }catch (Exception e){
             e.printStackTrace();
             //throw new FXMLLoaderException(relatedFxmlLandingPage);

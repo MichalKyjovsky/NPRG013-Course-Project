@@ -3,12 +3,11 @@ package cz.cuni.mff.ms.kyjovsm.ui;
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave;
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer;
+import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
-import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -46,15 +45,15 @@ public class SheetBuilderController {
     Button deleteColumnButton;
     @FXML
     TextField valueInputField;
-    private SheetBuilder sheetBuilder = new SheetBuilder();
+    private final SheetBuilder sheetBuilder = new SheetBuilder();
     private static Workbook budget_tracker;
-    private static final String USER_HOME_DIR = "user.home";
 
     private static Sheet actualSheet;
     private static String actualColumn;
     private static String actualRow;
     private static int actualColumnIndex;
     private static int actualRowIndex;
+    private final Tools tool = new Tools();
 
     public static Sheet getActualSheet(){
         return SheetBuilderController.actualSheet;
@@ -117,7 +116,7 @@ public class SheetBuilderController {
             fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
             fileChooser.setInitialDirectory(Path.of(SheetBuilder.getNameOfTheDocument()).getParent().toFile());
             File file = fileChooser.showSaveDialog(new Stage());
-            System.out.println(file);
+            (file);
         }
         else {
             throw new FileFormatException();
@@ -137,7 +136,6 @@ public class SheetBuilderController {
             AlertBox alertBox = new AlertBox();
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
             disableAllElements(true);
-            Button button = alertBox.getCloseButton();
             Stage stage = alertBox.getAlertBoxStage();
             stage.setOnHidden(e -> {disableAllElements(false);});
             stage.setOnCloseRequest(e -> {disableAllElements(false);});
@@ -173,7 +171,7 @@ public class SheetBuilderController {
     }
 
 
-    List<MenuItem> currentSheets = new ArrayList<>();
+    private static List<MenuItem> currentSheets = new ArrayList<>();
 
     /**
      * Method will provide actualization of the option in drop-down menu
@@ -198,10 +196,11 @@ public class SheetBuilderController {
      * Method will provide actualization of the option in drop-down menu
      * for Row selection. Recalculation is performed on Mouse Action.
      */
-    List<MenuItem> currentRow = new ArrayList<>();
+    private static List<MenuItem> currentRow = new ArrayList<>();
     private void actualizationRowSelection(){
         if(actualSheet == null){
             actualSheet = budget_tracker.getSheetAt(0);
+            ("null");
         }
         int numberOfRows = sheetBuilder.calcSheetHeight(actualSheet);
 
@@ -222,9 +221,10 @@ public class SheetBuilderController {
      * Method will provide actualization of the option in drop-down menu
      * for Column selection. Recalculation is performed on Mouse Action.
      */
-    List<MenuItem> currentColumns = new ArrayList<>();
+    private static List<MenuItem> currentColumns = new ArrayList<>();
     private void actualizationColumnsSelection(){
         if(actualSheet == null){
+            ("null");
             actualSheet = budget_tracker.getSheetAt(0);
         }
         int numOfColumns = actualSheet.getRow(0).getLastCellNum();
@@ -263,7 +263,7 @@ public class SheetBuilderController {
             mi.setOnAction(e -> {
                 selectedSheetLabel.setText(mi.getText());
                 actualSheet = budget_tracker.getSheet(mi.getText());
-                System.out.println(budget_tracker.getSheet(mi.getText()));
+                updateOptions();
             });
         }
     }
@@ -275,7 +275,7 @@ public class SheetBuilderController {
     private void updateColumnsLabel() {
         for (MenuItem mi : currentColumns){
             mi.setOnAction(e ->{
-                System.out.println(mi.getText());
+                (mi.getText());
                 selectedColumnLabel.setText(mi.getText());
                 actualColumn = mi.getText();
                 for(int i = 0; i < actualSheet.getRow(0).getLastCellNum(); i++) {
@@ -320,7 +320,6 @@ public class SheetBuilderController {
     private void updateRowLabel() {
         for (MenuItem mi : currentRow){
             mi.setOnAction(e ->{
-                System.out.println(mi.getText());
                 selectedRowLabel.setText(mi.getText());
                 actualRow = mi.getText();
                 for(int i = 0; i < SheetBuilder.getSheetHeight(); i++) {
