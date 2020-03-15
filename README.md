@@ -32,7 +32,7 @@ and run the project via commands:
   ```
   
 After commands above were executed, landing page of the application will display.  
-![Landing page](../Documentation/LandingPage.PNG)
+![Landing page](Documentation/LandingPage.PNG)
 
 In current version of application are only features *Create new workbook* and *Open from local device* fully operational. 
 Feature *Open from OneDrive* is partly included in *Open from local device* if you have your hard drive synchronized with 
@@ -87,7 +87,7 @@ On the bottom of the window can be seen Input field and *SUBMIT* button. These p
 
 Very last is the button in upper right corner with hoome image, which will take you to the *Landing Page* and close current workbook.
 
-![Core](../Documentation/Core.PNG)
+![Core](Documentation/Core.PNG)
 
 ## Limitations and exclusions 
 As mentioned before the functionality of **OneDrive** is not included in current version.
