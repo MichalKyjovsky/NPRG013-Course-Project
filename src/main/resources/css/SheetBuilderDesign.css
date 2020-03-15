@@ -15,6 +15,23 @@
     -fx-background-radius :  20 20 20 20;
 }
 
+.button_pattern2
+{
+    -fx-background-color :  #1affff;
+    -fx-background-radius :  20 20 20 20;
+}
+
+.button_pattern2:hover
+{
+    -fx-background-color :  #00ffcc;
+    -fx-background-radius :  20 20 20 20;
+}
+.button_pattern2:pressed
+{
+    -fx-background-color : #00cca3;
+    -fx-background-radius :  20 20 20 20;
+}
+
 .button_pattern_home
 {
     -fx-background-color :  #204060;
@@ -56,3 +73,7 @@
     -fx-border-color:  #00cca3;
 }
 
+.button_pattern2 .menu-item{
+    -fx-background-color: #00cca3;
+    -fx-border-color:  #00cca3;
+}

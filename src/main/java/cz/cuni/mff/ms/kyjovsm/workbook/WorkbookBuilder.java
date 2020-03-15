@@ -75,8 +75,8 @@ public class WorkbookBuilder {
         try (FileOutputStream outputStream = new FileOutputStream(path)) {
             workbook = new XSSFWorkbook();
             ldt = LocalDateTime.now();
-            Sheet sheet_01 = workbook.createSheet(SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear());
-            createInitialSheet(sheet_01, initialMonth, this.workbook);
+            Sheet sheet01 = workbook.createSheet(SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear());
+            createInitialSheet(sheet01, initialMonth, this.workbook);
             workbook.write(outputStream);
         } catch (IOException ioe) {
             throw new FileFormatException();

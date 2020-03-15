@@ -8,11 +8,17 @@ import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class WorkbookController {
+import java.util.ArrayList;
+import java.util.List;
 
+public class WorkbookController {
+    @FXML
+    private MenuButton selectMonthButton;
     @FXML
     private Button submitMonthButton;
     @FXML
@@ -88,43 +94,26 @@ public class WorkbookController {
      */
     @FXML
     private void setupInitialMonth() {
-        Stage stage = null;
-        alertBox = new AlertBox();
-        try {
-            stage = (Stage) submitMonthButton.getScene().getWindow();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<MenuItem> menuItems = selectMonthButton.getItems();
+        String relatedFxmlSheet = "ui/Sheet.fxml";
+        String sheetBuilderControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
 
-        String monthInput = inputField.getCharacters().toString();
-        try {
-            if (!monthInput.isEmpty() && monthInput.matches("[0-9]*")) {
-
-                int month = Integer.parseInt(monthInput);
-
-                if (month >= 1 && month <= 12) {
-                    String relatedFxmlSheet = "ui/Sheet.fxml";
-                    try {
-                        WorkbookBuilder workbookBuilder = new WorkbookBuilder();
-                        WorkbookBuilder.setInitialMonth(month);
-                        String sheetBuilderControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
-                        App.changeScene(new Scene(tool.loadFXML(Class.forName(sheetBuilderControllerClassName), relatedFxmlSheet)));
-                        SheetBuilderController.setBudgetTracker(workbookBuilder.createInitialWorkbook());
-                        stage.close();
-                    } catch (Exception e) {
-                        throw new FXMLLoaderException(relatedFxmlSheet);
-                    }
-                } else {
-                    alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-                    inputField.setText("");
+        for (MenuItem mi : menuItems){
+            mi.setOnAction(e -> {
+                int index = menuItems.indexOf(mi) + 1;
+                WorkbookBuilder.setInitialMonth(index);
+                try {
+                    Stage stage = (Stage) selectMonthButton.getScene().getWindow();
+                    App.changeScene(new Scene(tool.loadFXML(Class.forName(sheetBuilderControllerClassName), relatedFxmlSheet)));
+                    SheetBuilderController.setBudgetTracker(new WorkbookBuilder().createInitialWorkbook());
+                    stage.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-            } else {
-                alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-                inputField.setText("");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            });
         }
+
     }
 }
 
