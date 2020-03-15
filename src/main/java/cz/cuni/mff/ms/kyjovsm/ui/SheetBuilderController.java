@@ -183,7 +183,7 @@ public class SheetBuilderController {
     public void addNewSheet() {
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
         try {
-            sheetNameInitializer.setNewTruckingMonth();
+            sheetNameInitializer.setNewTrackingMonth();
             disableAllElements(true);
             sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
             sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));

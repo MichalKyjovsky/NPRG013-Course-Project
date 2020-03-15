@@ -1,15 +1,23 @@
 package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.ui.App;
+import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
+import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class SheetNameInitializer {
+import java.util.List;
 
+public class SheetNameInitializer {
+    @FXML
+    private MenuButton selectMonthButton;
     @FXML
     private Button submitButton;
     @FXML
@@ -35,7 +43,7 @@ public class SheetNameInitializer {
      * new sheet based on the given information will be created.
      * @throws FXMLLoaderException
      */
-    public void setNewTruckingMonth() throws FXMLLoaderException {
+    public void setNewTrackingMonth() throws FXMLLoaderException {
         Tools tool = new Tools();
         dialogWindow.setResizable(false);
         String relatedFxmlSheet = "additionalUtils/SheetNameInitializer.fxml";
@@ -55,11 +63,11 @@ public class SheetNameInitializer {
     public void addNewColumn() throws FXMLLoaderException {
         dialogWindow.setResizable(false);
         Tools tool = new Tools();
-        String getRelatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
+        String RelatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
         try {
-            dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), getRelatedFxmlColumn)));
+            dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), RelatedFxmlColumn)));
         } catch(Exception e) {
-            throw new FXMLLoaderException(getRelatedFxmlColumn);
+            throw new FXMLLoaderException(RelatedFxmlColumn);
         }
         dialogWindow.show();
     }
@@ -70,18 +78,19 @@ public class SheetNameInitializer {
      */
     @FXML
     private void submitMonth() {
-        Stage stage = (Stage) submitButton.getScene().getWindow();
-        String newInitialMonth = inputLine.getCharacters().toString();
-        AlertBox alertBox = new AlertBox();
-        SheetBuilder sheetBuilder = new SheetBuilder();
+        List<MenuItem> menuItems = selectMonthButton.getItems();
 
-        if (newInitialMonth.isEmpty() || newInitialMonth.isBlank()) {
-            alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
-        } else if (!newInitialMonth.matches("[0-9]*")) {
-            alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-        } else {
-            sheetBuilder.createNewSheet(newInitialMonth);
-            stage.close();
+        for (MenuItem mi : menuItems){
+            mi.setOnAction(e -> {
+                int index = menuItems.indexOf(mi) + 1;
+                try {
+                    Stage stage = (Stage) selectMonthButton.getScene().getWindow();
+                    sheetBuilder.createNewSheet(index);
+                    stage.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
         }
     }
 
@@ -96,9 +105,11 @@ public class SheetNameInitializer {
 
         if (newColumnName.isBlank() || newColumnName.isEmpty()) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
-        } else if (!newColumnName.matches("[a-zA-z][a-zA-Z0-9_-]*")) {
+        }
+        else if (!newColumnName.matches("[a-zA-z][a-zA-Z0-9_-]*")){
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-        } else {
+        }
+        else{
             sheetBuilder.createNewColumn(newColumnName);
             stage.close();
         }

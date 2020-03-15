@@ -75,14 +75,14 @@ public class SheetBuilder {
      * with predefined pattern and naming conventions
      * @param initialMonth initial tracking month
      */
-    public void createNewSheet(String initialMonth) {
+    public void createNewSheet(int initialMonth) {
         LocalDateTime ldt = LocalDateTime.now();
-        String sheetName = SHEET_PREFIX + new DateFormatSymbols().getMonths()[Integer.parseInt(initialMonth) - 1].toUpperCase() + SEPARATOR + ldt.getYear();
+        String sheetName = SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear();
         Sheet newSheet = workbook.createSheet(sheetName);
 
         try (FileOutputStream fio = new FileOutputStream(WorkbookBuilder.getPath())) {
             WorkbookBuilder workbookBuilder = new WorkbookBuilder();
-            workbookBuilder.createInitialSheet(newSheet, Integer.parseInt(initialMonth), workbook);
+            workbookBuilder.createInitialSheet(newSheet, initialMonth, workbook);
             workbook.write(fio);
         } catch (IOException ioe) {
             ioe.printStackTrace();
