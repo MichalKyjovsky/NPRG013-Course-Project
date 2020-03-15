@@ -83,7 +83,7 @@ public class AlertBox {
 
 
     private Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AlertBox.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(AlertBox.class.getClassLoader().getResource("additionalUtils/"+ fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

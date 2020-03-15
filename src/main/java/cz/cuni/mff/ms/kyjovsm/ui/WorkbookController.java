@@ -79,7 +79,8 @@ public class WorkbookController {
             }
         }
         catch (Exception e){
-            throw new FXMLLoaderException(relatedFxmlInitialMonthDialog);
+            //throw new FXMLLoaderException(relatedFxmlInitialMonthDialog);
+            e.printStackTrace();
         }
     }
 
