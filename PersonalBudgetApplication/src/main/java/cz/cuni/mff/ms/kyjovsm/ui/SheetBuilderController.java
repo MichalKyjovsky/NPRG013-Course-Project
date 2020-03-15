@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SheetBuilderController {
     @FXML
@@ -172,7 +173,7 @@ public class SheetBuilderController {
     }
 
 
-    ArrayList<MenuItem> currentSheets = new ArrayList<>();
+    List<MenuItem> currentSheets = new ArrayList<>();
 
     /**
      * Method will provide actualization of the option in drop-down menu
@@ -197,7 +198,7 @@ public class SheetBuilderController {
      * Method will provide actualization of the option in drop-down menu
      * for Row selection. Recalculation is performed on Mouse Action.
      */
-    ArrayList<MenuItem> currentRow = new ArrayList<>();
+    List<MenuItem> currentRow = new ArrayList<>();
     private void actualizationRowSelection(){
         if(actualSheet == null){
             actualSheet = budget_tracker.getSheetAt(0);
@@ -221,7 +222,7 @@ public class SheetBuilderController {
      * Method will provide actualization of the option in drop-down menu
      * for Column selection. Recalculation is performed on Mouse Action.
      */
-    ArrayList<MenuItem> currentColumns = new ArrayList<>();
+    List<MenuItem> currentColumns = new ArrayList<>();
     private void actualizationColumnsSelection(){
         if(actualSheet == null){
             actualSheet = budget_tracker.getSheetAt(0);
