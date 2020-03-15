@@ -26,7 +26,7 @@ public class LandingPageController {
     @FXML
     private Button openFromCloudButton;
 
-    private String relatedFxmlSheet = "Sheet.fxml";
+    private String relatedFxmlSheet = "ui/Sheet.fxml";
     private String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
     private static final String FILE_SUFFIX = ".xlsx";
 

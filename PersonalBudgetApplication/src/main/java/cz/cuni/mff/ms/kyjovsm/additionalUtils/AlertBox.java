@@ -25,7 +25,7 @@ public class AlertBox {
     Button closeButton;
     private static boolean status = false;
     private Tools tool = new Tools();
-    private String relatedFxmlLandingPage = "LandingPage.fxml";
+    private String relatedFxmlLandingPage = "ui/LandingPage.fxml";
     private String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
 
 

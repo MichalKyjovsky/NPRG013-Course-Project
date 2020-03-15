@@ -22,8 +22,8 @@ public class SheetNameInitializer {
     private TextField inputLine;
     private Stage dialogWindow;
     private String sheetNameInitializerClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer";
-    private String relatedFxmlSheet = "SheetNameInitializer.fxml";
-    private String getRelatedFxmlColumn = "ColumnNameInitializer.fxml";
+    private String relatedFxmlSheet = "additionalUtils/SheetNameInitializer.fxml";
+    private String getRelatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
     private AlertBox alertBox;
     private SheetBuilder sheetBuilder;
     private Stage stage;

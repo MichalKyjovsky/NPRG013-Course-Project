@@ -26,9 +26,9 @@ public class WorkbookController {
     private Stage window;
     private AlertBox alertBox;
     private Scene workBookInitializer;
-    private String relatedFxmlWorkbook = "Workbook.fxml";
-    private String relatedFxmlSheet = "Sheet.fxml";
-    private String relatedFxmlInitialMonthDialog = "InitialMonthDialog.fxml";
+    private String relatedFxmlWorkbook = "ui/Workbook.fxml";
+    private String relatedFxmlSheet = "ui/Sheet.fxml";
+    private String relatedFxmlInitialMonthDialog = "ui/InitialMonthDialog.fxml";
     private String workbookControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.WorkbookController";
     private String sheetBuilderControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
     private Tools tool;

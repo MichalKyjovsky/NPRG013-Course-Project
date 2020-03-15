@@ -17,9 +17,9 @@ public class AlertBoxSaveAndLeave {
 
     private Tools tool;
     private Stage alertBox;
-    private String relatedFxmlAlertBoxSaveAndLeave = "AlertBoxSaveAndLeave.fxml";
+    private String relatedFxmlAlertBoxSaveAndLeave = "additionalUtils/AlertBoxSaveAndLeave.fxml";
     private String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
-    private String relatedFxmlLandingPage = "LandingPage.fxml";
+    private String relatedFxmlLandingPage = "ui/LandingPage.fxml";
     private String alertBoxSaveAndLeaveClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave";
     @FXML
     private Button continueToHomePageButton;

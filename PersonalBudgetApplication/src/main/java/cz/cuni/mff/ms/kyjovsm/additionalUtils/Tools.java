@@ -16,7 +16,7 @@ public class Tools {
      * @throws IOException
      */
     public Parent loadFXML(Class<?> cls, String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(cls.getResource(fxml));
+        FXMLLoader fxmlLoader = new FXMLLoader(cls.getClassLoader().getResource(fxml));
         return fxmlLoader.load();
     }
 }

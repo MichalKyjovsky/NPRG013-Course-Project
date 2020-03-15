@@ -11,11 +11,11 @@ public class App extends Application {
 
     private static Stage window;
     private Scene  scene;
-    private String relatedFxmlLandingPage = "LandingPage.fxml";
+    private String relatedFxmlLandingPage = "ui/LandingPage.fxml";
     private static final String LOGO = "pics_source/vault.png";
     private static final String APP_CLASS_NAME = "cz.cuni.mff.ms.kyjovsm.ui.App";
     private static final int WINDOW_HEIGHT = 660;
-    private static final int WINDOW_WIDTH = 950;
+    private static final int WINDOW_WIDTH = 660;
 
 
     @Override
@@ -27,7 +27,8 @@ public class App extends Application {
         try {
             scene = new Scene(tools.loadFXML(Class.forName(APP_CLASS_NAME),relatedFxmlLandingPage));
         }catch (Exception e){
-            throw new FXMLLoaderException(relatedFxmlLandingPage);
+            e.printStackTrace();
+            //throw new FXMLLoaderException(relatedFxmlLandingPage);
         }
 
         setWindowSize(WINDOW_HEIGHT,WINDOW_WIDTH);
