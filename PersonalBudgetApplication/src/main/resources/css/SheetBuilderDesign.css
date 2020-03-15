@@ -1,0 +1,58 @@
+.button_pattern
+{
+    -fx-background-color :  #204060;
+    -fx-background-radius :  20 20 20 20;
+}
+
+.button_pattern:hover
+{
+    -fx-background-color :  #00ffcc;
+    -fx-background-radius :  20 20 20 20;
+}
+.button_pattern:pressed
+{
+    -fx-background-color : #00cca3;
+    -fx-background-radius :  20 20 20 20;
+}
+
+.button_pattern_home
+{
+    -fx-background-color :  #204060;
+    -fx-background-radius :  15 15 15 15;
+}
+
+.button_pattern_home:hover
+{
+    -fx-background-color :  #00ffcc;
+    -fx-background-radius :  15 15 15 15;
+}
+.button_pattern_home:pressed
+{
+    -fx-background-color : #00cca3;
+    -fx-background-radius :  15 15 15 15;
+}
+
+.split-menu-button .arrow-button {
+    -fx-background-color: #204060;
+    -fx-border-color: #204060;
+}
+.split-menu-button .arrow-button:hover {
+    -fx-background-color: #00ffcc ;
+    -fx-border-color:#00ffcc;
+}
+
+.split-menu-button .arrow-button:pressed {
+    -fx-background-color: #00cca3;
+    -fx-border-color: #00cca3;
+}
+
+.split-menu-button .label {
+    -fx-background-color:  #00cca3;
+    -fx-border-color:  #00cca3;
+}
+
+.button_pattern .menu-item{
+    -fx-background-color: #00cca3;
+    -fx-border-color:  #00cca3;
+}
+

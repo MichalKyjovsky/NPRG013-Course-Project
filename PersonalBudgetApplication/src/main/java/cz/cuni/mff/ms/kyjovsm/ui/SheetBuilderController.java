@@ -245,6 +245,7 @@ public class SheetBuilderController {
     /**
      * Method will update Selections Drop-Downs when changes applies.
      */
+    @FXML
     private void updateOptions() {
         actualizationSheetSelection();
         actualizationColumnsSelection();

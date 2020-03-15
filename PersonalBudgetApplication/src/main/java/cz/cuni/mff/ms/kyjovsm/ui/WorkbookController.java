@@ -115,14 +115,15 @@ public class WorkbookController {
 
                 if(month >= 1 && month <=12) {
                     try {
-
                         WorkbookBuilder workbookBuilder = new WorkbookBuilder();
                         WorkbookBuilder.setInitialMonth(month);
+                        System.out.println(Class.forName(sheetBuilderControllerClassName));
                         App.changeScene(new Scene(tool.loadFXML(Class.forName(sheetBuilderControllerClassName),relatedFxmlSheet)));
                         SheetBuilderController.setBudget_tracker(workbookBuilder.createInitialWorkbook());
                         stage.close();
                     }catch (Exception e){
-                        throw new FXMLLoaderException(relatedFxmlSheet);
+                        e.printStackTrace();
+                       // throw new FXMLLoaderException(relatedFxmlSheet);
                     }
                 }
                 else{

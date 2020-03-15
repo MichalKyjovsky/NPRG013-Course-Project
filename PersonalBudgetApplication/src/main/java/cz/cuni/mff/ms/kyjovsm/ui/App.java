@@ -3,20 +3,16 @@ package cz.cuni.mff.ms.kyjovsm.ui;
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class App extends Application {
 
     private static Stage window;
     private Scene  scene;
     private String relatedFxmlLandingPage = "LandingPage.fxml";
-    private static final String logo = "cz/cuni/mff/ms/kyjovsm/pics_source/vault.png";
+    private static final String logo = "pics_source/vault.png";
     private static final String appClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
     private static final int windowHeight = 660;
     private static final int windowWith = 950;
