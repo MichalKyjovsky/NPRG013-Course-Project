@@ -32,7 +32,7 @@ and run the project via commands:
   ```
   
 After commands above were executed, landing page of the application will display.  
-![Landing page](Documentation/LandingPage.PNG)
+![Landing page](../Documentation/LandingPage.PNG)
 
 In current version of application are only features *Create new workbook* and *Open from local device* fully operational. 
 Feature *Open from OneDrive* is partly included in *Open from local device* if you have your hard drive synchronized with 
@@ -44,13 +44,13 @@ and initial tracking month. After this procedure patterned workbook will be crea
 of the application. Plese see attachment bellow. 
  
 Name of the document must starts with **character and than numbers, underscores and dashes** are allowed
-![NameSetup](Documentation/NameSetup.PNG)
+![NameSetup](../Documentation/NameSetup.PNG)
 
 Initial Tracking months are indexed with **Integers 1-12**
-![MonthSetup](Documentation/InitialMonth.PNG)
+![MonthSetup](../Documentation/InitialMonth.PNG)
 
 Once you finish procedures above core view will display.
-![Core](Documentation/Core.PNG)
+![Core](../Documentation/Core.PNG)
 
 To core of the application you can get by *Open from local device* button on ***Landing Page***, but **be aware 
 that program is designed for unified formatting as shown on attachment bellow, thus another formats are not accepted!**
@@ -60,7 +60,7 @@ between Windows and UNIX-like system users are eliminated.
 
 As you can see on the picture, names of the sheets are concatenated by a pattern. Rows are calculated depending on your
 choice of tracking month. 
-![Excel](Documentation/Excel.PNG)
+![Excel](../Documentation/Excel.PNG)
 
 
 Let's describe all those buttons. As you might observed they are all marked with description onf their functionality
@@ -87,7 +87,7 @@ On the bottom of the window can be seen Input field and *SUBMIT* button. These p
 
 Very last is the button in upper right corner with hoome image, which will take you to the *Landing Page* and close current workbook.
 
-![Core](Documentation/Core.PNG)
+![Core](../Documentation/Core.PNG)
 
 ## Limitations and exclusions 
 As mentioned before the functionality of **OneDrive** is not included in current version.
