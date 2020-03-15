@@ -108,7 +108,6 @@ public class WorkbookController {
                         WorkbookBuilder workbookBuilder = new WorkbookBuilder();
                         WorkbookBuilder.setInitialMonth(month);
                         String sheetBuilderControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
-                        (Class.forName(sheetBuilderControllerClassName));
                         String relatedFxmlSheet = "ui/Sheet.fxml";
                         App.changeScene(new Scene(tool.loadFXML(Class.forName(sheetBuilderControllerClassName), relatedFxmlSheet)));
                         SheetBuilderController.setBudget_tracker(workbookBuilder.createInitialWorkbook());
