@@ -19,7 +19,7 @@ public class SheetNameInitializer {
     private AlertBox alertBox;
     private SheetBuilder sheetBuilder;
 
-    public SheetNameInitializer(){
+    public SheetNameInitializer() {
         sheetBuilder = new SheetBuilder();
         alertBox = new AlertBox();
         dialogWindow = new Stage();
@@ -35,13 +35,13 @@ public class SheetNameInitializer {
      * new sheet based on the given information will be created.
      * @throws FXMLLoaderException
      */
-    public void setNewTruckingMonth() throws FXMLLoaderException{
+    public void setNewTruckingMonth() throws FXMLLoaderException {
         Tools tool = new Tools();
         dialogWindow.setResizable(false);
         String relatedFxmlSheet = "additionalUtils/SheetNameInitializer.fxml";
         try {
              dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), relatedFxmlSheet)));
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new FXMLLoaderException(relatedFxmlSheet);
         }
         dialogWindow.show();
@@ -52,13 +52,13 @@ public class SheetNameInitializer {
      * When user press "ADD NEW COLUMN" method starts initiation process.
      * @throws FXMLLoaderException
      */
-    public void addNewColumn() throws FXMLLoaderException{
+    public void addNewColumn() throws FXMLLoaderException {
         dialogWindow.setResizable(false);
         Tools tool = new Tools();
         String getRelatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
-        try{
+        try {
             dialogWindow.setScene(new Scene(tool.loadFXML(Class.forName(sheetNameInitializerClassName), getRelatedFxmlColumn)));
-        }catch(Exception e){
+        } catch(Exception e) {
             throw new FXMLLoaderException(getRelatedFxmlColumn);
         }
         dialogWindow.show();
@@ -69,17 +69,17 @@ public class SheetNameInitializer {
      * wul then secure new sheet initiation and creation.
      */
     @FXML
-    private void submitMonth(){
+    private void submitMonth() {
         Stage stage = (Stage) submitButton.getScene().getWindow();
         String newInitialMonth = inputLine.getCharacters().toString();
         AlertBox alertBox = new AlertBox();
         SheetBuilder sheetBuilder = new SheetBuilder();
 
-        if (newInitialMonth.isEmpty() || newInitialMonth.isBlank()){
+        if (newInitialMonth.isEmpty() || newInitialMonth.isBlank()) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
-        } else if (!newInitialMonth.matches("[0-9]*")){
+        } else if (!newInitialMonth.matches("[0-9]*")) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-        }else {
+        } else {
             sheetBuilder.createNewSheet(newInitialMonth);
             stage.close();
         }
@@ -94,13 +94,11 @@ public class SheetNameInitializer {
         Stage stage = (Stage) submitButton.getScene().getWindow();
         String newColumnName = inputLine.getCharacters().toString();
 
-        if(newColumnName.isBlank() || newColumnName.isEmpty()){
+        if (newColumnName.isBlank() || newColumnName.isEmpty()) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
-        }
-        else if (!newColumnName.matches("[a-zA-z][a-zA-Z0-9_-]*")){
+        } else if (!newColumnName.matches("[a-zA-z][a-zA-Z0-9_-]*")) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-        }
-        else{
+        } else {
             sheetBuilder.createNewColumn(newColumnName);
             stage.close();
         }

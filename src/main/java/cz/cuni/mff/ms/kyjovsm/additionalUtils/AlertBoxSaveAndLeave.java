@@ -18,7 +18,7 @@ public class AlertBoxSaveAndLeave {
     @FXML
     private Button stayAndSaveButton;
 
-    public Button getContinueToHomePageButton(){
+    public Button getContinueToHomePageButton() {
         return this.continueToHomePageButton;
     }
 
@@ -33,7 +33,7 @@ public class AlertBoxSaveAndLeave {
     /**
      * Method will display dialog before leaving to home page.
      */
-    public void invokeDialog(){
+    public void invokeDialog() {
         alertBox = new Stage();
         tool = new Tools();
         Scene alertScene = null;
@@ -41,7 +41,7 @@ public class AlertBoxSaveAndLeave {
             String relatedFxmlAlertBoxSaveAndLeave = "additionalUtils/AlertBoxSaveAndLeave.fxml";
             String alertBoxSaveAndLeaveClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave";
             alertScene = new Scene(tool.loadFXML(Class.forName(alertBoxSaveAndLeaveClassName), relatedFxmlAlertBoxSaveAndLeave));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -63,7 +63,7 @@ public class AlertBoxSaveAndLeave {
             String relatedFxmlLandingPage = "ui/LandingPage.fxml";
             String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
             App.changeScene(new Scene(tool.loadFXML(Class.forName(mainClassName), relatedFxmlLandingPage)));
-        }catch (Exception e1){
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
     }
@@ -75,8 +75,8 @@ public class AlertBoxSaveAndLeave {
     public void stayAndSave() {
         Stage actual = (Stage) continueToHomePageButton.getScene().getWindow();
         try {
-            SheetBuilderController.getBudget_tracker().close();
-        }catch (IOException ioe){
+            SheetBuilderController.getBudgetTracker().close();
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
         actual.close();

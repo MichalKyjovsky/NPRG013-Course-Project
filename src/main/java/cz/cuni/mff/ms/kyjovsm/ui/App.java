@@ -18,31 +18,29 @@ public class App extends Application {
 
 
     @Override
-    public void start(Stage stage) throws FXMLLoaderException {
+    public void start(final Stage stage) throws FXMLLoaderException {
         Tools tools = new Tools();
         window = stage;
         window.setOnCloseRequest(e -> System.exit(0));
         window.getIcons().add(new Image(LOGO));
+        String relatedFxmlLandingPage = "ui/LandingPage.fxml";
         try {
-            String relatedFxmlLandingPage = "ui/LandingPage.fxml";
             scene = new Scene(tools.loadFXML(Class.forName(APP_CLASS_NAME), relatedFxmlLandingPage));
-        }catch (Exception e){
-            e.printStackTrace();
-            //throw new FXMLLoaderException(relatedFxmlLandingPage);
+        } catch (Exception e) {
+            throw new FXMLLoaderException(relatedFxmlLandingPage);
         }
-
-        setWindowSize(WINDOW_HEIGHT,WINDOW_WIDTH);
+        setWindowSize(WINDOW_HEIGHT, WINDOW_WIDTH);
         window.setScene(scene);
         window.show();
     }
 
 
-    public static void changeScene(Scene scene){
+    public static void changeScene(Scene scene) {
         window.setScene(scene);
         window.show();
     }
 
-    private void setWindowSize(double height, double width){
+    private void setWindowSize(double height, double width) {
         window.setMinHeight(height);
         window.setMinWidth(width);
     }

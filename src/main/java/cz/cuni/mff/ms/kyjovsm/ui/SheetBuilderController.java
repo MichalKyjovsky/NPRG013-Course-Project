@@ -7,7 +7,11 @@ import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,33 +24,33 @@ import java.util.List;
 
 public class SheetBuilderController {
     @FXML
-    Label selectedRowLabel;
+    private Label selectedRowLabel;
     @FXML
-    Label selectedColumnLabel;
+    private Label selectedColumnLabel;
     @FXML
-    Label selectedSheetLabel;
+    private Label selectedSheetLabel;
     @FXML
-    MenuButton rowSelectButton;
+    private MenuButton rowSelectButton;
     @FXML
-    MenuButton columnSelectButton;
+    private MenuButton columnSelectButton;
     @FXML
-    MenuButton sheetSelectButton;
+    private MenuButton sheetSelectButton;
     @FXML
-    Button submitValueButton;
+    private Button submitValueButton;
     @FXML
-    Button saveButton;
+    private Button saveButton;
     @FXML
-    Button addColumnButton;
+    private Button addColumnButton;
     @FXML
-    Button addSheetButton;
+    private Button addSheetButton;
     @FXML
-    Button homeButton;
+    private Button homeButton;
     @FXML
-    Button deleteColumnButton;
+    private Button deleteColumnButton;
     @FXML
-    TextField valueInputField;
+    private TextField valueInputField;
     private final SheetBuilder sheetBuilder = new SheetBuilder();
-    private static Workbook budget_tracker;
+    private static Workbook budgetTracker;
 
     private static Sheet actualSheet;
     private static String actualColumn;
@@ -55,16 +59,16 @@ public class SheetBuilderController {
     private static int actualRowIndex;
     private final Tools tool = new Tools();
 
-    public static Sheet getActualSheet(){
+    public static Sheet getActualSheet() {
         return SheetBuilderController.actualSheet;
     }
 
-    public static void setBudget_tracker(Workbook budget_tracker) {
-        SheetBuilderController.budget_tracker = budget_tracker;
+    public static void setBudgetTracker(Workbook tracker) {
+        SheetBuilderController.budgetTracker = tracker;
     }
 
-    public static Workbook getBudget_tracker() {
-        return budget_tracker;
+    public static Workbook getBudgetTracker() {
+        return budgetTracker;
     }
 
 
@@ -89,7 +93,7 @@ public class SheetBuilderController {
      * and it is necessary to disable all other buttons.
      * @param statement
      */
-    private void disableAllElements(boolean statement){
+    private void disableAllElements(boolean statement) {
         homeButton.setDisable(statement);
         submitValueButton.setDisable(statement);
         saveButton.setDisable(statement);
@@ -109,15 +113,14 @@ public class SheetBuilderController {
      * to save his work.
      * @throws FileFormatException
      */
-    public void saveDocument() throws FileFormatException{
+    public void saveDocument() throws FileFormatException {
         FileChooser fileChooser = new FileChooser();
 
         if (!SheetBuilder.getNameOfTheDocument().strip().isEmpty()) {
             fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
             fileChooser.setInitialDirectory(Path.of(SheetBuilder.getNameOfTheDocument()).getParent().toFile());
             File file = fileChooser.showSaveDialog(new Stage());
-        }
-        else {
+        } else {
             throw new FileFormatException();
         }
     }
@@ -128,16 +131,15 @@ public class SheetBuilderController {
      * whenever is SUBMIT button pressed.
      */
     public void sendValueToCell() {
-        if(valueInputField.getCharacters().toString().matches("[0-9]+")) {
-            sheetBuilder.setCellValue(valueInputField.getCharacters().toString(),actualSheet,actualColumnIndex,actualRowIndex);
-        }
-        else{
+        if (valueInputField.getCharacters().toString().matches("[0-9]+")) {
+            sheetBuilder.setCellValue(valueInputField.getCharacters().toString(), actualSheet, actualColumnIndex, actualRowIndex);
+        } else {
             AlertBox alertBox = new AlertBox();
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
             disableAllElements(true);
             Stage stage = alertBox.getAlertBoxStage();
-            stage.setOnHidden(e -> {disableAllElements(false);});
-            stage.setOnCloseRequest(e -> {disableAllElements(false);});
+            stage.setOnHidden(e -> disableAllElements(false));
+            stage.setOnCloseRequest(e -> disableAllElements(false));
         }
         valueInputField.setText("");
     }
@@ -157,14 +159,14 @@ public class SheetBuilderController {
      * with name concatenated on hardcoded pattern and new sheet
      * will be designed in accordance the predefined design.
      */
-    public void addNewSheet(){
+    public void addNewSheet() {
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
         try {
             sheetNameInitializer.setNewTruckingMonth();
             disableAllElements(true);
             sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
             sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -177,12 +179,12 @@ public class SheetBuilderController {
      * for Sheet selection. Recalculation is performed on Mouse Action.
      */
     private void actualizationSheetSelection() {
-        if (budget_tracker.getNumberOfSheets() > sheetSelectButton.getItems().size()) {
-            int numOfSheets = budget_tracker.getNumberOfSheets();
+        if (budgetTracker.getNumberOfSheets() > sheetSelectButton.getItems().size()) {
+            int numOfSheets = budgetTracker.getNumberOfSheets();
             currentSheets.clear();
             for (int i = 0; i < numOfSheets; i++) {
-                if (!currentSheets.contains(budget_tracker.getSheetName(i))) {
-                    currentSheets.add(new MenuItem(budget_tracker.getSheetName(i)));
+                if (!currentSheets.contains(budgetTracker.getSheetName(i))) {
+                    currentSheets.add(new MenuItem(budgetTracker.getSheetName(i)));
                 }
             }
         }
@@ -196,16 +198,16 @@ public class SheetBuilderController {
      * for Row selection. Recalculation is performed on Mouse Action.
      */
     private static List<MenuItem> currentRow = new ArrayList<>();
-    private void actualizationRowSelection(){
-        if(actualSheet == null){
-            actualSheet = budget_tracker.getSheetAt(0);
+    private void actualizationRowSelection() {
+        if (actualSheet == null) {
+            actualSheet = budgetTracker.getSheetAt(0);
         }
         int numberOfRows = sheetBuilder.calcSheetHeight(actualSheet);
 
-        if(numberOfRows > rowSelectButton.getItems().size()){
+        if (numberOfRows > rowSelectButton.getItems().size()) {
             currentRow.clear();
-            for (int i = 1; i < numberOfRows; i++){
-                if(!currentRow.contains(actualSheet.getRow(i).getCell(0).getStringCellValue())){
+            for (int i = 1; i < numberOfRows; i++) {
+                if (!currentRow.contains(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
                     currentRow.add(new MenuItem(actualSheet.getRow(i).getCell(0).getStringCellValue()));
                 }
             }
@@ -220,17 +222,16 @@ public class SheetBuilderController {
      * for Column selection. Recalculation is performed on Mouse Action.
      */
     private static List<MenuItem> currentColumns = new ArrayList<>();
-    private void actualizationColumnsSelection(){
-        if(actualSheet == null){
-            actualSheet = budget_tracker.getSheetAt(0);
+    private void actualizationColumnsSelection() {
+        if (actualSheet == null) {
+            actualSheet = budgetTracker.getSheetAt(0);
         }
         int numOfColumns = actualSheet.getRow(0).getLastCellNum();
 
-        if(actualSheet.getRow(0).getLastCellNum() > columnSelectButton.getItems().size()){
+        if (actualSheet.getRow(0).getLastCellNum() > columnSelectButton.getItems().size()) {
             currentColumns.clear();
-            //TODO:We do not want to include columns with total amount and Date, those should be immutable
-            for(int i = 0; i < numOfColumns; i++){
-                if(!currentColumns.contains(actualSheet.getRow(0).getCell(i).getStringCellValue())){
+            for (int i = 0; i < numOfColumns; i++) {
+                if (!currentColumns.contains(actualSheet.getRow(0).getCell(i).getStringCellValue())) {
                     currentColumns.add(new MenuItem(actualSheet.getRow(0).getCell(i).getStringCellValue()));
                 }
             }
@@ -252,30 +253,30 @@ public class SheetBuilderController {
 
 
     /**
-     * Method for actualization of event handlers for particular Menu Items
+     * Method for actualization of event handlers for particular Menu Items.
      */
     @FXML
     private void updateSheetLabel() {
-        for(MenuItem mi : currentSheets){
+        for (MenuItem mi : currentSheets) {
             mi.setOnAction(e -> {
                 selectedSheetLabel.setText(mi.getText());
-                actualSheet = budget_tracker.getSheet(mi.getText());
+                actualSheet = budgetTracker.getSheet(mi.getText());
                 updateOptions();
             });
         }
     }
 
     /**
-     * Method for actualization of event handlers for particular Menu Items
+     * Method for actualization of event handlers for particular Menu Items.
      */
     @FXML
     private void updateColumnsLabel() {
-        for (MenuItem mi : currentColumns){
-            mi.setOnAction(e ->{
+        for (MenuItem mi : currentColumns) {
+            mi.setOnAction(e -> {
                 selectedColumnLabel.setText(mi.getText());
                 actualColumn = mi.getText();
-                for(int i = 0; i < actualSheet.getRow(0).getLastCellNum(); i++) {
-                    if (actualColumn.equals(actualSheet.getRow(0).getCell(i).getStringCellValue())){
+                for (int i = 0; i < actualSheet.getRow(0).getLastCellNum(); i++) {
+                    if (actualColumn.equals(actualSheet.getRow(0).getCell(i).getStringCellValue())) {
                         actualColumnIndex = actualSheet.getRow(0).getCell(i).getColumnIndex();
                     }
                 }
@@ -297,29 +298,29 @@ public class SheetBuilderController {
                 sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
                 sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
             } else {
-                actualSheet = budget_tracker.getSheetAt(0);
+                actualSheet = budgetTracker.getSheetAt(0);
                 sheetNameInitializer.addNewColumn();
                 disableAllElements(true);
                 sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
                 sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
             }
             updateOptions();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Method for actualization of event handlers for particular Menu Items
+     * Method for actualization of event handlers for particular Menu Items.
      */
     @FXML
     private void updateRowLabel() {
-        for (MenuItem mi : currentRow){
-            mi.setOnAction(e ->{
+        for (MenuItem mi : currentRow) {
+            mi.setOnAction(e -> {
                 selectedRowLabel.setText(mi.getText());
                 actualRow = mi.getText();
-                for(int i = 0; i < SheetBuilder.getSheetHeight(); i++) {
-                    if (actualRow.equals(actualSheet.getRow(i).getCell(0).getStringCellValue())){
+                for (int i = 0; i < SheetBuilder.getSheetHeight(); i++) {
+                    if (actualRow.equals(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
                         actualRowIndex = i;
                     }
                 }

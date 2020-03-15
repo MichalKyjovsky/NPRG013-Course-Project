@@ -29,74 +29,71 @@ public class LandingPageController {
      * It will change the scene of the application and create the
      * new workbook in xlsx format
      */
-    public void createNewWorkbook(){
+    public void createNewWorkbook() {
         WorkbookController wc = new WorkbookController();
         try {
             wc.createWorkbook();
             disableButtonsOnClick(true);
             Stage front = wc.getElement();
             front.setOnCloseRequest(e -> disableButtonsOnClick(false));
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
     /**
-     * Method enables to user chose Open file from local device option
+     * Method enables to user chose Open file from local device option.
      * @throws FXMLLoaderException
      */
-    public void displayFileExplorer() throws FXMLLoaderException{
+    public void displayFileExplorer() throws FXMLLoaderException {
         Stage fileDialog = new Stage();
         FileChooser fileChooser = new FileChooser();
         Tools tool = new Tools();
+        String relatedFxmlSheet = "ui/Sheet.fxml";
         try {
             disableButtonsOnClick(true);
             File chosenFile = fileChooser.showOpenDialog(fileDialog);
             if (chosenFile != null) {
                 SheetBuilder.setNameOfTheDocument(chosenFile.toString());
                 String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
-                String relatedFxmlSheet = "ui/Sheet.fxml";
                 App.changeScene(new Scene(tool.loadFXML(Class.forName(landingPageControllerClassName), relatedFxmlSheet)));
                 String pathToFile;
 
-                if(!chosenFile.toString().endsWith(FILE_SUFFIX)) {
+                if (!chosenFile.toString().endsWith(FILE_SUFFIX)) {
                     pathToFile = chosenFile.toString() + FILE_SUFFIX;
-                }
-                else{
+                } else {
                     pathToFile = chosenFile.toString();
                 }
 
                 WorkbookBuilder wb = new WorkbookBuilder();
                 wb.createFromExistingFile(pathToFile);
-            }else {
+            } else {
                 disableButtonsOnClick(false);
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            //throw new FXMLLoaderException(relatedFxmlSheet);
+        } catch (Exception e) {
+            throw new FXMLLoaderException(relatedFxmlSheet);
         }
     }
 
 
     /**
-     * When AlertBoxes are invoked, all button on background are disabled
+     * When AlertBoxes are invoked, all button on background are disabled.
      * when method is called with tru parameter
      * @param status
      */
-    private void disableButtonsOnClick(boolean status){
+    private void disableButtonsOnClick(boolean status) {
         createNewWorkbookButton.setDisable(status);
         openFromLocalButton.setDisable(status);
         openFromCloudButton.setDisable(status);
     }
 
 
-    public void openFromCloud(){
-        //TODO:Implement in feature releases, not in actual scope.
+    public void openFromCloud() {
         AlertBox alertBox = new AlertBox();
         alertBox.displayAlertBox(AlertBox.ALERT_BOX_NOT_IMPLEMENTED_FEATURE);
         Stage frontPage =  alertBox.getAlertBoxStage();
-        if (frontPage.isShowing()){
+        if (frontPage.isShowing()) {
             disableButtonsOnClick(true);
         }
         frontPage.setOnCloseRequest(e -> disableButtonsOnClick(false));

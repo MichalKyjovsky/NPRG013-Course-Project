@@ -1,9 +1,18 @@
 package cz.cuni.mff.ms.kyjovsm.workbook;
 
-
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -25,7 +34,7 @@ public class WorkbookBuilder {
     private static final String SEPARATOR = "_";
     private static final String USER_HOME_DIR = "user.home";
     private static final int COLUMNS_WIDTH = 4000;
-    private static final int HEADER_HEIGHT = 40 ;
+    private static final int HEADER_HEIGHT = 40;
     private static final String TOTAL_HEADING = "TOTAL";
     private static final String DATE_HEADING = "DATE";
     private static final String DATE_FORMAT = "dd-MM-yyyy";
@@ -40,74 +49,70 @@ public class WorkbookBuilder {
     }
 
     /**
-     * Method will load particular xlsx sheet into the XSSDWorkbook instance
+     * Method will load particular xlsx sheet into the XSSDWorkbook instance.
      * @param pathToFile file location of xlsx sheet
      */
-    public void createFromExistingFile(String pathToFile){
+    public void createFromExistingFile(String pathToFile) {
         workbook = null;
         path = pathToFile;
-        try(FileInputStream fis = new FileInputStream(new File(pathToFile))){
-            SheetBuilderController.setBudget_tracker(new XSSFWorkbook(fis));
-        }catch (IOException ioe){
+        try (FileInputStream fis = new FileInputStream(new File(pathToFile))) {
+            SheetBuilderController.setBudgetTracker(new XSSFWorkbook(fis));
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
 
     /**
-     * Method for creating initial unified Workbook
-     * @return Workbook instance prepared to work with in accordance to predefined pattern
+     * Method for creating initial unified Workbook.
+     * @return Workbook instance prepared to work with in accordance to predefined pattern.
      * @throws FileFormatException
      */
-    public Workbook createInitialWorkbook() throws FileFormatException{
+    public Workbook createInitialWorkbook() throws FileFormatException {
         workbook = null;
         File currDir = new File(System.getProperty(USER_HOME_DIR));
         path = currDir.getAbsolutePath() + File.separator + SheetBuilder.getNameOfTheDocument();
 
-        try(FileOutputStream outputStream = new FileOutputStream(path)){
+        try (FileOutputStream outputStream = new FileOutputStream(path)) {
             workbook = new XSSFWorkbook();
-
-            //Implementation of rows on request for initial month
             ldt = LocalDateTime.now();
             Sheet sheet_01 = workbook.createSheet(SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear());
-            createInitialSheet(sheet_01,initialMonth, this.workbook);
+            createInitialSheet(sheet_01, initialMonth, this.workbook);
             workbook.write(outputStream);
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             throw new FileFormatException();
         }
          return workbook;
     }
 
     /**
-     * Method for Initial Sheets creation in demanded form
-     * @param newSheet
-     * @param initialMonth
-     * @param workbook
+     * Method for Initial Sheets creation in demanded form.
+     * @param newSheet new Sheet instance
+     * @param initialMonth initial selected month
+     * @param workbook new Workbook instance
      */
-    void createInitialSheet(Sheet newSheet, int initialMonth,Workbook workbook){
+    void createInitialSheet(Sheet newSheet, int initialMonth, Workbook workbook) {
         ldt = LocalDateTime.now();
-        YearMonth yearMonth = YearMonth.of(ldt.getYear(),initialMonth);
+        YearMonth yearMonth = YearMonth.of(ldt.getYear(), initialMonth);
         newSheet.setDefaultColumnWidth(COLUMNS_WIDTH);
-        newSheet.setColumnWidth(0,COLUMNS_WIDTH);
-        newSheet.setColumnWidth(1,COLUMNS_WIDTH);
+        newSheet.setColumnWidth(0, COLUMNS_WIDTH);
+        newSheet.setColumnWidth(1, COLUMNS_WIDTH);
         Row header = newSheet.createRow(0);
         header.setHeightInPoints(HEADER_HEIGHT);
         CellStyle headerStyleBlack = workbook.createCellStyle();
         CellStyle headerStyleRed = workbook.createCellStyle();
         setBasicHeader(headerStyleBlack, headerStyleRed);
 
-
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        headerStyleBlack.setFont(setFont(font,"Calibri"));
-        headerStyleRed.setFont(setFont(font,"Calibri"));
+        headerStyleBlack.setFont(setFont(font, "Calibri"));
+        headerStyleRed.setFont(setFont(font, "Calibri"));
 
-        Cell headerCell_0 = header.createCell(0);
-        headerCell_0.setCellValue(DATE_HEADING);
-        headerCell_0.setCellStyle(headerStyleBlack);
+        Cell headerCell0 = header.createCell(0);
+        headerCell0.setCellValue(DATE_HEADING);
+        headerCell0.setCellStyle(headerStyleBlack);
 
-        Cell headerCell_1 = header.createCell(1);
-        headerCell_1.setCellValue(TOTAL_HEADING);
-        headerCell_1.setCellStyle(headerStyleRed);
-
+        Cell headerCell1 = header.createCell(1);
+        headerCell1.setCellValue(TOTAL_HEADING);
+        headerCell1.setCellStyle(headerStyleRed);
 
         DataFormat format = workbook.createDataFormat();
 
@@ -125,21 +130,21 @@ public class WorkbookBuilder {
         for (int i = 1; i < yearMonth.lengthOfMonth() + 1; i++) {
             Row row = newSheet.createRow(i);
             row.setHeightInPoints(15);
-            Cell cell_0 = row.createCell(0);
-            Cell cell_1 = row.createCell(1);
-            cell_0.setCellStyle(style_date);
-            cell_1.setCellStyle(style_total);
+            Cell cell0 = row.createCell(0);
+            Cell cell1 = row.createCell(1);
+            cell0.setCellStyle(style_date);
+            cell1.setCellStyle(style_total);
 
             if (i < 10) {
-                cell_0.setCellValue(String.format("%d%d.%s.%d", 0, i, actualMonth, ldt.getYear()));
+                cell0.setCellValue(String.format("%d%d.%s.%d", 0, i, actualMonth, ldt.getYear()));
             } else {
-                cell_0.setCellValue(String.format("%d.%s.%d", i, actualMonth, ldt.getYear()));
+                cell0.setCellValue(String.format("%d.%s.%d", i, actualMonth, ldt.getYear()));
             }
-            cell_1.setCellValue(String.format("%.2f CZK", (double) 0));
+            cell1.setCellValue(String.format("%.2f CZK", (double) 0));
         }
     }
 
-    private CellStyle setBasicCellStyle(Workbook workbook){
+    private CellStyle setBasicCellStyle(Workbook workbook) {
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
         style.setAlignment(HorizontalAlignment.CENTER);
@@ -152,7 +157,7 @@ public class WorkbookBuilder {
         return style;
     }
 
-    private void setBasicHeader(CellStyle headerStyleBlack, CellStyle headerStyleRed){
+    private void setBasicHeader(CellStyle headerStyleBlack, CellStyle headerStyleRed) {
         headerStyleBlack.setFillForegroundColor(IndexedColors.BLACK.index);
         headerStyleRed.setFillForegroundColor(IndexedColors.DARK_RED.index);
         headerStyleBlack.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -161,7 +166,7 @@ public class WorkbookBuilder {
         headerStyleRed.setAlignment(HorizontalAlignment.CENTER);
     }
 
-    private XSSFFont setFont(XSSFFont font, String fontStyle){
+    private XSSFFont setFont(XSSFFont font, String fontStyle) {
         font.setFontName(fontStyle);
         font.setColor(IndexedColors.WHITE.index);
         font.setBold(true);

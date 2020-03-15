@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 public class WorkbookController {
 
     @FXML
-    Button submitMonthButton;
+    private Button submitMonthButton;
     @FXML
-    Button submitButton;
+    private Button submitButton;
     @FXML
-    TextField inputField;
+    private TextField inputField;
     private Stage window;
     private AlertBox alertBox;
     private Scene workBookInitializer;
@@ -31,37 +31,37 @@ public class WorkbookController {
 
     private static String nameOfDoc;
 
-    public WorkbookController(){
+    public WorkbookController() {
         tool = new Tools();
     }
 
-    public Stage getElement(){
+    public Stage getElement() {
         return this.window;
     }
 
 
     /**
-     * Method enables user to invoke setup dialog of new Workbook
+     * Method enables user to invoke setup dialog of new Workbook.
      * @throws FXMLLoaderException
      */
-    void createWorkbook() throws FXMLLoaderException{
+    void createWorkbook() throws FXMLLoaderException {
         String relatedFxmlWorkbook = "ui/Workbook.fxml";
         try {
             window = new Stage();
             workBookInitializer = new Scene(tool.loadFXML(Class.forName(workbookControllerClassName), relatedFxmlWorkbook));
             window.setScene(workBookInitializer);
             window.show();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new FXMLLoaderException(relatedFxmlWorkbook);
         }
     }
 
 
     /**
-     * Method enables user to setup new Workbook name
+     * Method enables user to setup new Workbook name.
      * @throws FXMLLoaderException
      */
-    public void setUpNameOfDocument() throws FXMLLoaderException{
+    public void setUpNameOfDocument() throws FXMLLoaderException {
         nameOfDoc = inputField.getText();
         alertBox = new AlertBox();
         String relatedFxmlInitialMonthDialog = "ui/InitialMonthDialog.fxml";
@@ -77,24 +77,22 @@ public class WorkbookController {
                 stage.setScene(workBookInitializer);
                 stage.show();
             }
-        }
-        catch (Exception e){
-            //throw new FXMLLoaderException(relatedFxmlInitialMonthDialog);
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new FXMLLoaderException(relatedFxmlInitialMonthDialog);
         }
     }
 
 
     /**
-     * Method enables to user set up initial tracking month
+     * Method enables to user set up initial tracking month.
      */
     @FXML
-    private void setupInitialMonth(){
+    private void setupInitialMonth() {
         Stage stage = null;
         alertBox = new AlertBox();
         try {
             stage = (Stage) submitMonthButton.getScene().getWindow();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -104,30 +102,27 @@ public class WorkbookController {
 
                 int month = Integer.parseInt(monthInput);
 
-                if(month >= 1 && month <=12) {
+                if (month >= 1 && month <= 12) {
+                    String relatedFxmlSheet = "ui/Sheet.fxml";
                     try {
                         WorkbookBuilder workbookBuilder = new WorkbookBuilder();
                         WorkbookBuilder.setInitialMonth(month);
                         String sheetBuilderControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
-                        String relatedFxmlSheet = "ui/Sheet.fxml";
                         App.changeScene(new Scene(tool.loadFXML(Class.forName(sheetBuilderControllerClassName), relatedFxmlSheet)));
-                        SheetBuilderController.setBudget_tracker(workbookBuilder.createInitialWorkbook());
+                        SheetBuilderController.setBudgetTracker(workbookBuilder.createInitialWorkbook());
                         stage.close();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                       // throw new FXMLLoaderException(relatedFxmlSheet);
+                    } catch (Exception e) {
+                        throw new FXMLLoaderException(relatedFxmlSheet);
                     }
-                }
-                else{
+                } else {
                     alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
                     inputField.setText("");
                 }
-            }
-            else{
+            } else {
                 alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
                 inputField.setText("");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
