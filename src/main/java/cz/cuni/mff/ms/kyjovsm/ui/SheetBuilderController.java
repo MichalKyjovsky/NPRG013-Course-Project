@@ -21,6 +21,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SheetBuilderController {
     @FXML
@@ -150,7 +151,27 @@ public class SheetBuilderController {
      */
     public void deleteColumn() {
         sheetBuilder.deleteColumn(actualColumn);
-        updateOptions();
+        MenuItem toDelete = null;
+
+        for (int i = 0; i < currentColumns.size(); i++) {
+            if (actualColumn.equals(currentColumns.get(i).getText())) {
+                toDelete = currentColumns.get(i);
+            }
+        }
+
+        MenuItem newOne;
+        int index = currentColumns.indexOf(toDelete);
+        if (index > 0) {
+            newOne = currentColumns.get(index - 1);
+        } else {
+            newOne = currentColumns.get(index);
+        }
+        actualColumnIndex = index;
+        actualColumn = newOne.getText();
+        currentColumns.remove(toDelete);
+        selectedColumnLabel.setText(actualColumn);
+        columnSelectButton.getItems().remove(toDelete);
+        actualizationColumnsSelection();
     }
 
 
@@ -261,7 +282,13 @@ public class SheetBuilderController {
             mi.setOnAction(e -> {
                 selectedSheetLabel.setText(mi.getText());
                 actualSheet = budgetTracker.getSheet(mi.getText());
-                updateOptions();
+                rowSelectButton.getItems().clear();
+                columnSelectButton.getItems().clear();
+                actualColumn = currentColumns.get(0).getText();
+                actualColumnIndex = 0;
+                selectedColumnLabel.setText(currentColumns.get(0).getText());
+                actualRowIndex = 0;
+                selectedRowLabel.setText(currentRow.get(0).getText());
             });
         }
     }
@@ -271,7 +298,7 @@ public class SheetBuilderController {
      */
     @FXML
     private void updateColumnsLabel() {
-        for (MenuItem mi : currentColumns) {
+        for (MenuItem mi : columnSelectButton.getItems()) {
             mi.setOnAction(e -> {
                 selectedColumnLabel.setText(mi.getText());
                 actualColumn = mi.getText();
