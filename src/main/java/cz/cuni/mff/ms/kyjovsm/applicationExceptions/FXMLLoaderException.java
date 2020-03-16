@@ -1,9 +1,15 @@
 package cz.cuni.mff.ms.kyjovsm.applicationExceptions;
 
 public class FXMLLoaderException extends Exception {
-    public FXMLLoaderException(String loadedFxml) {
+    /**
+     * Exception is invoked whenever unsuccessful attempt
+     * to load .fxml in to scene is performed.
+     * @param loadedFxml Variables stores which .fxml invoked error.
+     */
+    public FXMLLoaderException(final String loadedFxml) {
         super();
-        String err = String.format("FXML Loader was not able to load %s file",loadedFxml);
-        System.err.println(err);
+        System.err.println(
+                String.format("FXML Loader was not able to load %s file",
+                        loadedFxml));
     }
 }
