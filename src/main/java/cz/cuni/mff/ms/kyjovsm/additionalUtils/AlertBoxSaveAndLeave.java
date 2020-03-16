@@ -11,21 +11,48 @@ import java.io.IOException;
 
 public class AlertBoxSaveAndLeave {
 
+    /**
+     * An instance of Tools class, which provides method
+     * for loading .fxml files to the instance of Scene.
+     */
     private Tools tool;
+    /**
+     * An instance of Stage class which hold
+     * all displayed component in a window.
+     */
     private Stage alertBox;
+
+     /**
+     * An instance of Button class in the alertBox stage,
+     * which on click move user back to the LandingPage.fxml.
+     */
     @FXML
     private Button continueToHomePageButton;
+    /**
+     * an instance of Button class in the alertBox stage,
+     * which on click close the alert box and current
+     * page will be still displayed.
+     */
     @FXML
     private Button stayAndSaveButton;
 
+    /**
+     * @return Button instance of current shown Alert Box.
+     */
     public Button getContinueToHomePageButton() {
         return this.continueToHomePageButton;
     }
 
+    /**
+     * @return Button instance of current shown Alert Box.
+     */
     public Button getStayAndSaveButton() {
         return this.stayAndSaveButton;
     }
 
+    /**
+     * @return Stage instance of current shown Alert Box
+     */
     public Stage getAlertBox() {
         return alertBox;
     }
@@ -38,9 +65,14 @@ public class AlertBoxSaveAndLeave {
         tool = new Tools();
         Scene alertScene = null;
         try {
-            String relatedFxmlAlertBoxSaveAndLeave = "additionalUtils/AlertBoxSaveAndLeave.fxml";
-            String alertBoxSaveAndLeaveClassName = "cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave";
-            alertScene = new Scene(tool.loadFXML(Class.forName(alertBoxSaveAndLeaveClassName), relatedFxmlAlertBoxSaveAndLeave));
+            String relatedFxmlAlertBoxSaveAndLeave =
+                    "additionalUtils/AlertBoxSaveAndLeave.fxml";
+            String alertBoxSaveAndLeaveClassName =
+                    "cz.cuni.mff.ms.kyjovsm.additionalUtils."
+                           + "AlertBoxSaveAndLeave";
+            alertScene = new Scene(tool.loadFXML(Class.
+                    forName(alertBoxSaveAndLeaveClassName),
+                    relatedFxmlAlertBoxSaveAndLeave));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,7 +94,8 @@ public class AlertBoxSaveAndLeave {
         try {
             String relatedFxmlLandingPage = "ui/LandingPage.fxml";
             String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
-            App.changeScene(new Scene(tool.loadFXML(Class.forName(mainClassName), relatedFxmlLandingPage)));
+            App.changeScene(new Scene(tool.loadFXML(
+                    Class.forName(mainClassName), relatedFxmlLandingPage)));
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -70,7 +103,7 @@ public class AlertBoxSaveAndLeave {
 
 
     /**
-     * Method will close dialog and user remain in core
+     * Method will close dialog and user remain in core.
      */
     public void stayAndSave() {
         Stage actual = (Stage) continueToHomePageButton.getScene().getWindow();
