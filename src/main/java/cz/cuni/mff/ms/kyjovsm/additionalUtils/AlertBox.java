@@ -13,40 +13,87 @@ import java.io.IOException;
 
 public class AlertBox {
 
+    /**
+     * A constant representing infix for calling AlertBoxEmptyInput.fxml.
+     */
     public static final String ALERT_BOX_EMPTY_INPUT = "AlertBoxEmptyInput";
-    public static final String ALERT_BOX_NOT_IMPLEMENTED_FEATURE = "AlertBoxNotImplementedFeature";
+    /**
+     * A constant representing infix
+     * for calling AlertBoxNotImplementedFeature.fxml.
+     */
+    public static final String ALERT_BOX_NOT_IMPLEMENTED_FEATURE
+                                = "AlertBoxNotImplementedFeature";
+    /**
+     * A constant representing infix for calling AlertBoxInvalidInput.fxml.
+     */
     public static final String ALERT_BOX_INVALID_INPUT = "AlertBoxInvalidInput";
+    /**
+     * Scene instance of the class AlertBox.
+     * This variables secures displaying of particular Alert box content.
+     */
     private Scene alertBoxScene;
+    /**
+     * Stage instance of the class AlertBox
+     * which enable display particular Alert box on user's screen.
+     */
     private Stage alertBoxStage;
+
+    /**
+     * A Label displaying error message given as a parameter.
+     */
     @FXML
-    Label errorMessage;
+    private Label errorMessage;
+    /**
+     * Button instance for proper closure of the Alert Box window.
+     */
     @FXML
-    Button closeButton;
+    private Button closeButton;
+    /**
+     * Variable verify that all precondition for continuing
+     * to the Sheet.fxml was fulfilled. If not, Reload of the
+     * LandingPage.fxml is performed.
+     */
     private static boolean status = false;
+    /**
+     * An instance of Tools class, which provides method
+     * for loading .fxml files to the instance of Scene.
+     */
     private final Tools tool = new Tools();
 
 
+    /**
+     * Method enable to obtain current instance of displayed AlertBox button,
+     * which enable user to get instance of Stage and set up event handlers.
+     * @return Instance of shown button in the Alert Box window.
+     */
     public Button getCloseButton() {
         return closeButton;
     }
 
+    /**
+     * Method enable to obtain current instance of displayed AlertBox Stage,
+     * which enable user to set up event handlers.
+     * @return Instance of shown Alert Box stage.
+     */
     public Stage getAlertBoxStage() {
         return alertBoxStage;
     }
 
 
     /**
-     * Method will invoke alert box that user's input is incorrect in certain way.
+     * Method will invoke Alert box
+     * that user's input is incorrect in certain way.
      * @param errorStatus parameter which involve what message will be shown.
      */
-    public  void displayAlertBox(String errorStatus) {
+    public  void displayAlertBox(final String errorStatus) {
         alertBoxStage = new Stage();
         try {
             if (errorStatus.equals(ALERT_BOX_EMPTY_INPUT)) {
                 alertBoxScene = new Scene(loadFXML(ALERT_BOX_EMPTY_INPUT));
                 status = true;
             } else if (errorStatus.equals(ALERT_BOX_NOT_IMPLEMENTED_FEATURE)) {
-                alertBoxScene = new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
+                alertBoxScene =
+                        new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
             } else if (errorStatus.equals(ALERT_BOX_INVALID_INPUT)) {
                 alertBoxScene = new Scene(loadFXML(ALERT_BOX_INVALID_INPUT));
                 status = true;
@@ -61,15 +108,18 @@ public class AlertBox {
 
 
     /**
-     * Method will secure proper close of Alert box
+     * Method will secure proper closure of Alert box.
      */
     public void closeAlertBox() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         Scene reload = null;
         try {
             String relatedFxmlLandingPage = "ui/LandingPage.fxml";
-            String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
-            reload = new Scene(tool.loadFXML(Class.forName(landingPageControllerClassName), relatedFxmlLandingPage));
+            String landingPageControllerClassName =
+                    "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
+            reload = new Scene(tool.loadFXML(Class.
+                    forName(landingPageControllerClassName),
+                    relatedFxmlLandingPage));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,8 +130,9 @@ public class AlertBox {
     }
 
 
-    private Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AlertBox.class.getClassLoader().getResource("additionalUtils/" + fxml + ".fxml"));
+    private Parent loadFXML(final String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(AlertBox.class.getClassLoader().
+                getResource("additionalUtils/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
