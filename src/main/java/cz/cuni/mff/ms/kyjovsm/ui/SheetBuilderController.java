@@ -314,7 +314,10 @@ public class SheetBuilderController {
                 actualColumnIndex = 0;
                 selectedColumnLabel.setText(currentColumns.get(0).getText());
                 actualRowIndex = 0;
-                selectedRowLabel.setText(currentRow.get(0).getText());
+                actualRow =
+                        actualSheet.getRow(1).getCell(0).getStringCellValue();
+                selectedRowLabel.setText(actualSheet.
+                        getRow(1).getCell(0).getStringCellValue());
             });
         }
     }
