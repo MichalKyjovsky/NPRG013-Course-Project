@@ -16,7 +16,7 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="inputLine"  layoutX="42.0" layoutY="135.0" prefHeight="36.0" prefWidth="230.0" />
+      <TextField fx:id="inputLine" onAction="#submitName" layoutX="42.0" layoutY="135.0" prefHeight="36.0" prefWidth="230.0" />
       <Button fx:id="submitButton" onAction="#submitName" layoutX="302.0" layoutY="135.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="123.0" styleClass="button1" stylesheets="@../css/SheetNameInitializer.css" text="SUBMIT" textFill="WHITE" />
    </children>
 </AnchorPane>

@@ -5,6 +5,7 @@ import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -63,13 +64,27 @@ public class WorkbookController {
     }
 
 
+
+
     /**
      * Method enables user to setup new Workbook name.
      * @throws FXMLLoaderException
      */
-    public void setUpNameOfDocument() throws FXMLLoaderException {
+    public void setUpNameOfDocument() {
+        create();
+    }
+
+    private void create() {
         nameOfDoc = inputField.getText();
         alertBox = new AlertBox();
+        try {
+            submitName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void submitName() throws FXMLLoaderException {
         String relatedFxmlInitialMonthDialog = "ui/InitialMonthDialog.fxml";
         try {
             Stage stage = (Stage) submitButton.getScene().getWindow();
@@ -114,6 +129,10 @@ public class WorkbookController {
             });
         }
 
+    }
+
+    public void enterSubmit(ActionEvent ae) {
+        create();
     }
 }
 
