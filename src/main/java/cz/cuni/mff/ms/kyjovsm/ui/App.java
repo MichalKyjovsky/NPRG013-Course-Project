@@ -9,14 +9,44 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
+
+    /**
+     * Instance of Stage class which serve for displaying
+     * of main view of the application.
+     */
     private static Stage window;
+
+    /**
+     * Instance of the Scene class providing initial
+     * view displayed when application starts.
+     */
     private Scene  scene;
+
+    /**
+     * Variable storing path to the application logo icon.
+     */
     private static final String LOGO = "pics_source/vault.png";
-    private static final String APP_CLASS_NAME = "cz.cuni.mff.ms.kyjovsm.ui.App";
+    /**
+     * Full class name of the App.java.
+     */
+    private static final String APP_CLASS_NAME =
+            "cz.cuni.mff.ms.kyjovsm.ui.App";
+    /**
+     * Initial window height constant.
+     */
     private static final int WINDOW_HEIGHT = 660;
-    private static final int WINDOW_WIDTH = 660;
+    /**
+     * Initial window width constant.
+     */
+    private static final int WINDOW_WIDTH = 950;
 
 
+    /**
+     * Initial application method invokes the application Stage.
+     * @param stage main Stage instance on which all application
+     *              elements will be displayed
+     * @throws FXMLLoaderException if LandingPage.fxml is not loaded properly.
+     */
     @Override
     public void start(final Stage stage) throws FXMLLoaderException {
         Tools tools = new Tools();
@@ -25,7 +55,9 @@ public class App extends Application {
         window.getIcons().add(new Image(LOGO));
         String relatedFxmlLandingPage = "ui/LandingPage.fxml";
         try {
-            scene = new Scene(tools.loadFXML(Class.forName(APP_CLASS_NAME), relatedFxmlLandingPage));
+            scene = new Scene(tools.
+                    loadFXML(Class.forName(APP_CLASS_NAME),
+                            relatedFxmlLandingPage));
         } catch (Exception e) {
             throw new FXMLLoaderException(relatedFxmlLandingPage);
         }
@@ -35,18 +67,33 @@ public class App extends Application {
     }
 
 
-    public static void changeScene(Scene scene) {
+    /**
+     * @param scene Loaded .fxml as a instance of Scene class
+     *              for changing application Stage instance
+     *              window view.
+     */
+    public static void changeScene(final Scene scene) {
         window.setScene(scene);
         window.show();
     }
 
-    private void setWindowSize(double height, double width) {
+
+    /**
+     * Method for initialize Stage instance window size.
+     * @param height preferred height
+     * @param width preferred width
+     */
+    private void setWindowSize(final double height, final double width) {
         window.setMinHeight(height);
         window.setMinWidth(width);
     }
 
-    public static void main(String[] args) {
+
+    /**
+     * Application invocation method.
+     * @param args main declaration
+     */
+    public static void main(final String[] args) {
         launch();
     }
-
 }

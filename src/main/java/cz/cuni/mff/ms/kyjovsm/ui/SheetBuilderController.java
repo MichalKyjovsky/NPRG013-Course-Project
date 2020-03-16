@@ -14,7 +14,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.math3.analysis.function.Log;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -66,7 +65,7 @@ public class SheetBuilderController {
         return SheetBuilderController.actualSheet;
     }
 
-    public static void setBudgetTracker(Workbook tracker) {
+    public static void setBudgetTracker(final Workbook tracker) {
         SheetBuilderController.budgetTracker = tracker;
     }
 
@@ -94,9 +93,11 @@ public class SheetBuilderController {
     /**
      * Method is called whenever is Alert Box or Dialog box invoked
      * and it is necessary to disable all other buttons.
-     * @param statement
+     * @param statement defines whether elements on background are
+     *                  disabled - true
+     *                  enabled - false
      */
-    private void disableAllElements(boolean statement) {
+    private void disableAllElements(final boolean statement) {
         homeButton.setDisable(statement);
         submitValueButton.setDisable(statement);
         saveButton.setDisable(statement);
@@ -121,7 +122,9 @@ public class SheetBuilderController {
 
         if (!SheetBuilder.getNameOfTheDocument().strip().isEmpty()) {
             fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
-            fileChooser.setInitialDirectory(Path.of(SheetBuilder.getNameOfTheDocument()).getParent().toFile());
+            fileChooser.setInitialDirectory(Path.
+                    of(SheetBuilder.getNameOfTheDocument()).
+                    getParent().toFile());
             File file = fileChooser.showSaveDialog(new Stage());
         } else {
             throw new FileFormatException();
@@ -136,8 +139,13 @@ public class SheetBuilderController {
      */
     public void sendValueToCell() {
         if (valueInputField.getCharacters().toString().matches("[0-9]+")) {
-            sheetBuilder.setCellValue(valueInputField.getCharacters().toString(), actualSheet, actualColumnIndex, actualRowIndex);
-            logger.fine(String.format("Value in column: %s for a day: %s was successfully updated.",actualColumn, actualRow));
+            sheetBuilder.
+                    setCellValue(valueInputField.getCharacters().toString(),
+                    actualSheet, actualColumnIndex, actualRowIndex);
+            logger.fine(
+                    String.format("Value in column: %s for a day:"
+                            + " %s was successfully updated.",
+                            actualColumn, actualRow));
         } else {
             AlertBox alertBox = new AlertBox();
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
@@ -190,8 +198,10 @@ public class SheetBuilderController {
         try {
             sheetNameInitializer.setNewTrackingMonth();
             disableAllElements(true);
-            sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
-            sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
+            sheetNameInitializer.getDialogWindow().
+                    setOnCloseRequest(e -> disableAllElements(false));
+            sheetNameInitializer.getDialogWindow().
+                    setOnHidden(e -> disableAllElements(false));
             logger.fine("New sheet has been added.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,12 +216,14 @@ public class SheetBuilderController {
      * for Sheet selection. Recalculation is performed on Mouse Action.
      */
     private void actualizationSheetSelection() {
-        if (budgetTracker.getNumberOfSheets() > sheetSelectButton.getItems().size()) {
+        if (budgetTracker.getNumberOfSheets()
+                > sheetSelectButton.getItems().size()) {
             int numOfSheets = budgetTracker.getNumberOfSheets();
             currentSheets.clear();
             for (int i = 0; i < numOfSheets; i++) {
                 if (!currentSheets.contains(budgetTracker.getSheetName(i))) {
-                    currentSheets.add(new MenuItem(budgetTracker.getSheetName(i)));
+                    currentSheets.add(
+                            new MenuItem(budgetTracker.getSheetName(i)));
                 }
             }
         }
@@ -234,8 +246,12 @@ public class SheetBuilderController {
         if (numberOfRows > rowSelectButton.getItems().size()) {
             currentRow.clear();
             for (int i = 1; i < numberOfRows; i++) {
-                if (!currentRow.contains(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
-                    currentRow.add(new MenuItem(actualSheet.getRow(i).getCell(0).getStringCellValue()));
+                String cellVal =
+                        actualSheet.getRow(i).getCell(0).getStringCellValue();
+                if (!currentRow.contains(cellVal)) {
+                    currentRow.add(
+                            new MenuItem(actualSheet.
+                                    getRow(i).getCell(0).getStringCellValue()));
                 }
             }
         }
@@ -254,12 +270,17 @@ public class SheetBuilderController {
             actualSheet = budgetTracker.getSheetAt(0);
         }
         int numOfColumns = actualSheet.getRow(0).getLastCellNum();
+        int lastCellNum = actualSheet.getRow(0).getLastCellNum();
 
-        if (actualSheet.getRow(0).getLastCellNum() > columnSelectButton.getItems().size()) {
+        if (lastCellNum > columnSelectButton.getItems().size()) {
             currentColumns.clear();
             for (int i = 0; i < numOfColumns; i++) {
-                if (!currentColumns.contains(actualSheet.getRow(0).getCell(i).getStringCellValue())) {
-                    currentColumns.add(new MenuItem(actualSheet.getRow(0).getCell(i).getStringCellValue()));
+                String cellVal =
+                        actualSheet.getRow(0).getCell(i).getStringCellValue();
+                if (!currentColumns.contains(cellVal)) {
+                    currentColumns.add(
+                            new MenuItem(actualSheet.
+                                    getRow(0).getCell(i).getStringCellValue()));
                 }
             }
         }
@@ -307,9 +328,14 @@ public class SheetBuilderController {
             mi.setOnAction(e -> {
                 selectedColumnLabel.setText(mi.getText());
                 actualColumn = mi.getText();
-                for (int i = 0; i < actualSheet.getRow(0).getLastCellNum(); i++) {
-                    if (actualColumn.equals(actualSheet.getRow(0).getCell(i).getStringCellValue())) {
-                        actualColumnIndex = actualSheet.getRow(0).getCell(i).getColumnIndex();
+                int lastColumn = actualSheet.getRow(0).getLastCellNum();
+                for (int i = 0; i < lastColumn; i++) {
+                    if (actualColumn.
+                            equals(actualSheet.getRow(0).
+                                    getCell(i).getStringCellValue())) {
+                        actualColumnIndex =
+                                actualSheet.getRow(0).getCell(i)
+                                        .getColumnIndex();
                     }
                 }
             });
@@ -318,7 +344,8 @@ public class SheetBuilderController {
 
 
     /**
-     * Method for adding new column. Recalculation of sheet is performed and new column is inserted directly before
+     * Method for adding new column. Recalculation of sheet
+     * is performed and new column is inserted directly before
      * TOTAL column.
      */
     public void addNewColumn() {
@@ -327,14 +354,18 @@ public class SheetBuilderController {
             if (actualSheet != null) {
                 sheetNameInitializer.addNewColumn();
                 disableAllElements(true);
-                sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
-                sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
+                sheetNameInitializer.getDialogWindow().
+                        setOnCloseRequest(e -> disableAllElements(false));
+                sheetNameInitializer.getDialogWindow().
+                        setOnHidden(e -> disableAllElements(false));
             } else {
                 actualSheet = budgetTracker.getSheetAt(0);
                 sheetNameInitializer.addNewColumn();
                 disableAllElements(true);
-                sheetNameInitializer.getDialogWindow().setOnCloseRequest(e -> disableAllElements(false));
-                sheetNameInitializer.getDialogWindow().setOnHidden(e -> disableAllElements(false));
+                sheetNameInitializer.getDialogWindow().
+                        setOnCloseRequest(e -> disableAllElements(false));
+                sheetNameInitializer.getDialogWindow().
+                        setOnHidden(e -> disableAllElements(false));
             }
             logger.fine("New column has been added.");
             updateOptions();
@@ -353,7 +384,8 @@ public class SheetBuilderController {
                 selectedRowLabel.setText(mi.getText());
                 actualRow = mi.getText();
                 for (int i = 0; i < SheetBuilder.getSheetHeight(); i++) {
-                    if (actualRow.equals(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
+                    if (actualRow.equals(actualSheet.getRow(i).
+                            getCell(0).getStringCellValue())) {
                         actualRowIndex = i;
                     }
                 }

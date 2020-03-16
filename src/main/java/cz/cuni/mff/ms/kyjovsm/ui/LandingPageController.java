@@ -10,18 +10,35 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.poi.util.NotImplemented;
 
 import java.io.File;
 
 public class LandingPageController {
 
+    /**
+     * Button class instance which on action creates
+     * new initial workbook.
+     */
     @FXML
     private Button createNewWorkbookButton;
+    /**
+     * Button class instance which on action invoke
+     * FileChooser dialog to load file from local device.
+     */
     @FXML
     private Button openFromLocalButton;
+    /**
+     * Button class instance which on action invoke
+     * dialog enabling user fetch file from his personal
+     * OneDrive. Not implemented YET.
+     */
     @FXML
     private Button openFromCloudButton;
 
+    /**
+     * Desired file format suffix.
+     */
     private static final String FILE_SUFFIX = ".xlsx";
 
     /**
@@ -44,7 +61,7 @@ public class LandingPageController {
 
     /**
      * Method enables to user chose Open file from local device option.
-     * @throws FXMLLoaderException
+     * @throws FXMLLoaderException if Sheet.fxml is not loaded properly.
      */
     public void displayFileExplorer() throws FXMLLoaderException {
         Stage fileDialog = new Stage();
@@ -56,8 +73,11 @@ public class LandingPageController {
             File chosenFile = fileChooser.showOpenDialog(fileDialog);
             if (chosenFile != null) {
                 SheetBuilder.setNameOfTheDocument(chosenFile.toString());
-                String landingPageControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
-                App.changeScene(new Scene(tool.loadFXML(Class.forName(landingPageControllerClassName), relatedFxmlSheet)));
+                String landingPageControllerClassName =
+                        "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
+                App.changeScene(new Scene(tool.
+                        loadFXML(Class.forName(landingPageControllerClassName),
+                                relatedFxmlSheet)));
                 String pathToFile;
 
                 if (!chosenFile.toString().endsWith(FILE_SUFFIX)) {
@@ -80,15 +100,21 @@ public class LandingPageController {
     /**
      * When AlertBoxes are invoked, all button on background are disabled.
      * when method is called with tru parameter
-     * @param status
+     * @param status defines whether element will be disabled - true
+     *               or enabled - false
      */
-    private void disableButtonsOnClick(boolean status) {
+    private void disableButtonsOnClick(final boolean status) {
         createNewWorkbookButton.setDisable(status);
         openFromLocalButton.setDisable(status);
         openFromCloudButton.setDisable(status);
     }
 
 
+    /**
+     * Method will invoke OneDrive dialog via Microsoft graphs
+     * to fetch file directly from OneDrive.
+     */
+    @NotImplemented
     public void openFromCloud() {
         AlertBox alertBox = new AlertBox();
         alertBox.displayAlertBox(AlertBox.ALERT_BOX_NOT_IMPLEMENTED_FEATURE);
