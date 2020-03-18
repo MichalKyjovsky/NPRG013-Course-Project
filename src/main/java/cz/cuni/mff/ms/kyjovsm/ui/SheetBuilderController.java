@@ -21,6 +21,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -168,6 +170,8 @@ public class SheetBuilderController implements Initializable {
      */
     private static int actualRowIndex;
 
+    private static final String USER_HOME = "user.home";
+
     /**
      * Instance of class Logger enabling easier tracking
      * and debugging, which is documented in generated log file.
@@ -248,21 +252,19 @@ public class SheetBuilderController implements Initializable {
     public void saveDocument() throws FileFormatException {
         FileChooser fileChooser = new FileChooser();
 
-        System.out.println(budgetTracker.toString());
-        System.out.println(SheetBuilder.getNameOfTheDocument());
-        System.out.println(WorkbookBuilder.getPath());
+        String[] path = SheetBuilder.getNameOfTheDocument().split("\\\\");
+        String file = path[path.length  -1 ];
+        fileChooser.setInitialFileName(file);
+        fileChooser.setInitialDirectory(new File(System.getProperty(USER_HOME)));
 
+        File fileToSave = fileChooser.showSaveDialog(new Stage());
 
-//        if (!SheetBuilder.getNameOfTheDocument().strip().isEmpty()) {
-//            fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
-//            fileChooser.setInitialDirectory(Path.
-//                    of(SheetBuilder.getNameOfTheDocument()).
-//                    getParent().toFile());
-//            File file = fileChooser.showSaveDialog(new Stage());
-//        } else {
-//            throw new FileFormatException();
-//        }
-//        logger.log(Level.INFO,"Workbook was successfully saved.");
+        try (FileOutputStream fio = new FileOutputStream(fileToSave)) {
+            budgetTracker.write(fio);
+            logger.log(Level.INFO,"Workbook was successfully saved.");
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, "File saving failed",ioe);
+        }
     }
 
 

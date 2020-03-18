@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class App extends Application {
 
 
@@ -51,7 +53,12 @@ public class App extends Application {
     public void start(final Stage stage) throws FXMLLoaderException {
         Tools tools = new Tools();
         window = stage;
-        window.setOnCloseRequest(e -> System.exit(0));
+        window.setOnCloseRequest(e -> {
+            System.exit(0);
+            try {
+                SheetBuilderController.getBudgetTracker().close();
+            } catch (IOException ioe) { }
+        });
         window.getIcons().add(new Image(LOGO));
         String relatedFxmlLandingPage = "ui/LandingPage.fxml";
         try {

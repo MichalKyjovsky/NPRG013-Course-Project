@@ -150,7 +150,7 @@ public class WorkbookBuilder {
             logger.log(Level.INFO,
                     "Workbook was successfully initiated.");
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE,"Intial workbook has not been created.",ioe);
+            logger.log(Level.SEVERE,"Initial workbook has not been created.",ioe);
             throw new FileFormatException();
         }
         return workbook;
