@@ -75,9 +75,6 @@ public class LandingPageController {
                 SheetBuilder.setNameOfTheDocument(chosenFile.toString());
                 String landingPageControllerClassName =
                         "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
-                App.changeScene(new Scene(tool.
-                        loadFXML(Class.forName(landingPageControllerClassName),
-                                relatedFxmlSheet)));
                 String pathToFile;
 
                 if (!chosenFile.toString().endsWith(FILE_SUFFIX)) {
@@ -88,6 +85,9 @@ public class LandingPageController {
 
                 WorkbookBuilder wb = new WorkbookBuilder();
                 wb.createFromExistingFile(pathToFile);
+                App.changeScene(new Scene(tool.
+                        loadFXML(Class.forName(landingPageControllerClassName),
+                                relatedFxmlSheet)));
             } else {
                 disableButtonsOnClick(false);
             }

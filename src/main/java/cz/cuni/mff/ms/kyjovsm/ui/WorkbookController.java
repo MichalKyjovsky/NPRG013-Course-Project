@@ -174,13 +174,13 @@ public class WorkbookController {
                 try {
                     Stage stage = (Stage) selectMonthButton.
                             getScene().getWindow();
+                    SheetBuilderController.
+                            setBudgetTracker(new WorkbookBuilder().
+                                    createInitialWorkbook());
                     App.changeScene(new Scene(tool.
                             loadFXML(Class.
                                     forName(sheetBuilderControllerClassName),
                                     relatedFxmlSheet)));
-                    SheetBuilderController.
-                            setBudgetTracker(new WorkbookBuilder().
-                                    createInitialWorkbook());
                     stage.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();

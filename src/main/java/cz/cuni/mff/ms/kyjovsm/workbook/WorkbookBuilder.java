@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class WorkbookBuilder {
@@ -102,14 +104,22 @@ public class WorkbookBuilder {
      * @param pathToFile file location of xlsx sheet
      */
     public void createFromExistingFile(final String pathToFile) {
+
         workbook = null;
         path = pathToFile;
         try (FileInputStream fis = new FileInputStream(new File(pathToFile))) {
             SheetBuilderController.setBudgetTracker(new XSSFWorkbook(fis));
+            SheetBuilderController.setActualSheet(SheetBuilderController.
+                    getBudgetTracker().getSheetAt(0));
+            SheetBuilderController.setActualColumn(SheetBuilderController.
+                    getActualSheet().getRow(0).getCell(0).getStringCellValue());
+            SheetBuilderController.setActualRow(SheetBuilderController.
+                    getActualSheet().getRow(0).getCell(1).getStringCellValue());
+
+            logger.log(Level.INFO,"Workbook successfully opened");
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.log(Level.SEVERE, "Workbook has been opened successfully.", ioe);
         }
-        logger.fine("Workbook successfully opened");
     }
 
     /**
@@ -119,6 +129,7 @@ public class WorkbookBuilder {
      * @throws FileFormatException
      */
     public Workbook createInitialWorkbook() throws FileFormatException {
+
         workbook = null;
         File currDir = new File(System.getProperty(USER_HOME_DIR));
         path =
@@ -136,10 +147,12 @@ public class WorkbookBuilder {
                             + SEPARATOR + ldt.getYear());
             createInitialSheet(sheet01, initialMonth, this.workbook);
             workbook.write(outputStream);
+            logger.log(Level.INFO,
+                    "Workbook was successfully initiated.");
         } catch (IOException ioe) {
+            logger.log(Level.SEVERE,"Intial workbook has not been created.",ioe);
             throw new FileFormatException();
         }
-        logger.fine("Workbook was successfully initiated and saved to user HOME directory.");
         return workbook;
     }
 
@@ -201,6 +214,11 @@ public class WorkbookBuilder {
             }
             cell1.setCellValue(String.format("%.2f CZK", (double) 0));
         }
+        SheetBuilderController.setActualSheet(newSheet);
+        SheetBuilderController.setActualColumn(SheetBuilderController.
+                getActualSheet().getRow(0).getCell(0).getStringCellValue());
+        SheetBuilderController.setActualRow(SheetBuilderController.
+                getActualSheet().getRow(0).getCell(1).getStringCellValue());
     }
 
     /**

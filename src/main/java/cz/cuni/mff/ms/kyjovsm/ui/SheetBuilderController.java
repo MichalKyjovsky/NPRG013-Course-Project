@@ -6,7 +6,9 @@ import cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer;
 import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
+import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -14,31 +16,36 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SheetBuilderController {
+public class SheetBuilderController implements Initializable {
     /**
      * Instance of class Label displaying actual selected row.
      */
     @FXML
-    private Label selectedRowLabel;
+    private  Label selectedRowLabel;
     /**
      * Instance of class Label displaying actual selected column.
      */
     @FXML
-    private Label selectedColumnLabel;
+    private  Label selectedColumnLabel;
     /**
      * Instance of class Label displaying actual selected sheet.
      */
     @FXML
-    private Label selectedSheetLabel;
+    private  Label selectedSheetLabel;
     /**
      * Instance of class MenuButton allowing
      * to select actual row to which user can set value.
@@ -111,6 +118,35 @@ public class SheetBuilderController {
      */
     private static Workbook budgetTracker;
 
+    public static void setActualSheet(Sheet actualSheet) {
+        SheetBuilderController.actualSheet = actualSheet;
+    }
+
+    public static void setActualColumn(String actualColumn) {
+        SheetBuilderController.actualColumn = actualColumn;
+
+        for (Cell header: actualSheet.getRow(0)) {
+            if (header.getStringCellValue().equals(actualColumn)) {
+                SheetBuilderController.actualColumnIndex =
+                        header.getColumnIndex();
+            }
+        }
+    }
+
+    public static void setActualRow(String actualRow) {
+        SheetBuilderController.actualRow = actualRow;
+
+        int maxHeight = 35;
+        try {
+            for (int i = 0; i < maxHeight; i++) {
+                if (actualRow.equals(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
+                    actualRowIndex = i;
+                    break;
+                }
+            }
+        } catch (Exception e) { }
+    }
+
     /**
      * Reference to the actual selected sheet.
      */
@@ -131,16 +167,12 @@ public class SheetBuilderController {
      * Variable storing integer index of current selected row.
      */
     private static int actualRowIndex;
-    /**
-     * Instance of class Tools enabling functionality
-     * of changing between current displayed Scene.
-     */
-    private final Tools tool = new Tools();
+
     /**
      * Instance of class Logger enabling easier tracking
      * and debugging, which is documented in generated log file.
      */
-    private final Logger logger = Logger.getLogger("SheetBuilderController");
+    private final Logger logger = Logger.getLogger(SheetBuilderController.class.getName());
 
     /**
      * Method returns reference to the current sheet if
@@ -212,19 +244,25 @@ public class SheetBuilderController {
      * to save his work.
      * @throws FileFormatException
      */
+
     public void saveDocument() throws FileFormatException {
         FileChooser fileChooser = new FileChooser();
 
-        if (!SheetBuilder.getNameOfTheDocument().strip().isEmpty()) {
-            fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
-            fileChooser.setInitialDirectory(Path.
-                    of(SheetBuilder.getNameOfTheDocument()).
-                    getParent().toFile());
-            File file = fileChooser.showSaveDialog(new Stage());
-        } else {
-            throw new FileFormatException();
-        }
-        logger.fine("Workbook was successfully saved.");
+        System.out.println(budgetTracker.toString());
+        System.out.println(SheetBuilder.getNameOfTheDocument());
+        System.out.println(WorkbookBuilder.getPath());
+
+
+//        if (!SheetBuilder.getNameOfTheDocument().strip().isEmpty()) {
+//            fileChooser.setInitialFileName(SheetBuilder.getNameOfTheDocument());
+//            fileChooser.setInitialDirectory(Path.
+//                    of(SheetBuilder.getNameOfTheDocument()).
+//                    getParent().toFile());
+//            File file = fileChooser.showSaveDialog(new Stage());
+//        } else {
+//            throw new FileFormatException();
+//        }
+//        logger.log(Level.INFO,"Workbook was successfully saved.");
     }
 
 
@@ -233,14 +271,13 @@ public class SheetBuilderController {
      * whenever is SUBMIT button pressed.
      */
     public void sendValueToCell() {
+
         if (valueInputField.getCharacters().toString().matches("[0-9]+")) {
             sheetBuilder.
                     setCellValue(valueInputField.getCharacters().toString(),
                     actualSheet, actualColumnIndex, actualRowIndex);
-            logger.fine(
-                    String.format("Value in column: %s for a day:"
-                            + " %s was successfully updated.",
-                            actualColumn, actualRow));
+            logger.log(Level.INFO,
+                    "Value cell has been successfully updated.");
         } else {
             AlertBox alertBox = new AlertBox();
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
@@ -257,12 +294,13 @@ public class SheetBuilderController {
      * Method will erase given column and recalculate whole sheet.
      */
     public void deleteColumn() {
+
         sheetBuilder.deleteColumn(actualColumn);
         MenuItem toDelete = null;
 
-        for (int i = 0; i < currentColumns.size(); i++) {
-            if (actualColumn.equals(currentColumns.get(i).getText())) {
-                toDelete = currentColumns.get(i);
+        for (MenuItem currentColumn : currentColumns) {
+            if (actualColumn.equals(currentColumn.getText())) {
+                toDelete = currentColumn;
             }
         }
 
@@ -279,7 +317,7 @@ public class SheetBuilderController {
         selectedColumnLabel.setText(actualColumn);
         columnSelectButton.getItems().remove(toDelete);
         actualizationColumnsSelection();
-        logger.fine("Column was successfully deleted.");
+        logger.log(Level.INFO,"Column was successfully deleted.");
     }
 
 
@@ -290,6 +328,7 @@ public class SheetBuilderController {
      */
     public void addNewSheet() {
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
+
         try {
             sheetNameInitializer.setNewTrackingMonth();
             disableAllElements(true);
@@ -297,9 +336,10 @@ public class SheetBuilderController {
                     setOnCloseRequest(e -> disableAllElements(false));
             sheetNameInitializer.getDialogWindow().
                     setOnHidden(e -> disableAllElements(false));
-            logger.fine("New sheet has been added.");
+            logger.log(Level.INFO,"New sheet has been added.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE,
+                    "Adding sheet has invoked an exception.", e);
         }
     }
 
@@ -390,6 +430,9 @@ public class SheetBuilderController {
         actualizationSheetSelection();
         actualizationColumnsSelection();
         actualizationRowSelection();
+        updateColumnsLabel();
+        updateRowLabel();
+        updateSheetLabel();
     }
 
     /**
@@ -445,6 +488,7 @@ public class SheetBuilderController {
      * TOTAL column.
      */
     public void addNewColumn() {
+
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
         try {
             if (actualSheet != null) {
@@ -463,11 +507,12 @@ public class SheetBuilderController {
                 sheetNameInitializer.getDialogWindow().
                         setOnHidden(e -> disableAllElements(false));
             }
-            logger.fine("New column has been added.");
             updateOptions();
         } catch (Exception e) {
             e.printStackTrace();
+            logger.log(Level.SEVERE, "Adding column has invoked an exception.",e);
         }
+        logger.log(Level.INFO,"New column has been added.");
     }
 
     /**
@@ -487,5 +532,14 @@ public class SheetBuilderController {
                 }
             });
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        selectedSheetLabel.setText(SheetBuilderController.actualSheet.getSheetName());
+        selectedColumnLabel.setText(SheetBuilderController.actualSheet.
+                getRow(0).getCell(0).getStringCellValue());
+        selectedRowLabel.setText(SheetBuilderController.actualSheet.
+                getRow(1).getCell(0).getStringCellValue());
     }
 }

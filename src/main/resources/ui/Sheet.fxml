@@ -150,11 +150,14 @@
    <bottom>
       <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="950.0" spacing="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="valueInputField" prefHeight="43.0" prefWidth="422.0" promptText="PLACE FOR YOURS NUMBERS" />
+            <TextField fx:id="valueInputField" onAction="#sendValueToCell" prefHeight="43.0" prefWidth="422.0" promptText="PLACE FOR YOURS NUMBERS" />
             <Button fx:id="submitValueButton" mnemonicParsing="false" onAction="#sendValueToCell" prefHeight="48.0" prefWidth="174.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="SUBMIT" textFill="WHITE">
                <font>
                   <Font size="19.0" />
                </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Button>
          </children>
          <padding>

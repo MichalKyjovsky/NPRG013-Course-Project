@@ -94,6 +94,7 @@ public class AlertBoxSaveAndLeave {
         try {
             String relatedFxmlLandingPage = "ui/LandingPage.fxml";
             String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
+            SheetBuilderController.getBudgetTracker().close();
             App.changeScene(new Scene(tool.loadFXML(
                     Class.forName(mainClassName), relatedFxmlLandingPage)));
         } catch (Exception e1) {
