@@ -28,25 +28,71 @@ import java.util.logging.Logger;
 public class WorkbookBuilder {
 
     private Workbook workbook;
+    /**
+     * Instance of LocalDateTime class providing current time.
+     */
     private LocalDateTime ldt;
+    /**
+     * Variable storing the full path to the document.
+     */
     private static  String  path;
+    /**
+     * Integer variable storing value of initial month.
+     */
     private static int initialMonth;
+    /**
+     * File name prefix.
+     */
     private static final String SHEET_PREFIX = "Budget_";
+    /**
+     * File name separator.
+     */
     private static final String SEPARATOR = "_";
+    /**
+     * User home directory, OS independent.
+     */
     private static final String USER_HOME_DIR = "user.home";
+    /**
+     * Default column width.
+     */
     private static final int COLUMNS_WIDTH = 4000;
+    /**
+     * Default header cells height.
+     */
     private static final int HEADER_HEIGHT = 40;
+    /**
+     * Heading String for TOTAL column.
+     */
     private static final String TOTAL_HEADING = "TOTAL";
+    /**
+     * Heading String for DATE column.
+     */
     private static final String DATE_HEADING = "DATE";
+    /**
+     * Date format String.
+     */
     private static final String DATE_FORMAT = "dd-MM-yyyy";
+    /**
+     * Account format String.
+     */
     private static final String ACCOUNT_FORMAT = "#,##0.00";
-    private final Logger logger = Logger.getLogger("WorkbookBuilder");
-    private int fontSize = 11;
+    /**
+     * Logger instance for logging status of application execution.
+     */
+    private final Logger logger =
+            Logger.getLogger(WorkbookBuilder.class.getName());
 
+    /**
+     * @return full path to the file on local disk
+     */
     public static String getPath() {
         return path;
     }
 
+    /**
+     * Method for setting Initial Month.
+     * @param initialMonth initial tracking month
+     */
     public static void setInitialMonth(final int initialMonth) {
         WorkbookBuilder.initialMonth = initialMonth;
     }
@@ -83,7 +129,11 @@ public class WorkbookBuilder {
         try (FileOutputStream outputStream = new FileOutputStream(path)) {
             workbook = new XSSFWorkbook();
             ldt = LocalDateTime.now();
-            Sheet sheet01 = workbook.createSheet(SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear());
+            Sheet sheet01 =
+                    workbook.createSheet(SHEET_PREFIX
+                            + new DateFormatSymbols().
+                            getMonths()[initialMonth - 1].toUpperCase()
+                            + SEPARATOR + ldt.getYear());
             createInitialSheet(sheet01, initialMonth, this.workbook);
             workbook.write(outputStream);
         } catch (IOException ioe) {
@@ -153,6 +203,10 @@ public class WorkbookBuilder {
         }
     }
 
+    /**
+     * @param workbook
+     * @return basic style for all Cells.
+     */
     private CellStyle setBasicCellStyle(final Workbook workbook) {
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
@@ -166,6 +220,10 @@ public class WorkbookBuilder {
         return style;
     }
 
+    /**
+     * @param headerStyleBlack
+     * @param headerStyleRed
+     */
     private void setBasicHeader(final CellStyle headerStyleBlack, final CellStyle headerStyleRed) {
         headerStyleBlack.setFillForegroundColor(IndexedColors.BLACK.index);
         headerStyleRed.setFillForegroundColor(IndexedColors.DARK_RED.index);
@@ -175,10 +233,16 @@ public class WorkbookBuilder {
         headerStyleRed.setAlignment(HorizontalAlignment.CENTER);
     }
 
+    /**
+     * @param font
+     * @param fontStyle
+     * @return default font style setup
+     */
     private XSSFFont setFont(final XSSFFont font, final String fontStyle) {
         font.setFontName(fontStyle);
         font.setColor(IndexedColors.WHITE.index);
         font.setBold(true);
+        int fontSize = 11;
         font.setFontHeight(fontSize);
         return font;
     }
