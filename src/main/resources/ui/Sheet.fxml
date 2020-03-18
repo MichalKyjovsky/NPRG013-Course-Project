@@ -74,7 +74,7 @@
                         <Insets left="6.0" />
                      </padding>
                   </Label>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="105.0" text="SAVE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="105.0" text="SAVE AS">
                      <padding>
                         <Insets left="30.0" />
                      </padding>
