@@ -24,51 +24,146 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class SheetBuilderController {
+    /**
+     * Instance of class Label displaying actual selected row.
+     */
     @FXML
     private Label selectedRowLabel;
+    /**
+     * Instance of class Label displaying actual selected column.
+     */
     @FXML
     private Label selectedColumnLabel;
+    /**
+     * Instance of class Label displaying actual selected sheet.
+     */
     @FXML
     private Label selectedSheetLabel;
+    /**
+     * Instance of class MenuButton allowing
+     * to select actual row to which user can set value.
+     */
     @FXML
     private MenuButton rowSelectButton;
+    /**
+     * Instance of class MenuButton allowing
+     * to select actual column to which user can set value.
+     */
     @FXML
     private MenuButton columnSelectButton;
+    /**
+     * Instance of class MenuButton
+     * allowing to select actual sheet to which user can set value.
+     */
     @FXML
     private MenuButton sheetSelectButton;
+    /**
+     * Instance of class Button enabling
+     * user to submit value desired to be written
+     * in the cell.
+     */
     @FXML
     private Button submitValueButton;
+    /**
+     * Instance of class button allowing user
+     * to "Save As" his progress.
+     */
     @FXML
     private Button saveButton;
+    /**
+     * Instance of class Button allowing user to
+     * on click action add new column to the actual sheet.
+     */
     @FXML
     private Button addColumnButton;
+    /**
+     * Instance of class Button allowing user to
+     * on click action add new sheet to the opened workbook.
+     */
     @FXML
     private Button addSheetButton;
+    /**
+     * Instance of class Button allowing user to
+     * on click action go to the home page.
+     */
     @FXML
     private Button homeButton;
+    /**
+     * Instance of class Button allowing user to
+     * on click action delete selected column.
+     */
     @FXML
     private Button deleteColumnButton;
+    /**
+     * Instance of class TextField enabling user
+     * input desired values into the sheet.
+     */
     @FXML
     private TextField valueInputField;
+    /**
+     * Instance of class SheetBuilder which provides
+     * functionality necessary for editing sheet and
+     * keep desired form of the workbook.
+     */
     private final SheetBuilder sheetBuilder = new SheetBuilder();
+    /**
+     * Variable holding current opened Workbook.
+     */
     private static Workbook budgetTracker;
 
+    /**
+     * Reference to the actual selected sheet.
+     */
     private static Sheet actualSheet;
+    /**
+     * Reference to the actual selected column.
+     */
     private static String actualColumn;
+    /**
+     * Reference to the actual selected row.
+     */
     private static String actualRow;
+    /**
+     * Variable storing integer index of current selected column.
+     */
     private static int actualColumnIndex;
+    /**
+     * Variable storing integer index of current selected row.
+     */
     private static int actualRowIndex;
+    /**
+     * Instance of class Tools enabling functionality
+     * of changing between current displayed Scene.
+     */
     private final Tools tool = new Tools();
+    /**
+     * Instance of class Logger enabling easier tracking
+     * and debugging, which is documented in generated log file.
+     */
     private final Logger logger = Logger.getLogger("SheetBuilderController");
 
+    /**
+     * Method returns reference to the current sheet if
+     * another class request for this information.
+     * @return reference to the actual selected sheet.
+     */
     public static Sheet getActualSheet() {
         return SheetBuilderController.actualSheet;
     }
 
+    /**
+     * Method enable to set current editing Workbook.
+     * @param tracker initialized Workbook
+     *                created/loaded from WorkbookBuilder class.
+     */
     public static void setBudgetTracker(final Workbook tracker) {
         SheetBuilderController.budgetTracker = tracker;
     }
 
+    /**
+     * Method for obtaining reference to the current Workbook.
+     * @return current opened Workbook.
+     */
     public static Workbook getBudgetTracker() {
         return budgetTracker;
     }
@@ -208,13 +303,11 @@ public class SheetBuilderController {
         }
     }
 
-
-    private static List<MenuItem> currentSheets = new ArrayList<>();
-
     /**
      * Method will provide actualization of the option in drop-down menu
      * for Sheet selection. Recalculation is performed on Mouse Action.
      */
+    private static List<MenuItem> currentSheets = new ArrayList<>();
     private void actualizationSheetSelection() {
         if (budgetTracker.getNumberOfSheets()
                 > sheetSelectButton.getItems().size()) {

@@ -14,34 +14,79 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorkbookController {
+    /**
+     * Instance of class MenuButton enabling user to
+     * select Initial Tracking month.
+     */
     @FXML
     private MenuButton selectMonthButton;
-    @FXML
-    private Button submitMonthButton;
+    /**
+     * Instance of class Button allowing user
+     * to submit chosen name for the Workbook.
+     */
     @FXML
     private Button submitButton;
+    /**
+     * Instance of class TextField providing user
+     * a field for typing name of the Workbook.
+     */
     @FXML
     private TextField inputField;
+    /**
+     * Instance of class Stage displaying dialogs
+     * necessary for initialization of the Workbook.
+     */
     private Stage window;
+    /**
+     * Instance of class AlertBox, which displays whenever
+     * user provide wrong input.
+     */
     private AlertBox alertBox;
+    /**
+     * Instance of class Scene where content
+     * for initializing dialogs is shown.
+     */
     private Scene workBookInitializer;
-    private final String workbookControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.WorkbookController";
+    /**
+     * Variable storing full class name necessary for loading
+     * the class related FXML file.
+     */
+    private final String workbookControllerClassName =
+            "cz.cuni.mff.ms.kyjovsm.ui.WorkbookController";
+    /**
+     * Instance of class Tools providing functionality
+     * of loading FXML into Scene instance.
+     */
     private final Tools tool;
 
-    public static void setNameOfDoc(String nameOfDoc) {
+    /**
+     * Method on invoked dialog enables to set name of the
+     * Workbook which tend to be processed.
+     * @param nameOfDoc Name of the Workbook.
+     */
+    public static void setNameOfDoc(final String nameOfDoc) {
         WorkbookController.nameOfDoc = nameOfDoc;
     }
 
+    /**
+     * Variable holding name of the Workbook.
+     */
     private static String nameOfDoc;
 
+    /**
+     * Constructor method.
+     */
     public WorkbookController() {
         tool = new Tools();
     }
 
+    /**
+     * Method returning current displayed Stage instance.
+     * @return Current showing window.
+     */
     public Stage getElement() {
         return this.window;
     }
@@ -55,7 +100,11 @@ public class WorkbookController {
         String relatedFxmlWorkbook = "ui/Workbook.fxml";
         try {
             window = new Stage();
-            workBookInitializer = new Scene(tool.loadFXML(Class.forName(workbookControllerClassName), relatedFxmlWorkbook));
+            workBookInitializer =
+                    new Scene(tool.
+                            loadFXML(Class.
+                                    forName(workbookControllerClassName),
+                                    relatedFxmlWorkbook));
             window.setScene(workBookInitializer);
             window.show();
         } catch (Exception e) {
@@ -94,7 +143,11 @@ public class WorkbookController {
                 inputField.setText("");
             } else {
                 SheetBuilder.setNameOfTheDocument(nameOfDoc);
-                workBookInitializer = new Scene(tool.loadFXML(Class.forName(workbookControllerClassName), relatedFxmlInitialMonthDialog));
+                workBookInitializer =
+                        new Scene(tool.
+                                loadFXML(Class.
+                                        forName(workbookControllerClassName),
+                                        relatedFxmlInitialMonthDialog));
                 stage.setScene(workBookInitializer);
                 stage.show();
             }
@@ -111,16 +164,23 @@ public class WorkbookController {
     private void setupInitialMonth() {
         List<MenuItem> menuItems = selectMonthButton.getItems();
         String relatedFxmlSheet = "ui/Sheet.fxml";
-        String sheetBuilderControllerClassName = "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
+        String sheetBuilderControllerClassName =
+                "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
 
-        for (MenuItem mi : menuItems){
+        for (MenuItem mi : menuItems) {
             mi.setOnAction(e -> {
                 int index = menuItems.indexOf(mi) + 1;
                 WorkbookBuilder.setInitialMonth(index);
                 try {
-                    Stage stage = (Stage) selectMonthButton.getScene().getWindow();
-                    App.changeScene(new Scene(tool.loadFXML(Class.forName(sheetBuilderControllerClassName), relatedFxmlSheet)));
-                    SheetBuilderController.setBudgetTracker(new WorkbookBuilder().createInitialWorkbook());
+                    Stage stage = (Stage) selectMonthButton.
+                            getScene().getWindow();
+                    App.changeScene(new Scene(tool.
+                            loadFXML(Class.
+                                    forName(sheetBuilderControllerClassName),
+                                    relatedFxmlSheet)));
+                    SheetBuilderController.
+                            setBudgetTracker(new WorkbookBuilder().
+                                    createInitialWorkbook());
                     stage.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -131,7 +191,12 @@ public class WorkbookController {
 
     }
 
-    public void enterSubmit(ActionEvent ae) {
+    /**
+     * Method enables to submit value directly by
+     * pressing enter key instead of pressing button.
+     * @param ae ENTER key pressed action.
+     */
+    public void enterSubmit(final ActionEvent ae) {
         create();
     }
 }

@@ -41,12 +41,13 @@ public class WorkbookBuilder {
     private static final String DATE_FORMAT = "dd-MM-yyyy";
     private static final String ACCOUNT_FORMAT = "#,##0.00";
     private final Logger logger = Logger.getLogger("WorkbookBuilder");
+    private int fontSize = 11;
 
     public static String getPath() {
         return path;
     }
 
-    public static void setInitialMonth(int initialMonth) {
+    public static void setInitialMonth(final int initialMonth) {
         WorkbookBuilder.initialMonth = initialMonth;
     }
 
@@ -54,7 +55,7 @@ public class WorkbookBuilder {
      * Method will load particular xlsx sheet into the XSSDWorkbook instance.
      * @param pathToFile file location of xlsx sheet
      */
-    public void createFromExistingFile(String pathToFile) {
+    public void createFromExistingFile(final String pathToFile) {
         workbook = null;
         path = pathToFile;
         try (FileInputStream fis = new FileInputStream(new File(pathToFile))) {
@@ -67,13 +68,17 @@ public class WorkbookBuilder {
 
     /**
      * Method for creating initial unified Workbook.
-     * @return Workbook instance prepared to work with in accordance to predefined pattern.
+     * @return Workbook instance prepared
+     * to work with in accordance to predefined pattern.
      * @throws FileFormatException
      */
     public Workbook createInitialWorkbook() throws FileFormatException {
         workbook = null;
         File currDir = new File(System.getProperty(USER_HOME_DIR));
-        path = currDir.getAbsolutePath() + File.separator + SheetBuilder.getNameOfTheDocument();
+        path =
+                currDir.getAbsolutePath()
+                        + File.separator
+                        + SheetBuilder.getNameOfTheDocument();
 
         try (FileOutputStream outputStream = new FileOutputStream(path)) {
             workbook = new XSSFWorkbook();
@@ -94,7 +99,7 @@ public class WorkbookBuilder {
      * @param initialMonth initial selected month
      * @param workbook new Workbook instance
      */
-    void createInitialSheet(Sheet newSheet, int initialMonth, Workbook workbook) {
+    void createInitialSheet(final Sheet newSheet, final int initialMonth, final Workbook workbook) {
         ldt = LocalDateTime.now();
         YearMonth yearMonth = YearMonth.of(ldt.getYear(), initialMonth);
         newSheet.setDefaultColumnWidth(COLUMNS_WIDTH);
@@ -148,7 +153,7 @@ public class WorkbookBuilder {
         }
     }
 
-    private CellStyle setBasicCellStyle(Workbook workbook) {
+    private CellStyle setBasicCellStyle(final Workbook workbook) {
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
         style.setAlignment(HorizontalAlignment.CENTER);
@@ -161,7 +166,7 @@ public class WorkbookBuilder {
         return style;
     }
 
-    private void setBasicHeader(CellStyle headerStyleBlack, CellStyle headerStyleRed) {
+    private void setBasicHeader(final CellStyle headerStyleBlack, final CellStyle headerStyleRed) {
         headerStyleBlack.setFillForegroundColor(IndexedColors.BLACK.index);
         headerStyleRed.setFillForegroundColor(IndexedColors.DARK_RED.index);
         headerStyleBlack.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -170,11 +175,11 @@ public class WorkbookBuilder {
         headerStyleRed.setAlignment(HorizontalAlignment.CENTER);
     }
 
-    private XSSFFont setFont(XSSFFont font, String fontStyle) {
+    private XSSFFont setFont(final XSSFFont font, final String fontStyle) {
         font.setFontName(fontStyle);
         font.setColor(IndexedColors.WHITE.index);
         font.setBold(true);
-        font.setFontHeight(11);
+        font.setFontHeight(fontSize);
         return font;
     }
 }

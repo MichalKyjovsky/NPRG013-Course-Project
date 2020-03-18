@@ -18,31 +18,67 @@ import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;
 
 public class SheetBuilder {
+    /**
+     * Instance of the current opened Workbook.
+     */
     private Workbook workbook;
+    /**
+     * Default column width.
+     */
     private static final int COLUMNS_WIDTH = 4000;
+    /**
+     * Default column height.
+     */
     private static final int HEADER_HEIGHT = 40;
+    /**
+     * Static Sheet name prefix.
+     */
     private static final String SHEET_PREFIX = "Budget_";
+    /**
+     * Default Sheet's name separator.
+     */
     private static final String SEPARATOR = "_";
+    /**
+     * Static name of the Workbook.
+     */
     private static String nameOfTheDocument;
+    /**
+     * Default file suffix.
+     */
     private static final String FILE_SUFFIX = ".xlsx";
 
+    /**
+     * @return number of rows in the sheet.
+     */
     public static int getSheetHeight() {
         return sheetHeight;
     }
 
+    /**
+     * Variables containing number of rows in the sheet.
+     */
     private static int sheetHeight;
+    /**
+     * Number of active columns in the sheet.
+     */
     private static int sheetWidth;
+    /**
+     * Default size of the font.
+     */
+    private static int fontSize = 11;
 
+    /**
+     * Constructor method.
+     */
     public SheetBuilder() {
         workbook = SheetBuilderController.getBudgetTracker();
     }
-
 
     /**
      * Method will validate oath to the document.
      * @param name path to the document
      */
-    public static void setNameOfTheDocument(String name) {
+    public static void setNameOfTheDocument(final String name) {
         if (!name.endsWith(FILE_SUFFIX)) {
             nameOfTheDocument = name + FILE_SUFFIX;
         } else {
@@ -50,10 +86,12 @@ public class SheetBuilder {
         }
     }
 
+    /**
+     * @return return full path with file type suffix of the file.
+     */
     public static String getNameOfTheDocument() {
         return nameOfTheDocument;
     }
-
 
     /**
      * Method updates values of cells depending on user input from GUI.
@@ -62,20 +100,19 @@ public class SheetBuilder {
      * @param columnIndex actual column index
      * @param rowIndex actual row index
      */
-    public void setCellValue(String value, Sheet actualSheet, int columnIndex, int rowIndex) {
+    public void setCellValue(final String value, final Sheet actualSheet, final int columnIndex, final int rowIndex) {
             Double var = Double.parseDouble(value);
             actualSheet.getRow(rowIndex).getCell(columnIndex).setCellValue(String.format("%.2f", var));
             recalculateTotal(actualSheet);
             saveProgress();
     }
 
-
     /**
      * When user in GUI choose to add new sheet, method will initiate new sheet.
      * with predefined pattern and naming conventions
      * @param initialMonth initial tracking month
      */
-    public void createNewSheet(int initialMonth) {
+    public void createNewSheet(final int initialMonth) {
         LocalDateTime ldt = LocalDateTime.now();
         String sheetName = SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear();
         Sheet newSheet = workbook.createSheet(sheetName);
@@ -89,16 +126,16 @@ public class SheetBuilder {
         }
     }
 
-
     /**
      * Method calculates number of records in particular sheet.
      * @param sheet actual sheet
      * @return number of records in the sheet
      */
-    public int calcSheetHeight(Sheet sheet) {
+    public int calcSheetHeight(final Sheet sheet) {
             sheetHeight = 0;
+            int maxHeight = 35;
             try {
-                for (int i = 0; i < 35; i++) {
+                for (int i = 0; i < maxHeight; i++) {
                     if (!sheet.getRow(i).getCell(0).getStringCellValue().isEmpty()) {
                         sheetHeight++;
                     }
@@ -108,7 +145,6 @@ public class SheetBuilder {
         return sheetHeight;
         }
 
-
     /**
      * Method secures correct remapping of TOTAL column
      * whenever new column is added.
@@ -116,7 +152,7 @@ public class SheetBuilder {
      * @param position position of new added column
      * @param columnName name of the new added column
      */
-    private void remapTotalColumn(Sheet sheet, int position, String columnName) {
+    private void remapTotalColumn(final Sheet sheet, final int position, final String columnName) {
         workbook = SheetBuilderController.getBudgetTracker();
         CellStyle totalHeaderStyle = workbook.createCellStyle();
         CellStyle defaultHeaderStyle = workbook.createCellStyle();
@@ -143,7 +179,6 @@ public class SheetBuilder {
         }
     }
 
-
     /**
      * Method will save permanently all changes.
      */
@@ -156,12 +191,12 @@ public class SheetBuilder {
         }
     }
 
-
     /**
-     * Method sets predefined cell design for cells which will contain some value.
+     * Method sets predefined cell design
+     * for cells which will contain some value.
      * @param cellStyle new cell style
      */
-    private void setDefaultDesign(CellStyle cellStyle) {
+    private void setDefaultDesign(final CellStyle cellStyle) {
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setBorderBottom(BorderStyle.MEDIUM);
         cellStyle.setBorderLeft(BorderStyle.MEDIUM);
@@ -169,7 +204,7 @@ public class SheetBuilder {
         cellStyle.setBorderTop(BorderStyle.MEDIUM);
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setFontName("Calibri");
-        font.setFontHeight(11);
+        font.setFontHeight(fontSize);
         cellStyle.setFont(font);
     }
 
@@ -177,23 +212,22 @@ public class SheetBuilder {
     * Method sets predefined cell design header section.
     * @param cellStyle new cell style
     */
-    private void setCommonHeaderDesign(CellStyle cellStyle) {
+    private void setCommonHeaderDesign(final CellStyle cellStyle) {
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setBold(true);
         font.setFontName("Calibri");
         font.setColor(IndexedColors.WHITE.index);
-        font.setFontHeight(11);
+        font.setFontHeight(fontSize);
         cellStyle.setFont(font);
     }
-
 
     /**
      * Method sets design for all headers nor the TOTAL column.
      * @param cellStyle new cell style
      */
-    private void setDefaultHeader(CellStyle cellStyle) {
+    private void setDefaultHeader(final CellStyle cellStyle) {
         cellStyle.setFillForegroundColor(IndexedColors.BLACK.index);
         setCommonHeaderDesign(cellStyle);
     }
@@ -202,18 +236,17 @@ public class SheetBuilder {
      * Method sets design for TOTAL column header.
      * @param cellStyle new cell style
      */
-    private void setTotalHeader(CellStyle cellStyle) {
+    private void setTotalHeader(final CellStyle cellStyle) {
         cellStyle.setFillForegroundColor(IndexedColors.DARK_RED.index);
         setCommonHeaderDesign(cellStyle);
     }
-
 
     /**
      * Initiate method for creating new column on user requirement
      * in accordance to predefined design pattern.
      * @param columnName new column name
      */
-    public void createNewColumn(String columnName) {
+    public void createNewColumn(final String columnName) {
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
         calcSheetHeight(actualSheet);
@@ -226,14 +259,15 @@ public class SheetBuilder {
      * Method secures proper deletion and remapping of given column.
      * @param columnName name of column which is going to be deleted
      */
-    public void deleteColumn(String columnName) {
+    public void deleteColumn(final String columnName) {
         Sheet actualSheet = SheetBuilderController.getActualSheet();
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
         int indexOfDeletedColumn = 0;
 
         for (int i = 0; i < sheetWidth; i++) {
             if (columnName.equals(actualSheet.getRow(0).getCell(i).getStringCellValue())) {
-                indexOfDeletedColumn = actualSheet.getRow(0).getCell(i).getColumnIndex();
+                indexOfDeletedColumn =
+                        actualSheet.getRow(0).getCell(i).getColumnIndex();
             }
         }
         eraseColumnByIndex(indexOfDeletedColumn, actualSheet);
@@ -246,19 +280,19 @@ public class SheetBuilder {
      * @param columnIndex index of column which will be erased
      * @param actualSheet actual sheet name
      */
-    private void eraseColumnByIndex(int columnIndex, Sheet actualSheet) {
+    private void eraseColumnByIndex(final int columnIndex, final Sheet actualSheet) {
         for (int i = 0; i < sheetHeight; i++) {
-            actualSheet.getRow(i).removeCell(actualSheet.getRow(i).getCell(columnIndex));
+            actualSheet.getRow(i).
+                    removeCell(actualSheet.getRow(i).getCell(columnIndex));
         }
     }
-
 
     /**
      * Method secures proper remapping after column deletion.
      * @param columnIndex index of column which was erased
      * @param actualSheet actual sheet name
      */
-    private void remapColumnAfterErasing(int columnIndex, Sheet actualSheet) {
+    private void remapColumnAfterErasing(final int columnIndex, final Sheet actualSheet) {
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
         workbook = SheetBuilderController.getBudgetTracker();
         calcSheetHeight(actualSheet);
@@ -268,7 +302,8 @@ public class SheetBuilder {
         for (int i = columnIndex + 1; i < sheetWidth; i++) {
             for (int j = 0; j < sheetHeight; j++) {
                 Cell newCell = actualSheet.getRow(j).createCell(i - 1);
-                newCell.setCellValue(actualSheet.getRow(j).getCell(i).getStringCellValue());
+                newCell.setCellValue(actualSheet.
+                        getRow(j).getCell(i).getStringCellValue());
 
                 if (i == sheetWidth - 1 && j == 0) {
                     setTotalHeader(headerTotal);
@@ -283,20 +318,25 @@ public class SheetBuilder {
         recalculateTotal(actualSheet);
     }
 
-
     /**
      * Method recalculates values int TOTAL column whenever
      * action in sheet is performed.
      * @param actualSheet actual sheet name
      */
-    private void recalculateTotal(Sheet actualSheet) {
+    private void recalculateTotal(final Sheet actualSheet) {
         double sum = 0;
 
         for (int i = 1; i < sheetHeight; i++) {
-            for (int j = 1; j < actualSheet.getRow(0).getLastCellNum() - 1; j++) {
-                sum += Double.parseDouble(actualSheet.getRow(i).getCell(j).getStringCellValue());
+            int lastCell = actualSheet.getRow(0).getLastCellNum() - 1;
+            for (int j = 1; j < lastCell; j++) {
+                sum += Double.
+                        parseDouble(actualSheet.getRow(i).
+                                getCell(j).getStringCellValue());
             }
-            actualSheet.getRow(i).getCell(actualSheet.getRow(0).getLastCellNum() - 1).setCellValue(String.format("%.2f CZK", sum));
+            actualSheet.
+                    getRow(i).getCell(actualSheet.getRow(0).
+                            getLastCellNum() - 1).
+                            setCellValue(String.format("%.2f CZK", sum));
             sum = 0;
         }
     }
