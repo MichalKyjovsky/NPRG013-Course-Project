@@ -17,6 +17,11 @@ import java.io.File;
 public class LandingPageController {
 
     /**
+     * User home directory, OS independent.
+     */
+    private static final String USER_HOME = "user.home";
+
+    /**
      * Button class instance which on action creates
      * new initial workbook.
      */
@@ -66,6 +71,7 @@ public class LandingPageController {
     public void displayFileExplorer() throws FXMLLoaderException {
         Stage fileDialog = new Stage();
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty(USER_HOME)));
         Tools tool = new Tools();
         String relatedFxmlSheet = "ui/Sheet.fxml";
         try {

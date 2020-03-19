@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="660.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController">
+<BorderPane  prefHeight="660.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController">
    <center>
       <VBox prefHeight="198.0" prefWidth="950.0" BorderPane.alignment="CENTER">
          <children>
@@ -90,7 +90,19 @@
    <top>
       <AnchorPane prefHeight="280.0" prefWidth="950.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Pane layoutX="452.0" layoutY="-24.0" prefHeight="203.0" prefWidth="414.0" rotate="126.9" style="-fx-background-color: #00cca3; -fx-background-radius: 0 65 65 0;" stylesheets="@../css/LandingPageDesign.css" />
+            <Pane layoutX="452.0" layoutY="-24.0" prefHeight="203.0" prefWidth="414.0" rotate="126.9" style="-fx-background-color: #00cca3; -fx-background-radius: 0 65 65 0;" stylesheets="@../css/LandingPageDesign.css">
+               <children>
+                  <Label layoutX="203.0" layoutY="97.0" prefHeight="42.0" prefWidth="93.0" rotate="-126.9" text="CELL VALUE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="displayLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="201.0" layoutY="84.0" prefHeight="43.0" prefWidth="176.0" rotate="-126.9" text="0" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
             <VBox alignment="TOP_CENTER" layoutX="83.0" layoutY="45.0" prefHeight="175.0" prefWidth="142.0" spacing="20.0">
                <children>
                   <MenuButton fx:id="sheetSelectButton" mnemonicParsing="true" onMouseClicked="#updateSheetLabel" onMouseMoved="#updateOptions" prefHeight="29.0" prefWidth="117.0" styleClass="button_pattern" stylesheets="@../css/SheetBuilderDesign.css" text="Select Sheet" textAlignment="CENTER" textFill="#fcfcfc">

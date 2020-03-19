@@ -34,6 +34,11 @@ import java.util.logging.Logger;
 
 public class SheetBuilderController implements Initializable {
     /**
+     * Instance of class Label providing displaying of current cell.
+     */
+    @FXML
+    private Label displayLabel;
+    /**
      * Instance of class Label displaying actual selected row.
      */
     @FXML
@@ -288,6 +293,9 @@ public class SheetBuilderController implements Initializable {
             stage.setOnHidden(e -> disableAllElements(false));
             stage.setOnCloseRequest(e -> disableAllElements(false));
         }
+        updateActualCell(actualSheet.
+                getRow(actualRowIndex).
+                getCell(actualColumnIndex).getStringCellValue());
         valueInputField.setText("");
     }
 
@@ -366,6 +374,10 @@ public class SheetBuilderController implements Initializable {
         sheetSelectButton.getItems().addAll(currentSheets);
     }
 
+    private void updateActualCell(String value) {
+        displayLabel.setText(value);
+    }
+
 
     /**
      * Method will provide actualization of the option in drop-down menu
@@ -435,6 +447,9 @@ public class SheetBuilderController implements Initializable {
         updateColumnsLabel();
         updateRowLabel();
         updateSheetLabel();
+        updateActualCell(actualSheet.
+                getRow(actualRowIndex).
+                getCell(actualColumnIndex).getStringCellValue());
     }
 
     /**
@@ -456,6 +471,9 @@ public class SheetBuilderController implements Initializable {
                         actualSheet.getRow(1).getCell(0).getStringCellValue();
                 selectedRowLabel.setText(actualSheet.
                         getRow(1).getCell(0).getStringCellValue());
+                updateActualCell(actualSheet.
+                        getRow(actualRowIndex).
+                        getCell(actualColumnIndex).getStringCellValue());
             });
         }
     }
@@ -479,6 +497,9 @@ public class SheetBuilderController implements Initializable {
                                         .getColumnIndex();
                     }
                 }
+                updateActualCell(actualSheet.
+                        getRow(actualRowIndex).
+                        getCell(actualColumnIndex).getStringCellValue());
             });
         }
     }
@@ -532,6 +553,9 @@ public class SheetBuilderController implements Initializable {
                         actualRowIndex = i;
                     }
                 }
+                updateActualCell(actualSheet.
+                        getRow(actualRowIndex).
+                        getCell(actualColumnIndex).getStringCellValue());
             });
         }
     }
@@ -543,5 +567,8 @@ public class SheetBuilderController implements Initializable {
                 getRow(0).getCell(0).getStringCellValue());
         selectedRowLabel.setText(SheetBuilderController.actualSheet.
                 getRow(1).getCell(0).getStringCellValue());
+        displayLabel.setText(SheetBuilderController.actualSheet.
+                getRow(actualRowIndex).
+                getCell(actualColumnIndex).getStringCellValue());
     }
 }
