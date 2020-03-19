@@ -113,8 +113,6 @@ public class WorkbookController {
     }
 
 
-
-
     /**
      * Method enables user to setup new Workbook name.
      * @throws FXMLLoaderException

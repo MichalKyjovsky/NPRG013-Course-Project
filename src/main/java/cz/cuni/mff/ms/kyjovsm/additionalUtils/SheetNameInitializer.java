@@ -1,6 +1,7 @@
 package cz.cuni.mff.ms.kyjovsm.additionalUtils;
 
 import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -9,7 +10,9 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Sheet;
 
+import java.text.DateFormatSymbols;
 import java.util.List;
 
 public class SheetNameInitializer {
@@ -116,8 +119,14 @@ public class SheetNameInitializer {
     @FXML
     private void submitMonth() {
         List<MenuItem> menuItems = selectMonthButton.getItems();
-
+        Next:
         for (MenuItem mi : menuItems) {
+            for (int i = 0; i < SheetBuilderController.getBudgetTracker().getNumberOfSheets(); i++) {
+                if (SheetBuilderController.getBudgetTracker().getSheetAt(i).getSheetName().contains(mi.getText().toUpperCase())) {
+                    continue Next;
+                }
+            }
+
             mi.setOnAction(e -> {
                 int index = menuItems.indexOf(mi) + 1;
                 try {

@@ -272,7 +272,6 @@ public class SheetBuilderController implements Initializable {
         }
     }
 
-
     /**
      * Method sends given input if correct to the particular cell
      * whenever is SUBMIT button pressed.
@@ -346,11 +345,11 @@ public class SheetBuilderController implements Initializable {
                     setOnCloseRequest(e -> disableAllElements(false));
             sheetNameInitializer.getDialogWindow().
                     setOnHidden(e -> disableAllElements(false));
-            logger.log(Level.INFO,"New sheet has been added.");
         } catch (Exception e) {
             logger.log(Level.SEVERE,
                     "Adding sheet has invoked an exception.", e);
         }
+        logger.log(Level.INFO,"New sheet has been added.");
     }
 
     /**
