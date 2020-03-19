@@ -279,7 +279,7 @@ public class SheetBuilderController implements Initializable {
      */
     public void sendValueToCell() {
 
-        if (valueInputField.getCharacters().toString().matches("[0-9]+")) {
+        if (valueInputField.getCharacters().toString().matches("[0-9+\\-*/()\\s]+")) {
             sheetBuilder.
                     setCellValue(valueInputField.getCharacters().toString(),
                     actualSheet, actualColumnIndex, actualRowIndex);

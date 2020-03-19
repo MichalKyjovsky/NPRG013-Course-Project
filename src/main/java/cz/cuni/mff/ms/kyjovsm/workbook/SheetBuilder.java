@@ -1,5 +1,6 @@
 package cz.cuni.mff.ms.kyjovsm.workbook;
 
+import cz.cuni.mff.ms.kyjovsm.calculator.CalcEntryPoint;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -101,10 +102,11 @@ public class SheetBuilder {
      * @param rowIndex actual row index
      */
     public void setCellValue(final String value, final Sheet actualSheet, final int columnIndex, final int rowIndex) {
-            Double var = Double.parseDouble(value);
-            actualSheet.getRow(rowIndex).getCell(columnIndex).setCellValue(String.format("%.2f", var));
-            recalculateTotal(actualSheet);
-            saveProgress();
+        CalcEntryPoint calc = new CalcEntryPoint();
+        Double var = Double.parseDouble(calc.calc(value));
+        actualSheet.getRow(rowIndex).getCell(columnIndex).setCellValue(String.format("%.2f", var));
+        recalculateTotal(actualSheet);
+        saveProgress();
     }
 
     /**
