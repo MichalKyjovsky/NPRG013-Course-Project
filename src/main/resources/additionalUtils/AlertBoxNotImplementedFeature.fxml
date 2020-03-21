@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="239.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox">
+<AnchorPane prefHeight="239.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.cuni.mff.ms.kyjovsm.utils.AlertBox">
    <children>
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="189.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="95.0">
          <image>

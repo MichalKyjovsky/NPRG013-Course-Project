@@ -1,8 +1,7 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
-import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.utils.AlertBox;
+import cz.cuni.mff.ms.kyjovsm.utils.Tools;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.event.ActionEvent;
@@ -15,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WorkbookController {
     /**
@@ -40,6 +41,11 @@ public class WorkbookController {
      * necessary for initialization of the Workbook.
      */
     private Stage window;
+
+    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+
+    private static final String ALLOWED_NAME_CHARS =
+            "[a-zA-Z0-9][a-zA-Z0-9_ -]*";
     /**
      * Instance of class AlertBox, which displays whenever
      * user provide wrong input.
@@ -61,6 +67,9 @@ public class WorkbookController {
      * of loading FXML into Scene instance.
      */
     private final Tools tool;
+
+    private static Logger logger =
+            Logger.getLogger(WorkbookController.class.getName());
 
     /**
      * Method on invoked dialog enables to set name of the
@@ -94,9 +103,8 @@ public class WorkbookController {
 
     /**
      * Method enables user to invoke setup dialog of new Workbook.
-     * @throws FXMLLoaderException
      */
-    void createWorkbook() throws FXMLLoaderException {
+    void createWorkbook() {
         String relatedFxmlWorkbook = "ui/Workbook.fxml";
         try {
             window = new Stage();
@@ -108,14 +116,13 @@ public class WorkbookController {
             window.setScene(workBookInitializer);
             window.show();
         } catch (Exception e) {
-            throw new FXMLLoaderException(relatedFxmlWorkbook);
+            e.printStackTrace();
         }
     }
 
 
     /**
      * Method enables user to setup new Workbook name.
-     * @throws FXMLLoaderException
      */
     public void setUpNameOfDocument() {
         create();
@@ -131,12 +138,12 @@ public class WorkbookController {
         }
     }
 
-    private void submitName() throws FXMLLoaderException {
+    private void submitName() {
         String relatedFxmlInitialMonthDialog = "ui/InitialMonthDialog.fxml";
         try {
             Stage stage = (Stage) submitButton.getScene().getWindow();
 
-            if (!nameOfDoc.matches("[a-zA-Z0-9][a-zA-Z0-9_ -]*")) {
+            if (!nameOfDoc.matches(ALLOWED_NAME_CHARS)) {
                 alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
                 inputField.setText("");
             } else {
@@ -150,7 +157,7 @@ public class WorkbookController {
                 stage.show();
             }
         } catch (Exception e) {
-            throw new FXMLLoaderException(relatedFxmlInitialMonthDialog);
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
     }
 
@@ -163,7 +170,7 @@ public class WorkbookController {
         List<MenuItem> menuItems = selectMonthButton.getItems();
         String relatedFxmlSheet = "ui/Sheet.fxml";
         String sheetBuilderControllerClassName =
-                "cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController";
+                SheetBuilderController.class.getName();
 
         for (MenuItem mi : menuItems) {
             mi.setOnAction(e -> {
@@ -181,7 +188,7 @@ public class WorkbookController {
                                     relatedFxmlSheet)));
                     stage.close();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.log(Level.SEVERE, FXML_LOAD_ERROR, ex);
                 }
 
             });

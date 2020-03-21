@@ -1,46 +1,50 @@
 package cz.cuni.mff.ms.kyjovsm.calculator;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
- class Calculator {
+class Calculator {
     private Map<String,Double> hashMap;
     private LineProcessor lineProcessor;
+    private static final String ERROR_MESSAGE = "ERROR";
+    private static final String LAST_VARIABLE = "last";
+    private static final String NUMBER_MATCHING_EXPRESSION  =
+            "-?\\d+(\\.\\d+)?";
 
      Calculator() {
         hashMap = new HashMap<String, Double>();
         lineProcessor = new LineProcessor();
-        hashMap.put("last", (double)0);
+        hashMap.put(LAST_VARIABLE, (double) 0);
     }
 
      String giveResults(String input) {
         if (input.contains("=")) {
             String eval = equation((input));
-            if (!eval.equals("ERROR")) {
+            if (!eval.equals(ERROR_MESSAGE)) {
                 return String.format("%.5f", Double.parseDouble(eval));
             } else {
-                return "ERROR";
+                return ERROR_MESSAGE;
             }
-        } else if (input.equals("last")) {
-            return String.format("%.5f",hashMap.get("last"));
+        } else if (input.equals(LAST_VARIABLE)) {
+            return String.format("%.5f",hashMap.get(LAST_VARIABLE));
         } else {
             String output = expression(input);
-            if (!output.equals("ERROR")) {
-                hashMap.replace("last",Double.parseDouble(output));
+            if (!output.equals(ERROR_MESSAGE)) {
+                hashMap.replace(LAST_VARIABLE,Double.parseDouble(output));
                 return String.format("%.5f", Double.parseDouble(output));
             } else {
-                hashMap.replace("last",(double)0);
-                return "ERROR";
+                hashMap.replace(LAST_VARIABLE,(double)0);
+                return ERROR_MESSAGE;
             }
         }
     }
 
     private String expression(String input) {
         String express = lineProcessor.processLine(input);
-        if (express.equals("ERROR")) {
-            return "ERROR";
+        if (express.equals(ERROR_MESSAGE)) {
+            return ERROR_MESSAGE;
         } else {
             return calculate(express);
         }
@@ -51,16 +55,16 @@ import java.util.Stack;
         String key = input.substring(0,input.indexOf('='));
 
         if (lineProcessor.containsOperator(key) || lineProcessor.containsNumber(key)) {
-            return "ERROR";
+            return ERROR_MESSAGE;
         }
 
         String express = input.substring(input.indexOf('=') + 1);
         String value = "";
         value = lineProcessor.processLine(express);
-        if (!value.equals("ERROR")) {
+        if (!value.equals(ERROR_MESSAGE)) {
             value = calculate(value);
         } else {
-            return "ERROR";
+            return ERROR_MESSAGE;
         }
 
         if (hashMap.containsKey(key)) {
@@ -68,32 +72,36 @@ import java.util.Stack;
         } else {
             hashMap.put(key,Double.parseDouble(value));
         }
-        hashMap.replace("last",Double.parseDouble(value));
+        hashMap.replace(LAST_VARIABLE,Double.parseDouble(value));
         return value;
     }
 
     private String calculate(String input) {
         String[] expression = input.split(" ");
-        Stack<Double> result = new Stack<>();
+        Deque<Double> result = new ArrayDeque<>();
         double a = 0;
         double b = 0;
+        double tryValue = 0;
+        boolean isDouble = true;
 
         for (String item : expression) {
-            if (item.equals("")) {
+            isDouble = true;
+
+            if (item.isEmpty()) {
                 continue;
             }
-            try {
+
+            if (item.matches(NUMBER_MATCHING_EXPRESSION)) {
                 if (hashMap.containsKey(item)) {
                     result.push(hashMap.get(item));
                     continue;
                 } else if (lineProcessor.isVariable(item)) {
-                    hashMap.put(item, (double)0);
-                    result.push((double)0);
+                    hashMap.put(item, (double) 0);
+                    result.push((double) 0);
                     continue;
                 }
                 result.push(Double.parseDouble(item));
-            } catch (Exception e) {
-                try {
+            } else {
                     switch (item) {
                         case "+":
                             a = result.pop();
@@ -115,16 +123,13 @@ import java.util.Stack;
                             b = result.pop();
 
                             if (a == 0) {
-                                return "ERROR";
+                                return ERROR_MESSAGE;
                             }
                             result.push(b / a);
                             break;
                         default:
-                            return "ERROR";
-                    }
-                } catch (Exception e1) {
-                    return  "ERROR";
-                }
+                            return ERROR_MESSAGE;
+                  }
             }
         }
         return result.peek().toString();

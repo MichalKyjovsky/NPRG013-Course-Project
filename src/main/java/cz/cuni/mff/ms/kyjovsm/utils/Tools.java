@@ -1,4 +1,4 @@
-package cz.cuni.mff.ms.kyjovsm.additionalUtils;
+package cz.cuni.mff.ms.kyjovsm.utils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

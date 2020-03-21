@@ -1,7 +1,6 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
-import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.utils.Tools;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -47,17 +46,18 @@ public class App extends Application {
      * Initial application method invokes the application Stage.
      * @param stage main Stage instance on which all application
      *              elements will be displayed
-     * @throws FXMLLoaderException if LandingPage.fxml is not loaded properly.
      */
     @Override
-    public void start(final Stage stage) throws FXMLLoaderException {
+    public void start (final Stage stage) {
         Tools tools = new Tools();
         window = stage;
         window.setOnCloseRequest(e -> {
             System.exit(0);
             try {
                 SheetBuilderController.getBudgetTracker().close();
-            } catch (IOException ioe) { }
+            } catch (IOException ioe) {
+                // CAN BE IGNORED, CLOSE REQUEST
+            }
         });
         window.getIcons().add(new Image(LOGO));
         String relatedFxmlLandingPage = "ui/LandingPage.fxml";
@@ -66,12 +66,13 @@ public class App extends Application {
                     loadFXML(Class.forName(APP_CLASS_NAME),
                             relatedFxmlLandingPage));
         } catch (Exception e) {
-            throw new FXMLLoaderException(relatedFxmlLandingPage);
+            e.printStackTrace();
         }
         setWindowSize(WINDOW_HEIGHT, WINDOW_WIDTH);
         window.setScene(scene);
         window.show();
     }
+
 
 
     /**

@@ -1,8 +1,7 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
-import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
+import cz.cuni.mff.ms.kyjovsm.utils.AlertBox;
+import cz.cuni.mff.ms.kyjovsm.utils.Tools;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
@@ -13,6 +12,8 @@ import javafx.stage.Stage;
 import org.apache.poi.util.NotImplemented;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LandingPageController {
 
@@ -47,6 +48,21 @@ public class LandingPageController {
     private static final String FILE_SUFFIX = ".xlsx";
 
     /**
+     * Error message when obtaining instance of current shown
+     * Stage was unsuccessful.
+     */
+    private static final String STAGE_REFERENCE_ERROR =
+            "Reference to the displayed Stage was not working";
+
+
+    /**
+     * An instance of class logger for creating debugging log messages.
+     */
+    private Logger logger =
+            Logger.getLogger(LandingPageController.class.getName());
+
+
+    /**
      * Method called when "Create New Workbook" button is pressed.
      * It will change the scene of the application and create the
      * new workbook in xlsx format
@@ -59,16 +75,15 @@ public class LandingPageController {
             Stage front = wc.getElement();
             front.setOnCloseRequest(e -> disableButtonsOnClick(false));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE,STAGE_REFERENCE_ERROR);
         }
     }
 
 
     /**
      * Method enables to user chose Open file from local device option.
-     * @throws FXMLLoaderException if Sheet.fxml is not loaded properly.
      */
-    public void displayFileExplorer() throws FXMLLoaderException {
+    public void displayFileExplorer() {
         Stage fileDialog = new Stage();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty(USER_HOME)));
@@ -80,7 +95,7 @@ public class LandingPageController {
             if (chosenFile != null) {
                 SheetBuilder.setNameOfTheDocument(chosenFile.toString());
                 String landingPageControllerClassName =
-                        "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
+                        LandingPageController.class.getName();
                 String pathToFile;
 
                 if (!chosenFile.toString().endsWith(FILE_SUFFIX)) {
@@ -98,7 +113,7 @@ public class LandingPageController {
                 disableButtonsOnClick(false);
             }
         } catch (Exception e) {
-            throw new FXMLLoaderException(relatedFxmlSheet);
+            e.printStackTrace();
         }
     }
 

@@ -1,13 +1,17 @@
 package cz.cuni.mff.ms.kyjovsm.calculator;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
  class LineProcessor {
+     private static final String ERROR_MESSAGE = "ERROR";
+     private static final String NUMBER_MATCHING_EXPRESSION  =
+             "-?\\d+(\\.\\d+)?";
 
      String processLine(String input) {
         String processedLine;
         if (!checkCorrectness(input)) {
-            return "ERROR";
+            return ERROR_MESSAGE;
         } else {
             processedLine = separateNumbers(input);
             processedLine = postfixConversion(processedLine);
@@ -15,7 +19,7 @@ import java.util.Stack;
         if (!processedLine.equals(" ")) {
             return processedLine;
         } else {
-            return "ERROR";
+            return ERROR_MESSAGE;
         }
     }
 
@@ -40,24 +44,23 @@ import java.util.Stack;
                                 && (b >= 'A' && b <= 'Z'))
                                 || ((a >= '0' && a <= '9')
                                 && (b >= '0' && b <= '9'))){
-                            if(buffer.charAt(buffer.length() - 1) != ' ') {
-                                buffer.append(" " + item + " ");
-                            }
-                            else {
-                                buffer.append(item + " ");
+                            if (buffer.charAt(buffer.length() - 1) != ' ') {
+                                buffer.append(" ").append(item).append(" ");
+                            } else {
+                                buffer.append(item).append(" ");
                             }
                         }
                         else if (((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')) && ((b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z'))) {
                             if (buffer.charAt(buffer.length() - 1) != ' ') {
-                                buffer.append(" " + item + " ");
+                                buffer.append(" ").append(item).append(" ");
                             } else {
-                                buffer.append(item + " ");
+                                buffer.append(item).append(" ");
                             }
                         } else if (a == '(' && b == '(') {
                             buffer.append("-1 * ");
                         }
                         else if (a >= '0' && a <= '9' && b == '(') {
-                            buffer.append(" " + item + " ");
+                            buffer.append(" ").append(item).append(" ");
                         } else {
                             buffer.append(item);
                         }
@@ -73,12 +76,12 @@ import java.util.Stack;
             } else {
                 if (buffer.length() > 0) {
                     if (buffer.charAt(buffer.length() - 1) != ' ') {
-                        buffer.append(" " + item + " ");
+                        buffer.append(" ").append(item).append(" ");
                     } else {
-                        buffer.append(item + " ");
+                        buffer.append(item).append(" ");
                     }
                 } else {
-                    buffer.append(" " + item + " ");
+                    buffer.append(" ").append(item).append(" ");
                 }
             }
         }
@@ -87,7 +90,7 @@ import java.util.Stack;
 
     private boolean checkCorrectness(String input) {
 
-        if (input.equals("")) {
+        if (input.isEmpty()) {
             return false;
         }
 
@@ -104,52 +107,34 @@ import java.util.Stack;
         }
 
         input = input.strip().trim().replaceAll(" ","");
-        for (int i = 1; i < input.length(); i++) {
-            switch (input.charAt(i)){
-                case '+':
-                case '-':
-                case '/':
-                case '*':
-                case '=':
-                    switch (input.charAt(i - 1)) {
-                        case '+':
-                        case '-':
-                        case '/':
-                        case '*':
-                        case '=':
-                            return false;
-                    }
-            }
-        }
 
-
-        return true;
+        return !input.matches(".*[+-/*=][+-/*=]+.*");
     }
 
     private String postfixConversion(String input) {
         String[] formula = input.split(" ");
         StringBuilder output = new StringBuilder();
-        Stack<String> stack = new Stack<>();
+        Deque<String> stack = new ArrayDeque<>();
         double number = 0;
 
         for (String item:formula) {
-            if (item.equals("")) {
+            if (item.isEmpty()) {
                 continue;
             }
-            try {
+            if (item.matches(NUMBER_MATCHING_EXPRESSION)) {
                 number = Double.parseDouble(item);
-                output.append(number + " ");
-            } catch (Exception e) {
+                output.append(number).append(" ");
+            } else {
                 switch (item){
                     case "+":
                     case "-":
                         try {
-                            if (stack.peek().equals("(") || stack.empty()) {
+                            if (stack.peek().equals("(") || stack.size() > 0) {
                                 stack.push(item);
                             } else {
-                                while (!(stack.peek().equals("(") || stack.empty())) {
+                                while (!(stack.peek().equals("(") || stack.size() > 0)) {
                                     if (!stack.peek().equals("(")) {
-                                        output.append(stack.pop() + " ");
+                                        output.append(stack.pop()).append(" ");
                                     }
                                 }
                                 stack.push(item);
@@ -165,7 +150,7 @@ import java.util.Stack;
                                 stack.push(item);
                             } else {
                                 while ((stack.peek().equals("*") || stack.peek().equals("/"))) {
-                                    output.append(stack.pop() + " ");
+                                    output.append(stack.pop()).append(" ");
                                 }
                                 stack.push(item);
                             }
@@ -180,21 +165,21 @@ import java.util.Stack;
                         try {
                             while (!stack.peek().equals("(")) {
                                 if (!stack.peek().equals("(")) {
-                                    output.append(stack.pop() + " ");
+                                    output.append(stack.pop()).append(" ");
                                 }
                             }
                             stack.pop();
                             break;
                         }catch (Exception e1){
-                            return "ERROR";
+                            return ERROR_MESSAGE;
                         }
                     default:
-                        output.append(item + " ");
+                        output.append(item).append(" ");
                 }
             }
         }
         while(stack.size() > 0) {
-            output.append(stack.pop() + " ");
+            output.append(stack.pop()).append(" ");
         }
         return output.toString();
     }

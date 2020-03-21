@@ -1,12 +1,9 @@
 package cz.cuni.mff.ms.kyjovsm.ui;
 
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBox;
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.AlertBoxSaveAndLeave;
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer;
-import cz.cuni.mff.ms.kyjovsm.additionalUtils.Tools;
-import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
+import cz.cuni.mff.ms.kyjovsm.utils.AlertBox;
+import cz.cuni.mff.ms.kyjovsm.utils.AlertBoxSaveAndLeave;
+import cz.cuni.mff.ms.kyjovsm.utils.SheetNameInitializer;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
-import cz.cuni.mff.ms.kyjovsm.workbook.WorkbookBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,11 +21,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -143,7 +138,7 @@ public class SheetBuilderController implements Initializable {
     public static void setActualRow(String actualRow) {
         SheetBuilderController.actualRow = actualRow;
 
-        int maxHeight = 35;
+        int maxHeight = 33;
         try {
             for (int i = 0; i < maxHeight; i++) {
                 if (actualRow.equals(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
@@ -151,7 +146,9 @@ public class SheetBuilderController implements Initializable {
                     break;
                 }
             }
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            //CAN BE IGNORED
+        }
     }
 
     /**
@@ -251,10 +248,9 @@ public class SheetBuilderController implements Initializable {
      * When SAVE button is pressed, method will invoke
      * FileChooser dialog instance and user is then able
      * to save his work.
-     * @throws FileFormatException
      */
 
-    public void saveDocument() throws FileFormatException {
+    public void saveDocument() {
         FileChooser fileChooser = new FileChooser();
 
         String[] path = SheetBuilder.getNameOfTheDocument().split("\\\\");
@@ -263,12 +259,13 @@ public class SheetBuilderController implements Initializable {
         fileChooser.setInitialDirectory(new File(System.getProperty(USER_HOME)));
 
         File fileToSave = fileChooser.showSaveDialog(new Stage());
-
-        try (FileOutputStream fio = new FileOutputStream(fileToSave)) {
-            budgetTracker.write(fio);
-            logger.log(Level.INFO,"Workbook was successfully saved.");
-        } catch (IOException ioe) {
-            logger.log(Level.SEVERE, "File saving failed",ioe);
+        if (fileToSave != null) {
+            try (FileOutputStream fio = new FileOutputStream(fileToSave)) {
+                budgetTracker.write(fio);
+                logger.log(Level.INFO, "Workbook was successfully saved.");
+            } catch (IOException ioe) {
+                logger.log(Level.SEVERE, "File saving failed", ioe);
+            }
         }
     }
 
@@ -531,7 +528,6 @@ public class SheetBuilderController implements Initializable {
             }
             updateOptions();
         } catch (Exception e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, "Adding column has invoked an exception.",e);
         }
         logger.log(Level.INFO,"New column has been added.");

@@ -1,6 +1,5 @@
 package cz.cuni.mff.ms.kyjovsm.workbook;
 
-import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FileFormatException;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -126,9 +125,8 @@ public class WorkbookBuilder {
      * Method for creating initial unified Workbook.
      * @return Workbook instance prepared
      * to work with in accordance to predefined pattern.
-     * @throws FileFormatException
      */
-    public Workbook createInitialWorkbook() throws FileFormatException {
+    public Workbook createInitialWorkbook() {
 
         workbook = null;
         File currDir = new File(System.getProperty(USER_HOME_DIR));
@@ -150,8 +148,7 @@ public class WorkbookBuilder {
             logger.log(Level.INFO,
                     "Workbook was successfully initiated.");
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE,"Initial workbook has not been created.",ioe);
-            throw new FileFormatException();
+            logger.log(Level.SEVERE,"Initial workbook has not been created.", ioe);
         }
         return workbook;
     }
@@ -188,10 +185,10 @@ public class WorkbookBuilder {
 
         DataFormat format = workbook.createDataFormat();
 
-        CellStyle style_date = setBasicCellStyle(workbook);
-        CellStyle style_total = setBasicCellStyle(workbook);
-        style_date.setDataFormat(format.getFormat(DATE_FORMAT));
-        style_total.setDataFormat(format.getFormat(ACCOUNT_FORMAT));
+        CellStyle styleDate = setBasicCellStyle(workbook);
+        CellStyle styleTotal = setBasicCellStyle(workbook);
+        styleDate.setDataFormat(format.getFormat(DATE_FORMAT));
+        styleTotal.setDataFormat(format.getFormat(ACCOUNT_FORMAT));
         int currentMonth = yearMonth.getMonthValue();
         String actualMonth = String.valueOf(currentMonth);
 
@@ -204,8 +201,8 @@ public class WorkbookBuilder {
             row.setHeightInPoints(15);
             Cell cell0 = row.createCell(0);
             Cell cell1 = row.createCell(1);
-            cell0.setCellStyle(style_date);
-            cell1.setCellStyle(style_total);
+            cell0.setCellStyle(styleDate);
+            cell1.setCellStyle(styleTotal);
 
             if (i < 10) {
                 cell0.setCellValue(String.format("%d%d.%s.%d", 0, i, actualMonth, ldt.getYear()));

@@ -1,4 +1,4 @@
-package cz.cuni.mff.ms.kyjovsm.additionalUtils;
+package cz.cuni.mff.ms.kyjovsm.utils;
 
 import cz.cuni.mff.ms.kyjovsm.ui.App;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
@@ -8,8 +8,17 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AlertBoxSaveAndLeave {
+
+    /**
+     * Instance of class Logger for creating
+     * logs for debugging purposes.
+     */
+    private static Logger logger =
+            Logger.getLogger(AlertBoxSaveAndLeave.class.getName());
 
     /**
      * An instance of Tools class, which provides method
@@ -37,6 +46,18 @@ public class AlertBoxSaveAndLeave {
     private Button stayAndSaveButton;
 
     /**
+     * Error message when FXML loading into Scene instance
+     * was unsuccessful.
+     */
+    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+    /**
+     * Error message when obtaining instance of current shown
+     * Stage was unsuccessful.
+     */
+    private static final String STAGE_REFERENCE_ERROR =
+            "Reference to the displayed Stage was not working";
+
+    /**
      * @return Button instance of current shown Alert Box.
      */
     public Button getContinueToHomePageButton() {
@@ -57,6 +78,7 @@ public class AlertBoxSaveAndLeave {
         return alertBox;
     }
 
+
     /**
      * Method will display dialog before leaving to home page.
      */
@@ -68,15 +90,13 @@ public class AlertBoxSaveAndLeave {
             String relatedFxmlAlertBoxSaveAndLeave =
                     "additionalUtils/AlertBoxSaveAndLeave.fxml";
             String alertBoxSaveAndLeaveClassName =
-                    "cz.cuni.mff.ms.kyjovsm.additionalUtils."
-                           + "AlertBoxSaveAndLeave";
+                    AlertBoxSaveAndLeave.class.getName();
             alertScene = new Scene(tool.loadFXML(Class.
                     forName(alertBoxSaveAndLeaveClassName),
                     relatedFxmlAlertBoxSaveAndLeave));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
-
         alertBox.setResizable(false);
         alertBox.setScene(alertScene);
         alertBox.show();
@@ -93,12 +113,12 @@ public class AlertBoxSaveAndLeave {
         actual.close();
         try {
             String relatedFxmlLandingPage = "ui/LandingPage.fxml";
-            String mainClassName = "cz.cuni.mff.ms.kyjovsm.ui.App";
+            String mainClassName = App.class.getName();
             SheetBuilderController.getBudgetTracker().close();
             App.changeScene(new Scene(tool.loadFXML(
                     Class.forName(mainClassName), relatedFxmlLandingPage)));
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
     }
 
@@ -111,7 +131,7 @@ public class AlertBoxSaveAndLeave {
         try {
             SheetBuilderController.getBudgetTracker().close();
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.log(Level.SEVERE, STAGE_REFERENCE_ERROR, ioe);
         }
         actual.close();
     }

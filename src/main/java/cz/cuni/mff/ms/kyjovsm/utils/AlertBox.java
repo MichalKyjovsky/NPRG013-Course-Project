@@ -1,6 +1,7 @@
-package cz.cuni.mff.ms.kyjovsm.additionalUtils;
+package cz.cuni.mff.ms.kyjovsm.utils;
 
 import cz.cuni.mff.ms.kyjovsm.ui.App;
+import cz.cuni.mff.ms.kyjovsm.ui.LandingPageController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AlertBox {
 
@@ -60,6 +63,13 @@ public class AlertBox {
      */
     private final Tools tool = new Tools();
 
+    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+
+    /**
+     * An instance of class logger for creating debugging log messages.
+     */
+    private Logger logger = Logger.getLogger(AlertBox.class.getName());
+
 
     /**
      * Method enable to obtain current instance of displayed AlertBox button,
@@ -99,7 +109,7 @@ public class AlertBox {
                 status = true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
         alertBoxStage.setResizable(false);
         alertBoxStage.setScene(alertBoxScene);
@@ -116,12 +126,12 @@ public class AlertBox {
         try {
             String relatedFxmlLandingPage = "ui/LandingPage.fxml";
             String landingPageControllerClassName =
-                    "cz.cuni.mff.ms.kyjovsm.ui.LandingPageController";
+                    LandingPageController.class.getName();
             reload = new Scene(tool.loadFXML(Class.
                     forName(landingPageControllerClassName),
                     relatedFxmlLandingPage));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
         stage.close();
         if (!status) {

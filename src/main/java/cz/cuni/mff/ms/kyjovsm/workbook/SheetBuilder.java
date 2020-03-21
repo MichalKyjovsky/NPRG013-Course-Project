@@ -17,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SheetBuilder {
     /**
@@ -49,6 +51,18 @@ public class SheetBuilder {
     private static final String FILE_SUFFIX = ".xlsx";
 
     /**
+     * Default font for the workbook.
+     */
+    private static final String CALIBRI_FONT = "Calibri";
+
+    private static final String SAVE_ERROR = "Unsuccessful Auto Save.";
+
+    /**
+     * Constant storing value of xslx formatting style for currency.
+     */
+    private static final String CZECH_CURR_FORMAT = "%.2f CZK";
+
+    /**
      * @return number of rows in the sheet.
      */
     public static int getSheetHeight() {
@@ -67,6 +81,12 @@ public class SheetBuilder {
      * Default size of the font.
      */
     private static int fontSize = 11;
+
+    /**
+     * An instance of class logger for creating debugging log messages.
+     */
+    private static Logger logger =
+            Logger.getLogger(WorkbookBuilder.class.getName());
 
     /**
      * Constructor method.
@@ -124,7 +144,7 @@ public class SheetBuilder {
             workbookBuilder.createInitialSheet(newSheet, initialMonth, workbook);
             workbook.write(fio);
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.log(Level.SEVERE,SAVE_ERROR,ioe);
         }
     }
 
@@ -135,7 +155,7 @@ public class SheetBuilder {
      */
     public int calcSheetHeight(final Sheet sheet) {
             sheetHeight = 0;
-            int maxHeight = 35;
+            int maxHeight = 32;
             try {
                 for (int i = 0; i < maxHeight; i++) {
                     if (!sheet.getRow(i).getCell(0).getStringCellValue().isEmpty()) {
@@ -143,6 +163,7 @@ public class SheetBuilder {
                     }
                 }
             } catch (Exception e) {
+                // CAN BE IGNORED
             }
         return sheetHeight;
         }
@@ -189,7 +210,7 @@ public class SheetBuilder {
             workbook = SheetBuilderController.getBudgetTracker();
             workbook.write(fio);
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.log(Level.SEVERE,SAVE_ERROR,ioe);
         }
     }
 
@@ -205,7 +226,7 @@ public class SheetBuilder {
         cellStyle.setBorderRight(BorderStyle.MEDIUM);
         cellStyle.setBorderTop(BorderStyle.MEDIUM);
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        font.setFontName("Calibri");
+        font.setFontName(CALIBRI_FONT);
         font.setFontHeight(fontSize);
         cellStyle.setFont(font);
     }
@@ -219,7 +240,7 @@ public class SheetBuilder {
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setBold(true);
-        font.setFontName("Calibri");
+        font.setFontName(CALIBRI_FONT);
         font.setColor(IndexedColors.WHITE.index);
         font.setFontHeight(fontSize);
         cellStyle.setFont(font);
@@ -338,7 +359,7 @@ public class SheetBuilder {
             actualSheet.
                     getRow(i).getCell(actualSheet.getRow(0).
                             getLastCellNum() - 1).
-                            setCellValue(String.format("%.2f CZK", sum));
+                            setCellValue(String.format(CZECH_CURR_FORMAT, sum));
             sum = 0;
         }
     }

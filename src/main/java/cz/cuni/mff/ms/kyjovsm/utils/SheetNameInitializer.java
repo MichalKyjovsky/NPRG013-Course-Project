@@ -1,6 +1,5 @@
-package cz.cuni.mff.ms.kyjovsm.additionalUtils;
+package cz.cuni.mff.ms.kyjovsm.utils;
 
-import cz.cuni.mff.ms.kyjovsm.applicationExceptions.FXMLLoaderException;
 import cz.cuni.mff.ms.kyjovsm.ui.SheetBuilderController;
 import cz.cuni.mff.ms.kyjovsm.workbook.SheetBuilder;
 import javafx.fxml.FXML;
@@ -10,10 +9,10 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.poi.ss.usermodel.Sheet;
 
-import java.text.DateFormatSymbols;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SheetNameInitializer {
 
@@ -42,8 +41,8 @@ public class SheetNameInitializer {
     /**
      * Full class name of the class SheetNameInitializer.
      */
-    private String sheetNameInitializerClassName =
-            "cz.cuni.mff.ms.kyjovsm.additionalUtils.SheetNameInitializer";
+    private final String sheetNameInitializerClassName =
+            SheetNameInitializer.class.getName();
     /**
      * Instance of the AlertBox class, enables
      * to call its methods whenever wrong input
@@ -55,6 +54,29 @@ public class SheetNameInitializer {
      * functions to work with selected sheet.
      */
     private SheetBuilder sheetBuilder;
+
+    /**
+     * Error message when obtaining instance of current shown
+     * Stage was unsuccessful.
+     */
+    private static final String STAGE_REFERENCE_ERROR =
+            "Reference to the displayed Stage was not working";
+
+    private static final String ALLOWED_CHARS_REGEX =
+            "[a-zA-z][a-zA-Z0-9_-]*";
+
+    /**
+     * Instance of class Logger for creating
+     * logs for debugging purposes.
+     */
+    private static Logger logger =
+            Logger.getLogger(SheetNameInitializer.class.getName());
+
+    /**
+     * Error message when FXML loading into Scene instance
+     * was unsuccessful.
+     */
+    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
 
     /**
      * The constructor method.
@@ -77,9 +99,8 @@ public class SheetNameInitializer {
      * Based on user input method will initiate
      * new tracking month for given input and
      * new sheet based on the given information will be created.
-     * @throws FXMLLoaderException
-     */
-    public void setNewTrackingMonth() throws FXMLLoaderException {
+\     */
+    public void setNewTrackingMonth() {
         Tools tool = new Tools();
         dialogWindow.setResizable(false);
         String relatedFxmlSheet = "additionalUtils/SheetNameInitializer.fxml";
@@ -88,7 +109,7 @@ public class SheetNameInitializer {
                      loadFXML(Class.forName(sheetNameInitializerClassName),
                              relatedFxmlSheet)));
         } catch (Exception e) {
-            throw new FXMLLoaderException(relatedFxmlSheet);
+            logger.log(Level.SEVERE,FXML_LOAD_ERROR,e);
         }
         dialogWindow.show();
     }
@@ -96,9 +117,8 @@ public class SheetNameInitializer {
 
     /**
      * When user press "ADD NEW COLUMN" method starts initiation process.
-     * @throws FXMLLoaderException
      */
-    public void addNewColumn() throws FXMLLoaderException {
+    public void addNewColumn() {
         dialogWindow.setResizable(false);
         Tools tool = new Tools();
         String relatedFxmlColumn = "additionalUtils/ColumnNameInitializer.fxml";
@@ -107,7 +127,7 @@ public class SheetNameInitializer {
                     loadFXML(Class.forName(sheetNameInitializerClassName),
                             relatedFxmlColumn)));
         } catch (Exception e) {
-            throw new FXMLLoaderException(relatedFxmlColumn);
+            logger.log(Level.SEVERE,FXML_LOAD_ERROR,e);
         }
         dialogWindow.show();
     }
@@ -135,7 +155,7 @@ public class SheetNameInitializer {
                     sheetBuilder.createNewSheet(index);
                     stage.close();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.log(Level.SEVERE, STAGE_REFERENCE_ERROR, ex);
                 }
             });
         }
@@ -152,7 +172,7 @@ public class SheetNameInitializer {
 
         if (newColumnName.isBlank() || newColumnName.isEmpty()) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_EMPTY_INPUT);
-        } else if (!newColumnName.matches("[a-zA-z][a-zA-Z0-9_-]*")) {
+        } else if (!newColumnName.matches(ALLOWED_CHARS_REGEX)) {
             alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
         } else {
             sheetBuilder.createNewColumn(newColumnName);
