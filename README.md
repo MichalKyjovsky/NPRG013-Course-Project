@@ -24,7 +24,6 @@ Once you have repository downloaded and prerequisities are fulfilled
 you can move into the project root directory where ***pom.xml*** is located
 and run the project via commands:
   ```
-  mvn process-resources
   mvn compile
   mvn install
   mvn javafx:compile
