@@ -9,7 +9,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +61,11 @@ public class SheetNameInitializer {
     private static final String STAGE_REFERENCE_ERROR =
             "Reference to the displayed Stage was not working";
 
+    /**
+     * Regular expression matching String for
+     * checking whether provided input are
+     * allowed characters.
+     */
     private static final String ALLOWED_CHARS_REGEX =
             "[a-zA-z][a-zA-Z0-9_-]*";
 
@@ -76,7 +80,8 @@ public class SheetNameInitializer {
      * Error message when FXML loading into Scene instance
      * was unsuccessful.
      */
-    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+    private static final String FXML_LOAD_ERROR =
+            "FXML was not loaded into Scene.";
 
     /**
      * The constructor method.
@@ -109,7 +114,7 @@ public class SheetNameInitializer {
                      loadFXML(Class.forName(sheetNameInitializerClassName),
                              relatedFxmlSheet)));
         } catch (Exception e) {
-            logger.log(Level.SEVERE,FXML_LOAD_ERROR,e);
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
         dialogWindow.show();
     }
@@ -127,7 +132,7 @@ public class SheetNameInitializer {
                     loadFXML(Class.forName(sheetNameInitializerClassName),
                             relatedFxmlColumn)));
         } catch (Exception e) {
-            logger.log(Level.SEVERE,FXML_LOAD_ERROR,e);
+            logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);
         }
         dialogWindow.show();
     }
@@ -141,8 +146,15 @@ public class SheetNameInitializer {
         List<MenuItem> menuItems = selectMonthButton.getItems();
         Next:
         for (MenuItem mi : menuItems) {
-            for (int i = 0; i < SheetBuilderController.getBudgetTracker().getNumberOfSheets(); i++) {
-                if (SheetBuilderController.getBudgetTracker().getSheetAt(i).getSheetName().contains(mi.getText().toUpperCase())) {
+            int sheetsNum = SheetBuilderController.
+                    getBudgetTracker().
+                    getNumberOfSheets();
+            for (int i = 0; i < sheetsNum; i++) {
+                String sheetName =
+                        SheetBuilderController.
+                                getBudgetTracker().
+                                getSheetAt(i).getSheetName();
+                if (sheetName.contains(mi.getText().toUpperCase())) {
                     continue Next;
                 }
             }

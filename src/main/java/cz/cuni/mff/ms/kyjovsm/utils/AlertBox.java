@@ -63,7 +63,12 @@ public class AlertBox {
      */
     private final Tools tool = new Tools();
 
-    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+    /**
+     * Error message raised whenever loading FXML into
+     * Scene instance failed.
+     */
+    private static final String FXML_LOAD_ERROR =
+            "FXML was not loaded into Scene.";
 
     /**
      * An instance of class logger for creating debugging log messages.

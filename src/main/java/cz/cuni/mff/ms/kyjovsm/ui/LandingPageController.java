@@ -120,7 +120,7 @@ public class LandingPageController {
 
     /**
      * When AlertBoxes are invoked, all button on background are disabled.
-     * when method is called with tru parameter
+     * when method is called with true parameter
      * @param status defines whether element will be disabled - true
      *               or enabled - false
      */

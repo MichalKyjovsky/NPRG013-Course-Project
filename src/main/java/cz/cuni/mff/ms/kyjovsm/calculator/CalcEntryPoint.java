@@ -5,10 +5,19 @@ import java.util.logging.Logger;
 
 public class CalcEntryPoint {
 
+    /**
+     * An instance of class logger for creating debugging log messages.
+     */
     private static Logger logger =
             Logger.getLogger(CalcEntryPoint.class.getName());
 
-    public String calc(String input) {
+    /**
+     * Method for calculating given expression
+     * using class Calculator.java and LineProcessor.java.
+     * @param input an expression to evaluate
+     * @return result of the given expression
+     */
+    public String calc(final String input) {
         Calculator calculator = new Calculator();
         try {
             return calculator.giveResults(input);

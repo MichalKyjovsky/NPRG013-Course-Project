@@ -49,7 +49,8 @@ public class AlertBoxSaveAndLeave {
      * Error message when FXML loading into Scene instance
      * was unsuccessful.
      */
-    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+    private static final String FXML_LOAD_ERROR =
+            "FXML was not loaded into Scene.";
     /**
      * Error message when obtaining instance of current shown
      * Stage was unsuccessful.
