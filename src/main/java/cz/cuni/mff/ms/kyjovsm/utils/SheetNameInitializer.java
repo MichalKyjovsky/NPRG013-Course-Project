@@ -160,6 +160,7 @@ public class SheetNameInitializer {
             }
 
             mi.setOnAction(e -> {
+                // Months are indented from zero
                 int index = menuItems.indexOf(mi) + 1;
                 try {
                     Stage stage =

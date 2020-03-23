@@ -70,6 +70,9 @@ public class AlertBox {
     private static final String FXML_LOAD_ERROR =
             "FXML was not loaded into Scene.";
 
+    public static final String ALERT_BOX_IMMUTABLE_FIELDS =
+            "AlertBoxImmutableField";
+
     /**
      * An instance of class logger for creating debugging log messages.
      */
@@ -103,15 +106,22 @@ public class AlertBox {
     public  void displayAlertBox(final String errorStatus) {
         alertBoxStage = new Stage();
         try {
-            if (errorStatus.equals(ALERT_BOX_EMPTY_INPUT)) {
-                alertBoxScene = new Scene(loadFXML(ALERT_BOX_EMPTY_INPUT));
-                status = true;
-            } else if (errorStatus.equals(ALERT_BOX_NOT_IMPLEMENTED_FEATURE)) {
-                alertBoxScene =
-                        new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
-            } else if (errorStatus.equals(ALERT_BOX_INVALID_INPUT)) {
-                alertBoxScene = new Scene(loadFXML(ALERT_BOX_INVALID_INPUT));
-                status = true;
+            switch (errorStatus) {
+                case ALERT_BOX_EMPTY_INPUT:
+                    alertBoxScene = new Scene(loadFXML(ALERT_BOX_EMPTY_INPUT));
+                    status = true;
+                    break;
+                case ALERT_BOX_NOT_IMPLEMENTED_FEATURE:
+                    alertBoxScene =
+                            new Scene(loadFXML(ALERT_BOX_NOT_IMPLEMENTED_FEATURE));
+                    break;
+                case ALERT_BOX_INVALID_INPUT:
+                    alertBoxScene = new Scene(loadFXML(ALERT_BOX_INVALID_INPUT));
+                    status = true;
+                    break;
+                case ALERT_BOX_IMMUTABLE_FIELDS:
+                    alertBoxScene = new Scene(loadFXML(ALERT_BOX_IMMUTABLE_FIELDS));
+                    status = true;
             }
         } catch (IOException e) {
             logger.log(Level.SEVERE, FXML_LOAD_ERROR, e);

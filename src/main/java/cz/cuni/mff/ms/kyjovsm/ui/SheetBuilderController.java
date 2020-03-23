@@ -119,12 +119,15 @@ public class SheetBuilderController implements Initializable {
      * Variable holding current opened Workbook.
      */
     private static Workbook budgetTracker;
-
     /**
      * Integer constant storing maximal number of rows.
      */
     private static final int MAX_SHEET_HEIGHT = 33;
-
+    /**
+     * Instance of the AlertBox class for handling
+     * incorrect inputs.
+     */
+    private AlertBox alertBox = new AlertBox();
     /**
      * Setter method for actualSheet.
      * @param sheet sheet reference that will be passed to setter
@@ -132,7 +135,6 @@ public class SheetBuilderController implements Initializable {
     public static void setActualSheet(final Sheet sheet) {
         SheetBuilderController.actualSheet = sheet;
     }
-
     /**
      * Setter fot actual column variable.
      * @param column column to be passed as actual column.
@@ -147,7 +149,6 @@ public class SheetBuilderController implements Initializable {
             }
         }
     }
-
     /**
      * Setter for actualRow variable.
      * @param row actual row value to be assigned to actualRow variable.
@@ -168,7 +169,6 @@ public class SheetBuilderController implements Initializable {
             //CAN BE IGNORED
         }
     }
-
     /**
      * Reference to the actual selected sheet.
      */
@@ -244,8 +244,6 @@ public class SheetBuilderController implements Initializable {
         frontStage.setOnCloseRequest(e -> disableAllElements(false));
         frontStage.setOnHidden(e -> disableAllElements(false));
     }
-
-
     /**
      * Method is called whenever is Alert Box or Dialog box invoked
      * and it is necessary to disable all other buttons.
@@ -265,14 +263,11 @@ public class SheetBuilderController implements Initializable {
         columnSelectButton.setDisable(statement);
         valueInputField.setDisable(statement);
     }
-
-
     /**
      * When SAVE button is pressed, method will invoke
      * FileChooser dialog instance and user is then able
      * to save his work.
      */
-
     public void saveDocument() {
         FileChooser fileChooser = new FileChooser();
 
@@ -299,60 +294,75 @@ public class SheetBuilderController implements Initializable {
      */
     public void sendValueToCell() {
 
-        if (valueInputField.
-                getCharacters().
-                toString().
-                matches(ALLOWED_NUMBER_REGEXP)) {
-            sheetBuilder.
-                    setCellValue(valueInputField.getCharacters().toString(),
-                    actualSheet, actualColumnIndex, actualRowIndex);
-            logger.log(Level.INFO,
-                    "Value cell has been successfully updated.");
+        if (actualColumn.equals("TOTAL")
+                || actualColumn.equals("DATE")
+                || actualRowIndex == 0) {
+            displayImmutableAlert();
         } else {
-            AlertBox alertBox = new AlertBox();
-            alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
-            disableAllElements(true);
-            Stage stage = alertBox.getAlertBoxStage();
-            stage.setOnHidden(e -> disableAllElements(false));
-            stage.setOnCloseRequest(e -> disableAllElements(false));
+            if (valueInputField.
+                    getCharacters().
+                    toString().
+                    matches(ALLOWED_NUMBER_REGEXP)) {
+                sheetBuilder.
+                        setCellValue(valueInputField.getCharacters().toString(),
+                                actualSheet, actualColumnIndex, actualRowIndex);
+                logger.log(Level.INFO,
+                        "Value cell has been successfully updated.");
+            } else {
+                alertBox.displayAlertBox(AlertBox.ALERT_BOX_INVALID_INPUT);
+                disableAllElements(true);
+                Stage stage = alertBox.getAlertBoxStage();
+                stage.setOnHidden(e -> disableAllElements(false));
+                stage.setOnCloseRequest(e -> disableAllElements(false));
+            }
+            updateActualCell(actualSheet.
+                    getRow(actualRowIndex).
+                    getCell(actualColumnIndex).getStringCellValue());
+            valueInputField.setText("");
         }
-        updateActualCell(actualSheet.
-                getRow(actualRowIndex).
-                getCell(actualColumnIndex).getStringCellValue());
-        valueInputField.setText("");
     }
 
+    private void displayImmutableAlert() {
+        alertBox.displayAlertBox(AlertBox.ALERT_BOX_IMMUTABLE_FIELDS);
+        disableAllElements(true);
+        Stage frontStage = alertBox.getAlertBoxStage();
+        frontStage.setOnCloseRequest(e -> disableAllElements(false));
+        frontStage.setOnHidden(e -> disableAllElements(false));
+    }
 
     /**
      * Method will erase given column and recalculate whole sheet.
      */
     public void deleteColumn() {
 
-        sheetBuilder.deleteColumn(actualColumn);
-        MenuItem toDelete = null;
-
-        for (MenuItem currentColumn : currentColumns) {
-            if (actualColumn.equals(currentColumn.getText())) {
-                toDelete = currentColumn;
-            }
-        }
-
-        MenuItem newOne;
-        int index = currentColumns.indexOf(toDelete);
-        if (index > 0) {
-            newOne = currentColumns.get(index - 1);
+        if (actualColumn.equals("TOTAL") || actualColumn.equals("DATE")) {
+            displayImmutableAlert();
         } else {
-            newOne = currentColumns.get(index);
-        }
-        actualColumnIndex = index;
-        actualColumn = newOne.getText();
-        currentColumns.remove(toDelete);
-        selectedColumnLabel.setText(actualColumn);
-        columnSelectButton.getItems().remove(toDelete);
-        actualizationColumnsSelection();
-        logger.log(Level.INFO, "Column was successfully deleted.");
-    }
+            sheetBuilder.deleteColumn(actualColumn);
+            MenuItem toDelete = null;
 
+            for (MenuItem currentColumn : currentColumns) {
+                if (actualColumn.equals(currentColumn.getText())) {
+                    toDelete = currentColumn;
+                }
+            }
+
+            MenuItem newOne;
+            int index = currentColumns.indexOf(toDelete);
+            if (index > 0) {
+                newOne = currentColumns.get(index - 1);
+            } else {
+                newOne = currentColumns.get(index);
+            }
+            actualColumnIndex = index;
+            actualColumn = newOne.getText();
+            currentColumns.remove(toDelete);
+            selectedColumnLabel.setText(actualColumn);
+            columnSelectButton.getItems().remove(toDelete);
+            actualizationColumnsSelection();
+            logger.log(Level.INFO, "Column was successfully deleted.");
+        }
+    }
 
     /**
      * Method will on ADD NEW SHEET button create initial sheet
@@ -361,7 +371,6 @@ public class SheetBuilderController implements Initializable {
      */
     public void addNewSheet() {
         SheetNameInitializer sheetNameInitializer = new SheetNameInitializer();
-
         try {
             sheetNameInitializer.setNewTrackingMonth();
             disableAllElements(true);

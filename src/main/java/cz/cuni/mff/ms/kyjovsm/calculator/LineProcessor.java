@@ -41,7 +41,7 @@ import java.util.Deque;
       * @param input Expression string to transform.
       * @return String containing operands and operators in correct order.
       */
-    private String separateNumbers(final String input) {
+     private String separateNumbers(final String input) {
         String line = input.strip().trim().replaceAll(" ", "");
         StringBuilder buffer = new StringBuilder();
 
@@ -115,7 +115,7 @@ import java.util.Deque;
       * @param line math expression for check.
       * @return boolean value whether expression fulfill criteria.
       */
-    private boolean checkCorrectness(final String line) {
+     private boolean checkCorrectness(final String line) {
         String input = line;
 
         if (input.isEmpty()) {
@@ -150,7 +150,7 @@ import java.util.Deque;
       * @param input Expression to convert.
       * @return expression in postfix notation.
       */
-    private String postfixConversion(final String input) {
+     private String postfixConversion(final String input) {
         String[] formula = input.split(" ");
         StringBuilder output = new StringBuilder();
         Deque<String> stack = new ArrayDeque<>();
@@ -168,13 +168,15 @@ import java.util.Deque;
                     case "+":
                     case "-":
                         try {
-                            if (stack.peekFirst().equals("(") || stack.size() == 0) {
+                            if (stack.peekFirst().equals("(")
+                                    || stack.size() == 0) {
                                 stack.addFirst(item);
                             } else {
                                 while (!(stack.peekFirst().equals("(")
                                         || stack.size() == 0)) {
                                     if (!stack.peekFirst().equals("(")) {
-                                        output.append(stack.removeFirst()).append(" ");
+                                        output.append(stack.
+                                                removeFirst()).append(" ");
                                     }
                                 }
                                 stack.addFirst(item);
@@ -192,7 +194,8 @@ import java.util.Deque;
                             } else {
                                 while ((stack.peekFirst().equals("*")
                                         || stack.peekFirst().equals("/"))) {
-                                    output.append(stack.removeFirst()).append(" ");
+                                    output.append(stack.
+                                            removeFirst()).append(" ");
                                 }
                                 stack.addFirst(item);
                             }
@@ -207,7 +210,8 @@ import java.util.Deque;
                         try {
                             while (!stack.peekFirst().equals("(")) {
                                 if (!stack.peekFirst().equals("(")) {
-                                    output.append(stack.removeFirst()).append(" ");
+                                    output.append(stack.
+                                            removeFirst()).append(" ");
                                 }
                             }
                             stack.removeFirst();
