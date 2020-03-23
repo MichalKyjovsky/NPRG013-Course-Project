@@ -1,4 +1,4 @@
-package cz.cuni.mff.ms.kyjovsm.calculator;
+package cz.cuni.mff.ms.kyjovsm;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -45,8 +45,8 @@ import java.util.Deque;
         String line = input.strip().trim().replaceAll(" ", "");
         StringBuilder buffer = new StringBuilder();
 
-        for (int i = 0; i < input.length(); i++) {
-            char item = input.charAt(i);
+        for (int i = 0; i < line.length(); i++) {
+            char item = line.charAt(i);
             if ((item >= '0' && item <= '9')
                     || (item == 'e')
                     || (item == '.')) {
@@ -57,8 +57,8 @@ import java.util.Deque;
             } else if (item == '-') {
                 try {
                     if (buffer.length() > 0) {
-                        char a = input.charAt(i - 1);
-                        char b = input.charAt(i + 1);
+                        char a = line.charAt(i - 1);
+                        char b = line.charAt(i + 1);
                         if (((a == ')') || (a == '(') && (b >= 'A' && b <= 'Z'))
                                 || ((a >= 'a' && a <= 'z') && (b == '(')
                                 || (b == ')')) || ((a >= 'a' && a <= 'z')
@@ -86,7 +86,7 @@ import java.util.Deque;
                         } else {
                             buffer.append(item);
                         }
-                    } else if (input.charAt(i + 1) == '(') {
+                    } else if (line.charAt(i + 1) == '(') {
                         buffer.append("-1 * ");
                     } else {
                         buffer.append(item);
@@ -243,7 +243,6 @@ import java.util.Deque;
                 case ')':
                     return true;
                 default:
-                    return false;
             }
         }
         return false;

@@ -1,4 +1,4 @@
-package cz.cuni.mff.ms.kyjovsm.calculator;
+package cz.cuni.mff.ms.kyjovsm;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
