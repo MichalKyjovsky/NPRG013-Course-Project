@@ -79,38 +79,38 @@ class Calculator {
                 continue;
             }
             if (item.matches(NUMBER_MATCHING_EXPRESSION)) {
-                result.push(Double.parseDouble(item));
+                result.addFirst(Double.parseDouble(item));
             } else {
                     switch (item) {
                         case "+":
-                            a = result.pop();
-                            b = result.pop();
-                            result.push(a + b);
+                            a = result.removeFirst();
+                            b = result.removeFirst();
+                            result.addFirst(a + b);
                             break;
                         case "-":
-                            a = result.pop();
-                            b = result.pop();
-                            result.push(b - a);
+                            a = result.removeFirst();
+                            b = result.removeFirst();
+                            result.addFirst(b - a);
                             break;
                         case "*":
-                            a = result.pop();
-                            b = result.pop();
-                            result.push(a * b);
+                            a = result.removeFirst();
+                            b = result.removeFirst();
+                            result.addFirst(a * b);
                             break;
                         case "/":
-                            a = result.pop();
-                            b = result.pop();
+                            a = result.removeFirst();
+                            b = result.removeFirst();
 
                             if (a == 0) {
                                 return ERROR_MESSAGE;
                             }
-                            result.push(b / a);
+                            result.addFirst(b / a);
                             break;
                         default:
                             return ERROR_MESSAGE;
                   }
             }
         }
-        return result.peek().toString();
+        return result.peekFirst().toString();
     }
 }

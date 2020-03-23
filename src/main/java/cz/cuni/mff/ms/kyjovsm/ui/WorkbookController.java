@@ -42,8 +42,18 @@ public class WorkbookController {
      */
     private Stage window;
 
-    private static final String FXML_LOAD_ERROR = "FXML was not loaded into Scene.";
+    /**
+     * Error message invoked when FXML
+     * was not successfully loaded into
+     * Scene instance.
+     */
+    private static final String FXML_LOAD_ERROR =
+            "FXML was not loaded into Scene.";
 
+    /**
+     * Characters matching String for characters,
+     * that can be used as name of the workbook.
+     */
     private static final String ALLOWED_NAME_CHARS =
             "[a-zA-Z0-9][a-zA-Z0-9_ -]*";
     /**
@@ -68,16 +78,19 @@ public class WorkbookController {
      */
     private final Tools tool;
 
+    /**
+     * An instance of class logger for creating debugging log messages.
+     */
     private static Logger logger =
             Logger.getLogger(WorkbookController.class.getName());
 
     /**
      * Method on invoked dialog enables to set name of the
      * Workbook which tend to be processed.
-     * @param nameOfDoc Name of the Workbook.
+     * @param name Name of the Workbook.
      */
-    public static void setNameOfDoc(final String nameOfDoc) {
-        WorkbookController.nameOfDoc = nameOfDoc;
+    public static void setNameOfDoc(final String name) {
+        WorkbookController.nameOfDoc = name;
     }
 
     /**

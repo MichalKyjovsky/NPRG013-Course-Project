@@ -75,7 +75,7 @@ public class LandingPageController {
             Stage front = wc.getElement();
             front.setOnCloseRequest(e -> disableButtonsOnClick(false));
         } catch (Exception e) {
-            logger.log(Level.SEVERE,STAGE_REFERENCE_ERROR);
+            logger.log(Level.SEVERE, STAGE_REFERENCE_ERROR);
         }
     }
 
@@ -86,7 +86,8 @@ public class LandingPageController {
     public void displayFileExplorer() {
         Stage fileDialog = new Stage();
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(System.getProperty(USER_HOME)));
+        fileChooser.setInitialDirectory(new File(
+                System.getProperty(USER_HOME)));
         Tools tool = new Tools();
         String relatedFxmlSheet = "ui/Sheet.fxml";
         try {

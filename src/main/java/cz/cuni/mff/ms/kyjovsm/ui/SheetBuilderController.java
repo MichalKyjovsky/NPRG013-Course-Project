@@ -120,28 +120,46 @@ public class SheetBuilderController implements Initializable {
      */
     private static Workbook budgetTracker;
 
-    public static void setActualSheet(Sheet actualSheet) {
-        SheetBuilderController.actualSheet = actualSheet;
+    /**
+     * Integer constant storing maximal number of rows.
+     */
+    private static final int MAX_SHEET_HEIGHT = 33;
+
+    /**
+     * Setter method for actualSheet.
+     * @param sheet sheet reference that will be passed to setter
+     */
+    public static void setActualSheet(final Sheet sheet) {
+        SheetBuilderController.actualSheet = sheet;
     }
 
-    public static void setActualColumn(String actualColumn) {
-        SheetBuilderController.actualColumn = actualColumn;
+    /**
+     * Setter fot actual column variable.
+     * @param column column to be passed as actual column.
+     */
+    public static void setActualColumn(final String column) {
+        SheetBuilderController.actualColumn = column;
 
         for (Cell header: actualSheet.getRow(0)) {
-            if (header.getStringCellValue().equals(actualColumn)) {
+            if (header.getStringCellValue().equals(column)) {
                 SheetBuilderController.actualColumnIndex =
                         header.getColumnIndex();
             }
         }
     }
 
-    public static void setActualRow(String actualRow) {
-        SheetBuilderController.actualRow = actualRow;
-
-        int maxHeight = 33;
+    /**
+     * Setter for actualRow variable.
+     * @param row actual row value to be assigned to actualRow variable.
+     */
+    public static void setActualRow(final String row) {
+        SheetBuilderController.actualRow = row;
         try {
-            for (int i = 0; i < maxHeight; i++) {
-                if (actualRow.equals(actualSheet.getRow(i).getCell(0).getStringCellValue())) {
+            for (int i = 0; i < MAX_SHEET_HEIGHT; i++) {
+                if (row.equals(actualSheet.
+                        getRow(i).
+                        getCell(0).
+                        getStringCellValue())) {
                     actualRowIndex = i;
                     break;
                 }
@@ -171,14 +189,20 @@ public class SheetBuilderController implements Initializable {
      * Variable storing integer index of current selected row.
      */
     private static int actualRowIndex;
-
+    /**
+     * String constant storing user home directory.
+     */
     private static final String USER_HOME = "user.home";
-
+    /**
+     * Regular expression String which match any Integer or Float number.
+     */
+    private static final String ALLOWED_NUMBER_REGEXP = "[0-9+\\-*/()\\s]+";
     /**
      * Instance of class Logger enabling easier tracking
      * and debugging, which is documented in generated log file.
      */
-    private final Logger logger = Logger.getLogger(SheetBuilderController.class.getName());
+    private final Logger logger =
+            Logger.getLogger(SheetBuilderController.class.getName());
 
     /**
      * Method returns reference to the current sheet if
@@ -205,7 +229,6 @@ public class SheetBuilderController implements Initializable {
     public static Workbook getBudgetTracker() {
         return budgetTracker;
     }
-
 
     /**
      * Method which is called when home button is pressed.
@@ -254,9 +277,10 @@ public class SheetBuilderController implements Initializable {
         FileChooser fileChooser = new FileChooser();
 
         String[] path = SheetBuilder.getNameOfTheDocument().split("\\\\");
-        String file = path[path.length  -1 ];
+        String file = path[path.length  - 1];
         fileChooser.setInitialFileName(file);
-        fileChooser.setInitialDirectory(new File(System.getProperty(USER_HOME)));
+        fileChooser.
+                setInitialDirectory(new File(System.getProperty(USER_HOME)));
 
         File fileToSave = fileChooser.showSaveDialog(new Stage());
         if (fileToSave != null) {
@@ -275,7 +299,10 @@ public class SheetBuilderController implements Initializable {
      */
     public void sendValueToCell() {
 
-        if (valueInputField.getCharacters().toString().matches("[0-9+\\-*/()\\s]+")) {
+        if (valueInputField.
+                getCharacters().
+                toString().
+                matches(ALLOWED_NUMBER_REGEXP)) {
             sheetBuilder.
                     setCellValue(valueInputField.getCharacters().toString(),
                     actualSheet, actualColumnIndex, actualRowIndex);
@@ -323,7 +350,7 @@ public class SheetBuilderController implements Initializable {
         selectedColumnLabel.setText(actualColumn);
         columnSelectButton.getItems().remove(toDelete);
         actualizationColumnsSelection();
-        logger.log(Level.INFO,"Column was successfully deleted.");
+        logger.log(Level.INFO, "Column was successfully deleted.");
     }
 
 
@@ -346,23 +373,35 @@ public class SheetBuilderController implements Initializable {
             logger.log(Level.SEVERE,
                     "Adding sheet has invoked an exception.", e);
         }
-        logger.log(Level.INFO,"New sheet has been added.");
+        logger.log(Level.INFO, "New sheet has been added.");
     }
 
+    /**
+     * List of MenuItems instances storing actual MenuItems values
+     * of sheets for MenuButton selection.
+     */
+    private static List<MenuItem> currentSheets = new ArrayList<>();
+    /**
+     * List of String instances storing actual MenuItems text values
+     * of sheets for MenuButton selection.
+     */
+    private static List<String> currentSheetsStr = new ArrayList<>();
     /**
      * Method will provide actualization of the option in drop-down menu
      * for Sheet selection. Recalculation is performed on Mouse Action.
      */
-    private static List<MenuItem> currentSheets = new ArrayList<>();
     private void actualizationSheetSelection() {
         if (budgetTracker.getNumberOfSheets()
                 > sheetSelectButton.getItems().size()) {
             int numOfSheets = budgetTracker.getNumberOfSheets();
             currentSheets.clear();
+            currentSheetsStr.clear();
             for (int i = 0; i < numOfSheets; i++) {
-                if (!currentSheets.contains(budgetTracker.getSheetName(i))) {
+                if (!currentSheetsStr.contains(budgetTracker.getSheetName(i))) {
                     currentSheets.add(
                             new MenuItem(budgetTracker.getSheetName(i)));
+                    currentSheetsStr.add(
+                            budgetTracker.getSheetName(i));
                 }
             }
         }
@@ -370,16 +409,24 @@ public class SheetBuilderController implements Initializable {
         sheetSelectButton.getItems().addAll(currentSheets);
     }
 
-    private void updateActualCell(String value) {
+    private void updateActualCell(final String value) {
         displayLabel.setText(value);
     }
 
-
+    /**
+     * List of MenuItems instances storing actual MenuItems values
+     * of rows for MenuButton selection.
+     */
+    private static List<MenuItem> currentRow = new ArrayList<>();
+    /**
+     * List of String instances storing actual MenuItems text values
+     * of rows for MenuButton selection.
+     */
+    private static List<String> currentRowStr = new ArrayList<>();
     /**
      * Method will provide actualization of the option in drop-down menu
      * for Row selection. Recalculation is performed on Mouse Action.
      */
-    private static List<MenuItem> currentRow = new ArrayList<>();
     private void actualizationRowSelection() {
         if (actualSheet == null) {
             actualSheet = budgetTracker.getSheetAt(0);
@@ -388,13 +435,17 @@ public class SheetBuilderController implements Initializable {
 
         if (numberOfRows > rowSelectButton.getItems().size()) {
             currentRow.clear();
+            currentRowStr.clear();
             for (int i = 1; i < numberOfRows; i++) {
                 String cellVal =
                         actualSheet.getRow(i).getCell(0).getStringCellValue();
-                if (!currentRow.contains(cellVal)) {
+                if (!currentRowStr.contains(cellVal)) {
                     currentRow.add(
                             new MenuItem(actualSheet.
                                     getRow(i).getCell(0).getStringCellValue()));
+                    currentRowStr.add(
+                            actualSheet.
+                                    getRow(i).getCell(0).getStringCellValue());
                 }
             }
         }
@@ -402,12 +453,20 @@ public class SheetBuilderController implements Initializable {
         rowSelectButton.getItems().addAll(currentRow);
     }
 
-
+    /**
+     * List of MenuItems instances storing actual MenuItems values
+     * of columns for MenuButton selection.
+     */
+    private static List<MenuItem> currentColumns = new ArrayList<>();
+    /**
+     * List of String instances storing actual MenuItems text values
+     * of columns for MenuButton selection.
+     */
+    private static List<String> currentColumnsStr = new ArrayList<>();
     /**
      * Method will provide actualization of the option in drop-down menu
      * for Column selection. Recalculation is performed on Mouse Action.
      */
-    private static List<MenuItem> currentColumns = new ArrayList<>();
     private void actualizationColumnsSelection() {
         if (actualSheet == null) {
             actualSheet = budgetTracker.getSheetAt(0);
@@ -417,13 +476,16 @@ public class SheetBuilderController implements Initializable {
 
         if (lastCellNum > columnSelectButton.getItems().size()) {
             currentColumns.clear();
+            currentColumnsStr.clear();
             for (int i = 0; i < numOfColumns; i++) {
                 String cellVal =
                         actualSheet.getRow(0).getCell(i).getStringCellValue();
-                if (!currentColumns.contains(cellVal)) {
+                if (!currentColumnsStr.contains(cellVal)) {
                     currentColumns.add(
                             new MenuItem(actualSheet.
                                     getRow(0).getCell(i).getStringCellValue()));
+                    currentColumnsStr.add(actualSheet.
+                            getRow(0).getCell(i).getStringCellValue());
                 }
             }
         }
@@ -528,9 +590,10 @@ public class SheetBuilderController implements Initializable {
             }
             updateOptions();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Adding column has invoked an exception.",e);
+            logger.log(Level.SEVERE,
+                    "Adding column has invoked an exception.", e);
         }
-        logger.log(Level.INFO,"New column has been added.");
+        logger.log(Level.INFO, "New column has been added.");
     }
 
     /**
@@ -555,9 +618,20 @@ public class SheetBuilderController implements Initializable {
         }
     }
 
+    /**
+     * Method serves as an initializing method,
+     * when FXML is loaded into Scene instance and
+     * shown on Stage instance.
+     * @param url not used
+     * @param resourceBundle not used
+     */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        selectedSheetLabel.setText(SheetBuilderController.actualSheet.getSheetName());
+    public void initialize(final URL url,
+                           final ResourceBundle resourceBundle) {
+        selectedSheetLabel.
+                setText(SheetBuilderController.
+                        actualSheet.
+                        getSheetName());
         selectedColumnLabel.setText(SheetBuilderController.actualSheet.
                 getRow(0).getCell(0).getStringCellValue());
         selectedRowLabel.setText(SheetBuilderController.actualSheet.

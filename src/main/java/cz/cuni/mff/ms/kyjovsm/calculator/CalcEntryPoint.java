@@ -10,6 +10,16 @@ public class CalcEntryPoint {
      */
     private static Logger logger =
             Logger.getLogger(CalcEntryPoint.class.getName());
+    /**
+     * If user provides invalid expression, particular cell will
+     * be filled with "ERROR" message.
+     */
+    private static final String ERROR_MESSAGE = "ERROR";
+
+    /**
+     * Error message raised if calculator fails.
+     */
+    private static final String CALC_ERROR = "Calculator failed.";
 
     /**
      * Method for calculating given expression
@@ -20,10 +30,15 @@ public class CalcEntryPoint {
     public String calc(final String input) {
         Calculator calculator = new Calculator();
         try {
-            return calculator.giveResults(input);
+            String out = calculator.giveResults(input);
+            if (out.equals(ERROR_MESSAGE)) {
+                return "0";
+            } else {
+                    return out;
+                }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Calculator failed.");
-            return "ERROR";
+            logger.log(Level.SEVERE, CALC_ERROR);
+            return "0";
         }
     }
 }

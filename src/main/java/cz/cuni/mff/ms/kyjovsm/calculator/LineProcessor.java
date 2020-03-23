@@ -168,49 +168,49 @@ import java.util.Deque;
                     case "+":
                     case "-":
                         try {
-                            if (stack.peek().equals("(") || stack.size() > 0) {
-                                stack.push(item);
+                            if (stack.peekFirst().equals("(") || stack.size() == 0) {
+                                stack.addFirst(item);
                             } else {
-                                while (!(stack.peek().equals("(")
-                                        || stack.size() > 0)) {
-                                    if (!stack.peek().equals("(")) {
-                                        output.append(stack.pop()).append(" ");
+                                while (!(stack.peekFirst().equals("(")
+                                        || stack.size() == 0)) {
+                                    if (!stack.peekFirst().equals("(")) {
+                                        output.append(stack.removeFirst()).append(" ");
                                     }
                                 }
-                                stack.push(item);
+                                stack.addFirst(item);
                             }
                         } catch (Exception e1) {
-                            stack.push(item);
+                            stack.addFirst(item);
                         }
                         break;
                     case "*":
                     case "/":
                         try {
-                            if (!(stack.peek().equals("*")
-                                    || (stack.peek().equals("/")))) {
-                                stack.push(item);
+                            if (!(stack.peekFirst().equals("*")
+                                    || (stack.peekFirst().equals("/")))) {
+                                stack.addFirst(item);
                             } else {
-                                while ((stack.peek().equals("*")
-                                        || stack.peek().equals("/"))) {
-                                    output.append(stack.pop()).append(" ");
+                                while ((stack.peekFirst().equals("*")
+                                        || stack.peekFirst().equals("/"))) {
+                                    output.append(stack.removeFirst()).append(" ");
                                 }
-                                stack.push(item);
+                                stack.addFirst(item);
                             }
                         } catch (Exception e1) {
-                            stack.push(item);
+                            stack.addFirst(item);
                         }
                         break;
                     case "(":
-                        stack.push(item);
+                        stack.addFirst(item);
                         break;
                     case ")":
                         try {
-                            while (!stack.peek().equals("(")) {
-                                if (!stack.peek().equals("(")) {
-                                    output.append(stack.pop()).append(" ");
+                            while (!stack.peekFirst().equals("(")) {
+                                if (!stack.peekFirst().equals("(")) {
+                                    output.append(stack.removeFirst()).append(" ");
                                 }
                             }
-                            stack.pop();
+                            stack.removeFirst();
                             break;
                         } catch (Exception e1) {
                             return ERROR_MESSAGE;
@@ -221,7 +221,7 @@ import java.util.Deque;
             }
         }
         while (stack.size() > 0) {
-            output.append(stack.pop()).append(" ");
+            output.append(stack.removeFirst()).append(" ");
         }
         return output.toString();
     }

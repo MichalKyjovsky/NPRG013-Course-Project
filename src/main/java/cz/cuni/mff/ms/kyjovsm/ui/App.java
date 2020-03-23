@@ -48,7 +48,7 @@ public class App extends Application {
      *              elements will be displayed
      */
     @Override
-    public void start (final Stage stage) {
+    public void start(final Stage stage) {
         Tools tools = new Tools();
         window = stage;
         window.setOnCloseRequest(e -> {
