@@ -30,10 +30,6 @@ public class SheetBuilder {
      */
     private static final int COLUMNS_WIDTH = 4000;
     /**
-     * Default column height.
-     */
-    private static final int HEADER_HEIGHT = 40;
-    /**
      * Static Sheet name prefix.
      */
     private static final String SHEET_PREFIX = "Budget_";
@@ -55,6 +51,10 @@ public class SheetBuilder {
      */
     private static final String CALIBRI_FONT = "Calibri";
 
+    /**
+     * Error message invoked when unsuccessful attempt to save document
+     * has been taken.
+     */
     private static final String SAVE_ERROR = "Unsuccessful Auto Save.";
 
     /**
@@ -80,7 +80,13 @@ public class SheetBuilder {
     /**
      * Default size of the font.
      */
-    private static int fontSize = 11;
+    private static final int FONT_SIZE = 11;
+
+    /**
+     * Integer border value of maximal number of the rows int the sheet.
+     */
+    private static final int MAX_SHEET_HEIGHT = 32;
+
 
     /**
      * An instance of class logger for creating debugging log messages.
@@ -121,10 +127,15 @@ public class SheetBuilder {
      * @param columnIndex actual column index
      * @param rowIndex actual row index
      */
-    public void setCellValue(final String value, final Sheet actualSheet, final int columnIndex, final int rowIndex) {
+    public void setCellValue(final String value,
+                             final Sheet actualSheet,
+                             final int columnIndex,
+                             final int rowIndex) {
         CalcEntryPoint calc = new CalcEntryPoint();
         Double var = Double.parseDouble(calc.calc(value));
-        actualSheet.getRow(rowIndex).getCell(columnIndex).setCellValue(String.format("%.2f", var));
+        actualSheet.getRow(rowIndex).
+                getCell(columnIndex).
+                setCellValue(String.format("%.2f", var));
         recalculateTotal(actualSheet);
         saveProgress();
     }
@@ -136,15 +147,23 @@ public class SheetBuilder {
      */
     public void createNewSheet(final int initialMonth) {
         LocalDateTime ldt = LocalDateTime.now();
-        String sheetName = SHEET_PREFIX + new DateFormatSymbols().getMonths()[initialMonth - 1].toUpperCase() + SEPARATOR + ldt.getYear();
+        String sheetName =
+                SHEET_PREFIX
+                        + new DateFormatSymbols().
+                        getMonths()[initialMonth - 1].
+                        toUpperCase()
+                        + SEPARATOR
+                        + ldt.getYear();
         Sheet newSheet = workbook.createSheet(sheetName);
 
-        try (FileOutputStream fio = new FileOutputStream(WorkbookBuilder.getPath())) {
+        try (FileOutputStream fio =
+                     new FileOutputStream(WorkbookBuilder.getPath())) {
             WorkbookBuilder workbookBuilder = new WorkbookBuilder();
-            workbookBuilder.createInitialSheet(newSheet, initialMonth, workbook);
+            workbookBuilder.
+                    createInitialSheet(newSheet, initialMonth, workbook);
             workbook.write(fio);
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE,SAVE_ERROR,ioe);
+            logger.log(Level.SEVERE, SAVE_ERROR, ioe);
         }
     }
 
@@ -155,10 +174,12 @@ public class SheetBuilder {
      */
     public int calcSheetHeight(final Sheet sheet) {
             sheetHeight = 0;
-            int maxHeight = 32;
             try {
-                for (int i = 0; i < maxHeight; i++) {
-                    if (!sheet.getRow(i).getCell(0).getStringCellValue().isEmpty()) {
+                for (int i = 0; i < MAX_SHEET_HEIGHT; i++) {
+                    if (!sheet.getRow(i).
+                            getCell(0).
+                            getStringCellValue().
+                            isEmpty()) {
                         sheetHeight++;
                     }
                 }
@@ -175,7 +196,9 @@ public class SheetBuilder {
      * @param position position of new added column
      * @param columnName name of the new added column
      */
-    private void remapTotalColumn(final Sheet sheet, final int position, final String columnName) {
+    private void remapTotalColumn(final Sheet sheet,
+                                  final int position,
+                                  final String columnName) {
         workbook = SheetBuilderController.getBudgetTracker();
         CellStyle totalHeaderStyle = workbook.createCellStyle();
         CellStyle defaultHeaderStyle = workbook.createCellStyle();
@@ -206,11 +229,12 @@ public class SheetBuilder {
      * Method will save permanently all changes.
      */
     private void saveProgress() {
-        try (FileOutputStream fio = new FileOutputStream(WorkbookBuilder.getPath())) {
+        try (FileOutputStream fio =
+                     new FileOutputStream(WorkbookBuilder.getPath())) {
             workbook = SheetBuilderController.getBudgetTracker();
             workbook.write(fio);
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE,SAVE_ERROR,ioe);
+            logger.log(Level.SEVERE, SAVE_ERROR, ioe);
         }
     }
 
@@ -227,7 +251,7 @@ public class SheetBuilder {
         cellStyle.setBorderTop(BorderStyle.MEDIUM);
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setFontName(CALIBRI_FONT);
-        font.setFontHeight(fontSize);
+        font.setFontHeight(FONT_SIZE);
         cellStyle.setFont(font);
     }
 
@@ -242,7 +266,7 @@ public class SheetBuilder {
         font.setBold(true);
         font.setFontName(CALIBRI_FONT);
         font.setColor(IndexedColors.WHITE.index);
-        font.setFontHeight(fontSize);
+        font.setFontHeight(FONT_SIZE);
         cellStyle.setFont(font);
     }
 
@@ -288,7 +312,10 @@ public class SheetBuilder {
         int indexOfDeletedColumn = 0;
 
         for (int i = 0; i < sheetWidth; i++) {
-            if (columnName.equals(actualSheet.getRow(0).getCell(i).getStringCellValue())) {
+            if (columnName.equals(actualSheet.
+                    getRow(0).
+                    getCell(i).
+                    getStringCellValue())) {
                 indexOfDeletedColumn =
                         actualSheet.getRow(0).getCell(i).getColumnIndex();
             }
@@ -303,7 +330,8 @@ public class SheetBuilder {
      * @param columnIndex index of column which will be erased
      * @param actualSheet actual sheet name
      */
-    private void eraseColumnByIndex(final int columnIndex, final Sheet actualSheet) {
+    private void eraseColumnByIndex(final int columnIndex,
+                                    final Sheet actualSheet) {
         for (int i = 0; i < sheetHeight; i++) {
             actualSheet.getRow(i).
                     removeCell(actualSheet.getRow(i).getCell(columnIndex));
@@ -315,7 +343,8 @@ public class SheetBuilder {
      * @param columnIndex index of column which was erased
      * @param actualSheet actual sheet name
      */
-    private void remapColumnAfterErasing(final int columnIndex, final Sheet actualSheet) {
+    private void remapColumnAfterErasing(final int columnIndex,
+                                         final Sheet actualSheet) {
         sheetWidth = actualSheet.getRow(0).getLastCellNum();
         workbook = SheetBuilderController.getBudgetTracker();
         calcSheetHeight(actualSheet);

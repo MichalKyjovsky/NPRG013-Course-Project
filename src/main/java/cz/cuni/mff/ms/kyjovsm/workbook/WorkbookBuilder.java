@@ -22,12 +22,15 @@ import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class WorkbookBuilder {
 
+    /**
+     * Instance of class Workbook, acting like an reference,
+     * to the actual handling workbook.
+     */
     private Workbook workbook;
     /**
      * Instance of LocalDateTime class providing current time.
@@ -82,28 +85,41 @@ public class WorkbookBuilder {
      */
     private final Logger logger =
             Logger.getLogger(WorkbookBuilder.class.getName());
-
+    /**
+     * Calibri font name constant.
+     */
+    private static final String CALIBRI_FONT = "Calibri";
+    /**
+     * Integer constant of default row height.
+     */
+    private static final int ROW_HEIGHT = 15;
+    /**
+     * Integer constant storing default font size.
+     */
+    private static final int FONT_SIZE = 11;
+    /**
+     * Integer constant to recognition if months number
+     * are one or two digits.
+     */
+    private static final int TWO_DIGIT_BOUND = 10;
     /**
      * @return full path to the file on local disk
      */
     public static String getPath() {
         return path;
     }
-
     /**
      * Method for setting Initial Month.
-     * @param initialMonth initial tracking month
+     * @param month initial tracking month
      */
-    public static void setInitialMonth(final int initialMonth) {
-        WorkbookBuilder.initialMonth = initialMonth;
+    public static void setInitialMonth(final int month) {
+        WorkbookBuilder.initialMonth = month;
     }
-
     /**
      * Method will load particular xlsx sheet into the XSSDWorkbook instance.
      * @param pathToFile file location of xlsx sheet
      */
     public void createFromExistingFile(final String pathToFile) {
-
         workbook = null;
         path = pathToFile;
         try (FileInputStream fis = new FileInputStream(new File(pathToFile))) {
@@ -115,12 +131,13 @@ public class WorkbookBuilder {
             SheetBuilderController.setActualRow(SheetBuilderController.
                     getActualSheet().getRow(0).getCell(1).getStringCellValue());
 
-            logger.log(Level.INFO,"Workbook successfully opened");
+            logger.log(Level.INFO, "Workbook successfully opened");
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE, "Workbook has been opened successfully.", ioe);
+            logger.log(Level.SEVERE,
+                    "Workbook has been opened successfully.",
+                    ioe);
         }
     }
-
     /**
      * Method for creating initial unified Workbook.
      * @return Workbook instance prepared
@@ -148,7 +165,9 @@ public class WorkbookBuilder {
             logger.log(Level.INFO,
                     "Workbook was successfully initiated.");
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE,"Initial workbook has not been created.", ioe);
+            logger.log(Level.SEVERE,
+                    "Initial workbook has not been created.",
+                    ioe);
         }
         return workbook;
     }
@@ -156,24 +175,26 @@ public class WorkbookBuilder {
     /**
      * Method for Initial Sheets creation in demanded form.
      * @param newSheet new Sheet instance
-     * @param initialMonth initial selected month
-     * @param workbook new Workbook instance
+     * @param month initial selected month
+     * @param document new Workbook instance
      */
-    void createInitialSheet(final Sheet newSheet, final int initialMonth, final Workbook workbook) {
+    void createInitialSheet(final Sheet newSheet,
+                            final int month,
+                            final Workbook document) {
         ldt = LocalDateTime.now();
-        YearMonth yearMonth = YearMonth.of(ldt.getYear(), initialMonth);
+        YearMonth yearMonth = YearMonth.of(ldt.getYear(), month);
         newSheet.setDefaultColumnWidth(COLUMNS_WIDTH);
         newSheet.setColumnWidth(0, COLUMNS_WIDTH);
         newSheet.setColumnWidth(1, COLUMNS_WIDTH);
         Row header = newSheet.createRow(0);
         header.setHeightInPoints(HEADER_HEIGHT);
-        CellStyle headerStyleBlack = workbook.createCellStyle();
-        CellStyle headerStyleRed = workbook.createCellStyle();
+        CellStyle headerStyleBlack = document.createCellStyle();
+        CellStyle headerStyleRed = document.createCellStyle();
         setBasicHeader(headerStyleBlack, headerStyleRed);
 
-        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        headerStyleBlack.setFont(setFont(font, "Calibri"));
-        headerStyleRed.setFont(setFont(font, "Calibri"));
+        XSSFFont font = ((XSSFWorkbook) document).createFont();
+        headerStyleBlack.setFont(setFont(font, CALIBRI_FONT));
+        headerStyleRed.setFont(setFont(font, CALIBRI_FONT));
 
         Cell headerCell0 = header.createCell(0);
         headerCell0.setCellValue(DATE_HEADING);
@@ -183,31 +204,36 @@ public class WorkbookBuilder {
         headerCell1.setCellValue(TOTAL_HEADING);
         headerCell1.setCellStyle(headerStyleRed);
 
-        DataFormat format = workbook.createDataFormat();
+        DataFormat format = document.createDataFormat();
 
-        CellStyle styleDate = setBasicCellStyle(workbook);
-        CellStyle styleTotal = setBasicCellStyle(workbook);
+        CellStyle styleDate = setBasicCellStyle(document);
+        CellStyle styleTotal = setBasicCellStyle(document);
         styleDate.setDataFormat(format.getFormat(DATE_FORMAT));
         styleTotal.setDataFormat(format.getFormat(ACCOUNT_FORMAT));
         int currentMonth = yearMonth.getMonthValue();
         String actualMonth = String.valueOf(currentMonth);
+        final int lowerMonthBound = 10;
 
-        if (currentMonth < 10) {
+        if (currentMonth < lowerMonthBound) {
             actualMonth = String.format("0%d", currentMonth);
         }
 
         for (int i = 1; i < yearMonth.lengthOfMonth() + 1; i++) {
             Row row = newSheet.createRow(i);
-            row.setHeightInPoints(15);
+            row.setHeightInPoints(ROW_HEIGHT);
             Cell cell0 = row.createCell(0);
             Cell cell1 = row.createCell(1);
             cell0.setCellStyle(styleDate);
             cell1.setCellStyle(styleTotal);
 
-            if (i < 10) {
-                cell0.setCellValue(String.format("%d%d.%s.%d", 0, i, actualMonth, ldt.getYear()));
+            if (i < TWO_DIGIT_BOUND) {
+                cell0.setCellValue(String.
+                        format("%d%d.%s.%d",
+                                0, i, actualMonth, ldt.getYear()));
             } else {
-                cell0.setCellValue(String.format("%d.%s.%d", i, actualMonth, ldt.getYear()));
+                cell0.setCellValue(String.
+                        format("%d.%s.%d",
+                                i, actualMonth, ldt.getYear()));
             }
             cell1.setCellValue(String.format("%.2f CZK", (double) 0));
         }
@@ -219,11 +245,13 @@ public class WorkbookBuilder {
     }
 
     /**
-     * @param workbook
+     * Method enables to set Cell style common for
+     * all non-header cells in the document.
+     * @param document reference to current opened Workbook instance.
      * @return basic style for all Cells.
      */
-    private CellStyle setBasicCellStyle(final Workbook workbook) {
-        CellStyle style = workbook.createCellStyle();
+    private CellStyle setBasicCellStyle(final Workbook document) {
+        CellStyle style = document.createCellStyle();
         style.setWrapText(true);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -236,10 +264,13 @@ public class WorkbookBuilder {
     }
 
     /**
+     * Method enables to setup two main header styles,
+     * RED meant for TOTAL column and BLACK for others.
      * @param headerStyleBlack
      * @param headerStyleRed
      */
-    private void setBasicHeader(final CellStyle headerStyleBlack, final CellStyle headerStyleRed) {
+    private void setBasicHeader(final CellStyle headerStyleBlack,
+                                final CellStyle headerStyleRed) {
         headerStyleBlack.setFillForegroundColor(IndexedColors.BLACK.index);
         headerStyleRed.setFillForegroundColor(IndexedColors.DARK_RED.index);
         headerStyleBlack.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -249,16 +280,16 @@ public class WorkbookBuilder {
     }
 
     /**
-     * @param font
-     * @param fontStyle
+     * Method enables setup of font styles.
+     * @param font reference to a selected XSSFFont instance.
+     * @param fontStyle Font style-family
      * @return default font style setup
      */
     private XSSFFont setFont(final XSSFFont font, final String fontStyle) {
         font.setFontName(fontStyle);
         font.setColor(IndexedColors.WHITE.index);
         font.setBold(true);
-        int fontSize = 11;
-        font.setFontHeight(fontSize);
+        font.setFontHeight(FONT_SIZE);
         return font;
     }
 }
