@@ -69,11 +69,8 @@ class Calculator {
         Deque<Double> result = new ArrayDeque<>();
         double a = 0;
         double b = 0;
-        double tryValue = 0;
-        boolean isDouble = true;
 
         for (String item : expression) {
-            isDouble = true;
 
             if (item.isEmpty()) {
                 continue;
